@@ -1,5 +1,3 @@
-import Game from './Game/Game.js';
-
-const gameInstance = new Game();
+import gameInstance from './Game/Game.js';
 
 gameInstance.runGame();

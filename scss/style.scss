@@ -1,0 +1,34 @@
+*,
+*::after,
+*::before {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  list-style: none;
+}
+
+:root {
+  --background-color: #111;
+  --tile-light: #f0d9b5;
+  --tile-dark: #b58863;
+
+  --width-board: 40rem;
+  --width-4x4: calc(var(--width-board) / 4);
+  --width-tile: calc(var(--width-board) / 8);
+
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--background-color);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  gap: 1rem;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  max-width: 976px;
+  margin: auto;
+}
+@import "./board";

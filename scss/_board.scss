@@ -1,0 +1,58 @@
+@mixin position {
+  position: absolute;
+
+  @for $i from 0 through 7 {
+    &[data-row="#{$i}"] {
+      bottom: #{(80 * $i)}px;
+    }
+
+    &[data-col="#{$i}"] {
+      left: #{(80 * $i)}px;
+    }
+  }
+}
+
+article#chessboard {
+  width: var(--width-board);
+  aspect-ratio: 1/1;
+  position: relative;
+
+  background: conic-gradient(
+    var(--tile-dark) 90deg,
+    var(--tile-light) 90deg 180deg,
+    var(--tile-dark) 180deg 270deg,
+    var(--tile-light) 270deg
+  );
+  background-repeat: repeat;
+  background-size: var(--width-4x4) var(--width-4x4);
+  background-position: top left;
+  
+  & > * {
+    @include position();
+    width: var(--width-tile);
+    aspect-ratio: 1/1;
+    cursor: pointer;
+  }
+
+  & > img {
+    transition:
+      left 300ms ease,
+      bottom 300ms ease;
+  }
+
+  & > div {
+    z-index: 100;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    &.is-attacked {
+      background-image: url("../images/move-dot.png");
+      background-size: 25%;
+    }
+
+    &.is-capturable {
+      background-image: url("../images/capture-dot.png");
+      background-size: 100%;
+    }
+  }
+}
