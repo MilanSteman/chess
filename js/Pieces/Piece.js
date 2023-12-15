@@ -20,6 +20,7 @@ export default class Piece {
     const setPieceClick = () => {
       if (gameInstance.currentPlayer === this.player) {
         console.log('its white')
+        this.setPossibleMoves();
       }
     }
 

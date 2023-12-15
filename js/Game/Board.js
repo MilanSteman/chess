@@ -1,4 +1,4 @@
-import pieceMap from '../Pieces/pieceMap.js';
+import pieceMap from '../misc/pieceMap.js';
 import gameInstance from './Game.js';
 
 export default class Board {
@@ -22,7 +22,7 @@ export default class Board {
 
   getPieceFromGrid = (position) => {
     const { row, col } = position;
-    return this.isPositionInBounds(destination) && this.grid[row][col];
+    return this.isPositionInBounds(position) && this.grid[row][col];
   }
 
   setPieceFromGrid = (piece) => {

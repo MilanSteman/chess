@@ -1,9 +1,9 @@
-import Bishop from "./Bishop.js";
-import King from "./King.js";
-import Knight from "./Knight.js";
-import Pawn from "./Pawn.js";
-import Queen from "./Queen.js";
-import Rook from "./Rook.js";
+import Bishop from "../Pieces/Bishop.js";
+import King from "../Pieces/King.js";
+import Knight from "../Pieces/Knight.js";
+import Pawn from "../Pieces/Pawn.js";
+import Queen from "../Pieces/Queen.js";
+import Rook from "../Pieces/Rook.js";
 
 export default new Map([
   ["r", { Piece: Rook, player: "black" }],
