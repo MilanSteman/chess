@@ -4,7 +4,8 @@ import gameInstance from './Game.js';
 export default class Board {
   constructor() {
     this.size = 8;
-    this.fenString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    this.fenString = "rnbqkbnr/pppppppp/8/8/8/8/4q3/RNBQKBNR w KQkq - 0 1";
+    this.gridSnapShot = null;
 
     const createGrid = () => {
       return Array.from({ length: this.size }, () => {
@@ -13,6 +14,18 @@ export default class Board {
     }
 
     this.grid = createGrid();
+  }
+
+  cloneGrid = () => {
+    return this.grid.map((row) => row.map((cell) => cell));
+  }
+
+  snapshotGrid = () => {
+    this.gridSnapShot = this.cloneGrid();
+  }
+
+  revertToGrid = () => {
+    this.grid = this.gridSnapShot;
   }
 
   isPositionInBounds = (position) => {
@@ -25,14 +38,19 @@ export default class Board {
     return this.isPositionInBounds(position) && this.grid[row][col];
   }
 
+  getAllPiecesFromGrid = (filter) => {
+    return this.grid
+      .flatMap(row => row.filter(obj => obj && obj.color === filter));
+  }
+
   setPieceFromGrid = (piece) => {
-    const { row, col } = piece.position;
-    return this.isPositionInBounds(piece.position) && (this.grid[row][col] = piece);
+    const { row, col } = piece._position;
+    return this.isPositionInBounds(piece._position) && (this.grid[row][col] = piece);
   }
 
   removePieceFromGrid = (piece) => {
-    const { row, col } = piece.position;
-    return this.isPositionInBounds(piece.position) && (this.grid[row][col] = null);
+    const { row, col } = piece._position;
+    return this.isPositionInBounds(piece._position) && (this.grid[row][col] = null);
   }
 
   setPiecesFromFen = () => {

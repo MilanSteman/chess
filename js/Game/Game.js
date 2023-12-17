@@ -1,3 +1,4 @@
+import Piece from '../Pieces/Piece.js';
 import Board from './Board.js';
 import Player from './Player.js';
 
@@ -20,6 +21,10 @@ class Game {
 
   switchCurrentPlayer = () => {
     this.currentPlayer = this.currentPlayer === this.players.white ? this.players.black : this.players.white;
+  }
+
+  getOpponent = () => {
+    return this.currentPlayer === this.players.white ? this.players.black : this.players.white;
   }
 }
 

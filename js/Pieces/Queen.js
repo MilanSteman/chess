@@ -1,5 +1,5 @@
 import Piece from "./Piece.js";
-import { repeatingMove } from "../misc/moveValidation.js";
+import { repeatingMove } from "../misc/moveHelper.js";
 
 export default class Queen extends Piece {
   constructor(position, player, name) {
@@ -17,6 +17,6 @@ export default class Queen extends Piece {
   }
 
   setPossibleMoves = () => {
-    console.log(repeatingMove(this.position, this.player, this.directions));
+    return repeatingMove(this.position, this.player, this.directions);
   }
 }

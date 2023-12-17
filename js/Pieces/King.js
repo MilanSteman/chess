@@ -1,5 +1,5 @@
 import Piece from "./Piece.js";
-import { singleMove } from "../misc/moveValidation.js";
+import { singleMove } from "../misc/moveHelper.js";
 
 export default class King extends Piece {
   constructor(position, player, name) {
@@ -17,6 +17,6 @@ export default class King extends Piece {
   }
 
   setPossibleMoves = () => {
-    console.log(singleMove(this.position, this.player, this.directions));
+    return singleMove(this.position, this.player, this.directions);
   }
 }
