@@ -22,10 +22,7 @@ const moveInDirection = (position, player, directionArr, isRepeating) => {
           possibleMoves.push({ ...newPosition });
         }
       }
-    } while (
-      isRepeating &&
-      gameInstance.board.isPositionInBounds(newPosition)
-    );
+    } while (isRepeating && gameInstance.board.isPositionInBounds(newPosition));
   }
 
   return possibleMoves;
