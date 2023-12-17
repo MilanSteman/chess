@@ -49,6 +49,7 @@ class Game {
     this.currentPlayer = this.currentPlayer === this.players.white ? this.players.black : this.players.white;
     this.currentPlayer.startTimer();
     this.handleGameState();
+    console.log(this._state)
   }
 
   getOpponent = () => {

@@ -41,7 +41,7 @@ export default class King extends Piece {
           };
 
           for (let i = colRange.startCol + 1; i <= colRange.endCol - 1; i++) {
-            const pieceBetween = gameInstance.board.getPieceFromGrid({ row: this.position.row, col: i });
+            const pieceBetween = gameInstance.board.getPieceFromGrid({ row: this.position.row, col: i }, gameInstance.board.grid);
 
             if (pieceBetween) {
               return false;

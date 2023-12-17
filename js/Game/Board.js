@@ -4,7 +4,7 @@ import gameInstance from './Game.js';
 export default class Board {
   constructor() {
     this.size = 8;
-    this.fenString = "rnbqkbnr/pppppppp/8/8/8/8/PPP1PPPP/RNBQKBNR w KQkq - 0 1";
+    this.fenString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
     const createGrid = () => {
       return Array.from({ length: this.size }, () => {
@@ -15,48 +15,35 @@ export default class Board {
     this.grid = createGrid();
   }
 
-  cloneGrid = () => {
-    return this.grid.map((row) => row.map((cell) => cell));
-  }
-
-  snapshotGrid = () => {
-    console.log(this.grid)
-    this.gridSnapShot = this.cloneGrid();
-  }
-
-  revertToGrid = () => {
-    this.grid = this.gridSnapShot;
-  }
-
   isPositionInBounds = (position) => {
     const { row, col } = position;
     return row >= 0 && row < this.size && col >= 0 && col < this.size;
   }
 
-  getPieceFromGrid = (position) => {
+  getPieceFromGrid = (position, grid) => {
     const { row, col } = position;
-    return this.isPositionInBounds(position) && this.grid[row][col];
+    return this.isPositionInBounds(position) && grid[row][col];
   }
 
   getAllPiecesFromGrid = (filter) => {
     return this.grid.flatMap(row => row.filter(obj => obj && obj.color === filter));
   }
 
-  setPieceFromGrid = (piece) => {
+  setPieceFromGrid = (piece, grid) => {
     const { row, col } = piece._position;
-    return this.isPositionInBounds(piece._position) && (this.grid[row][col] = piece);
+    return this.isPositionInBounds(piece._position) && (grid[row][col] = piece);
   }
 
-  removePieceFromGrid = (piece) => {
+  removePieceFromGrid = (piece, grid) => {
     const { row, col } = piece._position;
-    return this.isPositionInBounds(piece._position) && (this.grid[row][col] = null);
+    return this.isPositionInBounds(piece._position) && (grid[row][col] = null);
   }
 
   initializePieceInGrid = (char, position) => {
     const { player, Piece } = pieceMap.get(char);
     const generatedPiece = new Piece(position, gameInstance.players[player], Piece.name.toLowerCase());
     gameInstance.players[player].pieces.push(generatedPiece);
-    this.setPieceFromGrid(generatedPiece);
+    this.setPieceFromGrid(generatedPiece, gameInstance.board.grid);
   }
 
   setPiecesFromFen = () => {

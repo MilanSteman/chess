@@ -29,7 +29,7 @@ export const highlightPossibleMoves = (piece) => {
   const pieceMoves = piece.setLegalMoves();
 
   pieceMoves.forEach((move) => {
-    const attackedPiece = gameInstance.board.getPieceFromGrid(move);
+    const attackedPiece = gameInstance.board.getPieceFromGrid(move, gameInstance.board.grid);
 
     const visualType = attackedPiece === null ? "is-attacked" : "is-capturable";
 

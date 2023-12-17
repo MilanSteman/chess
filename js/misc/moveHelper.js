@@ -11,7 +11,7 @@ const moveInDirection = (position, player, directionArr, isRepeating) => {
       newPosition.col += y;
 
       if (gameInstance.board.isPositionInBounds(newPosition)) {
-        const occupiedTile = gameInstance.board.getPieceFromGrid(newPosition);
+        const occupiedTile = gameInstance.board.getPieceFromGrid(newPosition, gameInstance.board.grid);
 
         if (occupiedTile) {
           if (occupiedTile.player !== player) {
@@ -66,20 +66,23 @@ export const isInCheck = () => {
 }
 
 export const isInCheckAfterMove = (piece, nextPosition) => {
-  gameInstance.board.snapshotGrid();
-
+  let simulateGrid = deepCopyArray(gameInstance.board.grid);
   const originalPiece = { ...piece };
 
   piece._position = nextPosition;
 
-  gameInstance.board.setPieceFromGrid(piece);
-  gameInstance.board.removePieceFromGrid(originalPiece);
-
+  gameInstance.board.setPieceFromGrid(piece, gameInstance.board.grid);
+  gameInstance.board.removePieceFromGrid(originalPiece, gameInstance.board.grid);
+  
   const isCheck = isInCheck();
-
+  
   piece._position = originalPiece._position;
 
-  gameInstance.board.revertToGrid();
+  gameInstance.board.grid = simulateGrid;
 
   return isCheck;
+}
+
+function deepCopyArray(arr) {
+  return Array.from(arr, row => Array.from(row));
 }

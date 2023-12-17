@@ -51,7 +51,6 @@ export default class Piece {
     const legalMoves = [];
 
     for (const move of moves) {
-
       if (!isInCheckAfterMove(this, move)) {
         legalMoves.push(move)
       }
@@ -61,16 +60,16 @@ export default class Piece {
   }
 
   moveToTile = (move) => {
-    let targetPiece = gameInstance.board.getPieceFromGrid(move);
+    let targetPiece = gameInstance.board.getPieceFromGrid(move, gameInstance.board.grid);
 
     if (move.case && move.case === "en-passant") {
-      targetPiece = gameInstance.board.getPieceFromGrid({ row: move.row - 1 * move.direction, col: move.col });
+      targetPiece = gameInstance.board.getPieceFromGrid({ row: move.row - 1 * move.direction, col: move.col }, gameInstance.board.grid);
     }
 
     if (move.case && move.case === "castle") {
       const rookDirection = move.type === "long" ? -1 : 1;
       const rookPosition = move.type === "long" ? 0 : 7;
-      const castledRook = gameInstance.board.getPieceFromGrid({ row: move.row, col: rookPosition });
+      const castledRook = gameInstance.board.getPieceFromGrid({ row: move.row, col: rookPosition }, gameInstance.board.grid);
       castledRook.makeMove({ row: move.row, col: move.col - rookDirection });
     }
 
@@ -98,8 +97,8 @@ export default class Piece {
 
     this.position = move;
 
-    gameInstance.board.setPieceFromGrid(this);
-    gameInstance.board.removePieceFromGrid(originalPiece);
+    gameInstance.board.setPieceFromGrid(this, gameInstance.board.grid);
+    gameInstance.board.removePieceFromGrid(originalPiece, gameInstance.board.grid);
 
     this.isSelected = false;
     this.hasMoved = true;

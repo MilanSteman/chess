@@ -25,7 +25,7 @@ export default class Pawn extends Piece {
 
     for (let i = 1; i <= maxDistance; i++) {
       let move = { row: this.position.row + i * this.direction, col: this.position.col };
-      const targetPiece = gameInstance.board.getPieceFromGrid(move);
+      const targetPiece = gameInstance.board.getPieceFromGrid(move, gameInstance.board.grid);
 
       if (targetPiece) {
         break;
@@ -44,7 +44,7 @@ export default class Pawn extends Piece {
       let move = { row: this.position.row + x, col: this.position.col + y };
 
       if (gameInstance.board.isPositionInBounds(move)) {
-        const targetPiece = gameInstance.board.getPieceFromGrid(move);
+        const targetPiece = gameInstance.board.getPieceFromGrid(move, gameInstance.board.grid);
 
         if (move.row === this.promotionRow) {
           move = { ...move, case: "promotion" };
