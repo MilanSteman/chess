@@ -9,6 +9,7 @@ export default class Piece {
     this.color = this.player.color;
     this.name = name;
     this.isSelected = false;
+    this.hasMoved = false;
 
     document.addEventListener("DOMContentLoaded", () => {
       this.domElement = document.querySelector(
@@ -40,13 +41,14 @@ export default class Piece {
 
   set position(newPosition) {
     this._position = newPosition;
+
+    this.domElement.setAttribute("data-row", this._position.row);
+    this.domElement.setAttribute("data-col", this._position.col);
   }
 
   setPossibleMoves = () => { }
 
   setLegalMoves = () => {
-    gameInstance.board.snapshotGrid();
-
     const moves = this.setPossibleMoves();
     const legalMoves = [];
 
@@ -54,8 +56,6 @@ export default class Piece {
       if (!isInCheckAfterMove(this, move)) {
         legalMoves.push(move)
       }
-
-      gameInstance.board.revertToGrid();
     }
 
     return legalMoves;
@@ -64,14 +64,9 @@ export default class Piece {
   moveToTile = (tilePosition) => {
     const targetPiece = gameInstance.board.getPieceFromGrid(tilePosition);
 
-    const originalPiece = {
-      ...this,
-      _position: {
-        ...this._position,
-      },
-    };
+    const originalPiece = { ...this };
 
-    this._position = tilePosition;
+    this.position = tilePosition;
 
     if (targetPiece) {
       targetPiece.domElement.remove();
@@ -81,9 +76,10 @@ export default class Piece {
     gameInstance.board.removePieceFromGrid(originalPiece);
 
     this.isSelected = false;
+    this.hasMoved = true;
+
     clearAllVisuals();
-    console.log(gameInstance.getOpponent().pieces)
 
     gameInstance.switchCurrentPlayer();
-  }
+  };
 }

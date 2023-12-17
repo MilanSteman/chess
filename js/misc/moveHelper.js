@@ -4,7 +4,7 @@ const moveInDirection = (position, player, directionArr, isRepeating) => {
   const possibleMoves = [];
 
   for (const [x, y] of directionArr) {
-    let newPosition = { row: position.row, col: position.col };
+    const newPosition = { row: position.row, col: position.col };
 
     do {
       newPosition.row += x;
@@ -49,8 +49,6 @@ const isInCheck = () => {
   const opponent = gameInstance.getOpponent();
   const opponentPieces = gameInstance.board.getAllPiecesFromGrid(opponent.color);
 
-  console.log(opponentPieces)
-
   if (king) {
     for (const opponentPiece of opponentPieces) {
       const possibleOpponentMoves = opponentPiece.setPossibleMoves();
@@ -73,12 +71,7 @@ const isInCheck = () => {
 export const isInCheckAfterMove = (piece, nextPosition) => {
   gameInstance.board.snapshotGrid();
 
-  const originalPiece = {
-    ...piece,
-    _position: {
-      ...piece._position,
-    },
-  };
+  const originalPiece = { ...piece };
 
   piece._position = nextPosition;
 

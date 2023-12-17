@@ -2,8 +2,8 @@ import Piece from "./Piece.js";
 import { singleMove } from "../misc/moveHelper.js";
 
 export default class King extends Piece {
-  constructor(position, player, name) {
-    super(position, player, name);
+  constructor(position, player, color, name) {
+    super(position, player, color, name);
     this.directions = [
       [1, 1],
       [-1, 1],
