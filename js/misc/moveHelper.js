@@ -44,7 +44,7 @@ const getKing = () => {
 export const isInCheck = () => {
   const king = getKing();
   const opponent = gameInstance.getOpponent();
-  const opponentPieces = opponent.pieces;
+  const opponentPieces = gameInstance.board.getAllPiecesFromGrid(opponent.color);
 
   if (king) {
     for (const opponentPiece of opponentPieces) {
@@ -71,15 +71,15 @@ export const isInCheckAfterMove = (piece, nextPosition) => {
 
   piece._position = nextPosition;
 
-  gameInstance.board.setPieceFromGrid(piece, simulateGrid);
-  gameInstance.board.removePieceFromGrid(originalPiece, simulateGrid);
+  gameInstance.board.setPieceFromGrid(piece, gameInstance.board.grid);
+  gameInstance.board.removePieceFromGrid(originalPiece, gameInstance.board.grid);
   
   const isCheck = isInCheck();
   
   piece._position = originalPiece._position;
 
 
-  simulateGrid = gameInstance.board.grid;
+  gameInstance.board.grid = simulateGrid;
 
   return isCheck;
 }
