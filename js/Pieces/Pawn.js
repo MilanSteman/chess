@@ -1,6 +1,5 @@
 import gameInstance from "../Game/Game.js";
 import Piece from "./Piece.js";
-import Queen from "./Queen.js";
 
 export default class Pawn extends Piece {
   constructor(position, player, color, name) {
@@ -9,7 +8,6 @@ export default class Pawn extends Piece {
     this.direction = this.color === "white" ? 1 : -1;
     this.enPassantRow = this.color === "white" ? 4 : 3;
     this.promotionRow = this.color === "white" ? 7 : 0;
-    this.hasMoved = true;
   }
 
   setPossibleMoves = () => {

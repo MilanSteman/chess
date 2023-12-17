@@ -3,6 +3,7 @@ import { formatTime } from "../misc/timeHelper.js";
 export default class Player {
   constructor(color, time) {
     this.color = color;
+    this.pieces = [];
     this.moves = [];
     this.time = time;
     this.timeInterval = null;

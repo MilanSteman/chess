@@ -13,7 +13,7 @@ export const clearAllVisuals = () => {
 export const highlightPossibleMoves = (piece) => {
   clearAllVisuals();
   
-  const allyPieces = gameInstance.board.getAllPiecesFromGrid(piece.color);
+  const allyPieces = piece.player.pieces;
 
   allyPieces.forEach((allyPiece) => {
     if (piece !== allyPiece) {

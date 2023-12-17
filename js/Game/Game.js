@@ -56,7 +56,7 @@ class Game {
   }
 
   handleGameState = () => {
-    const currentPlayerPieces = this.board.getAllPiecesFromGrid(this.currentPlayer.color);
+    const currentPlayerPieces = gameInstance.currentPlayer.pieces;
 
     if (currentPlayerPieces.some(piece => piece.setLegalMoves().length)) {
       return false;

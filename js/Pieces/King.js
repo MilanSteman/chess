@@ -26,8 +26,8 @@ export default class King extends Piece {
   }
 
   castleMovement = (arr) => {
-    if (!this.hasMoved) {
-      const allyPieces = gameInstance.board.getAllPiecesFromGrid(this.color);
+    if (!this.hasMoved && this.player) {
+      const allyPieces = this.player.pieces;
       const allyRooks = allyPieces.filter((piece) => piece.name === "rook");
 
       allyRooks.forEach((allyRook) => {

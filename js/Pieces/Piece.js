@@ -18,7 +18,6 @@ export default class Piece {
       pieceDomElement.setAttribute("data-col", position.col);
       pieceDomElement.addEventListener("click", () => { setPieceClick() });
       gameInstance.domElement.appendChild(pieceDomElement);
-      console.log(this)
 
       this.domElement = document.querySelector(
         `img[data-row="${this.position.row}"][data-col="${this.position.col}"]`,
@@ -45,13 +44,14 @@ export default class Piece {
     this.domElement.setAttribute("data-col", this._position.col);
   }
 
-  setPossibleMoves = () => { }
+  setPossibleMoves = () => {}
 
   setLegalMoves = () => {
     const moves = this.setPossibleMoves();
     const legalMoves = [];
 
     for (const move of moves) {
+
       if (!isInCheckAfterMove(this, move)) {
         legalMoves.push(move)
       }
@@ -76,6 +76,7 @@ export default class Piece {
 
     if (targetPiece) {
       targetPiece.domElement.remove();
+      targetPiece.player.pieces = targetPiece.player.pieces.filter((piece) => piece !== targetPiece);
     }
 
     this.makeMove(move);
@@ -84,6 +85,7 @@ export default class Piece {
       setTimeout(() => {
         const queenChar = this.color === "white" ? "Q" : "q";
         this.domElement.remove();
+        this.player.pieces = this.player.pieces.filter((piece) => piece !== this);
         gameInstance.board.initializePieceInGrid(queenChar, { row: move.row, col: move.col });
       }, 300);
     }

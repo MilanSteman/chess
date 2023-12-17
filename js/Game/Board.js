@@ -4,8 +4,7 @@ import gameInstance from './Game.js';
 export default class Board {
   constructor() {
     this.size = 8;
-    this.fenString = "8/6PP/3k4/8/8/8/2pp2K1/8 w - - 0 1";
-    this.gridSnapShot = null;
+    this.fenString = "rnbqkbnr/pppppppp/8/8/8/8/PPP1PPPP/RNBQKBNR w KQkq - 0 1";
 
     const createGrid = () => {
       return Array.from({ length: this.size }, () => {
@@ -21,6 +20,7 @@ export default class Board {
   }
 
   snapshotGrid = () => {
+    console.log(this.grid)
     this.gridSnapShot = this.cloneGrid();
   }
 
@@ -39,8 +39,7 @@ export default class Board {
   }
 
   getAllPiecesFromGrid = (filter) => {
-    return this.grid
-      .flatMap(row => row.filter(obj => obj && obj.color === filter));
+    return this.grid.flatMap(row => row.filter(obj => obj && obj.color === filter));
   }
 
   setPieceFromGrid = (piece) => {
@@ -56,8 +55,9 @@ export default class Board {
   initializePieceInGrid = (char, position) => {
     const { player, Piece } = pieceMap.get(char);
     const generatedPiece = new Piece(position, gameInstance.players[player], Piece.name.toLowerCase());
+    gameInstance.players[player].pieces.push(generatedPiece);
     this.setPieceFromGrid(generatedPiece);
-}
+  }
 
   setPiecesFromFen = () => {
     const rows = this.fenString.split(" ")[0].split("/").reverse();

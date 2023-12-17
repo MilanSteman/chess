@@ -37,14 +37,14 @@ export const singleMove = (position, player, directionArr) => {
 }
 
 const getKing = () => {
-  const allyPieces = gameInstance.board.getAllPiecesFromGrid(gameInstance.currentPlayer.color);
+  const allyPieces = gameInstance.currentPlayer.pieces;
   return allyPieces.find((piece) => piece.name === "king");
 }
 
 export const isInCheck = () => {
   const king = getKing();
   const opponent = gameInstance.getOpponent();
-  const opponentPieces = gameInstance.board.getAllPiecesFromGrid(opponent.color);
+  const opponentPieces = opponent.pieces;
 
   if (king) {
     for (const opponentPiece of opponentPieces) {
