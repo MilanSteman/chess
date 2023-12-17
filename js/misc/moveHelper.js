@@ -40,8 +40,8 @@ export const singleMove = (position, player, directionArr) => {
 }
 
 const getKing = () => {
-  const playerPieces = gameInstance.currentPlayer.pieces;
-  return playerPieces.find((piece) => piece.name === "king");
+  const allyPieces = gameInstance.board.getAllPiecesFromGrid(gameInstance.currentPlayer);
+  return allyPieces.find((piece) => piece.name === "king");
 }
 
 const isInCheck = () => {

@@ -41,7 +41,6 @@ export default class Piece {
 
   set position(newPosition) {
     this._position = newPosition;
-
     this.domElement.setAttribute("data-row", this._position.row);
     this.domElement.setAttribute("data-col", this._position.col);
   }
@@ -61,13 +60,18 @@ export default class Piece {
     return legalMoves;
   }
 
-  moveToTile = (tilePosition) => {
-    const targetPiece = gameInstance.board.getPieceFromGrid(tilePosition);
+  moveToTile = (move) => {
+    let targetPiece = gameInstance.board.getPieceFromGrid(move);
 
     const originalPiece = { ...this };
 
-    this.position = tilePosition;
+    this.position = move;
 
+    if (move.case && move.case === "en-passant") {
+      const enPassantPosition = { row: move.row - 1 * move.direction, col: move.col };
+      targetPiece = gameInstance.board.getPieceFromGrid(enPassantPosition);
+    }
+    
     if (targetPiece) {
       targetPiece.domElement.remove();
     }
@@ -77,6 +81,14 @@ export default class Piece {
 
     this.isSelected = false;
     this.hasMoved = true;
+
+    const moveData = {
+      piece: this.name,
+      toPosition: this.position,
+      fromPosition: originalPiece._position,
+    }
+
+    this.player.moves.push(moveData);
 
     clearAllVisuals();
 

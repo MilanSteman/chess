@@ -17,6 +17,8 @@ export default class King extends Piece {
   }
 
   setPossibleMoves = () => {
-    return singleMove(this.position, this.player, this.directions);
+    const possibleMoves = singleMove(this.position, this.player, this.directions);
+
+    return possibleMoves;
   }
 }

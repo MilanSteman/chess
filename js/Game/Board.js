@@ -4,7 +4,7 @@ import gameInstance from './Game.js';
 export default class Board {
   constructor() {
     this.size = 8;
-    this.fenString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    this.fenString = "8/8/3k4/8/8/5K2/8/8 w - - 0 1";
     this.gridSnapShot = null;
 
     const createGrid = () => {
@@ -68,7 +68,6 @@ export default class Board {
           const { player, Piece } = pieceMap.get(char);
           const position = { row, col };
           const generatedPiece = new Piece(position, gameInstance.players[player], Piece.name.toLowerCase());
-          gameInstance.players[player].pieces.push(generatedPiece);
           this.setPieceFromGrid(generatedPiece);
 
           col++;

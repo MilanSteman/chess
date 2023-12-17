@@ -6,6 +6,7 @@ export default class Pawn extends Piece {
     super(position, player, color, name);
 
     this.direction = this.color === "white" ? 1 : -1;
+    this.enPassantRow = this.color === "white" ? 4 : 3;
   }
 
   setPossibleMoves = () => {
@@ -13,6 +14,7 @@ export default class Pawn extends Piece {
 
     this.forwardMovement(possibleMoves);
     this.captureMovement(possibleMoves);
+    this.enPassantMovement(possibleMoves);
 
     return possibleMoves
   }
@@ -42,6 +44,23 @@ export default class Pawn extends Piece {
         if (targetPiece && targetPiece.player !== this.player) {
           arr.push(newPosition);
         }
+      }
+    }
+  }
+
+  enPassantMovement = (arr) => {
+    if (this.position.row === this.enPassantRow) {
+      const opponent = gameInstance.getOpponent();
+      const opponentLastMove = opponent.moves[opponent.moves.length - 1];
+
+      if (
+        opponentLastMove.piece === "pawn" &&
+        opponentLastMove.toPosition.row === this.position.row &&
+        Math.abs(opponentLastMove.toPosition.col - this.position.col) === 1 &&
+        Math.abs(opponentLastMove.toPosition.row - opponentLastMove.fromPosition.row) === 2
+      ) {
+        const newPosition = { row: opponentLastMove.toPosition.row + this.direction, col: opponentLastMove.toPosition.col, case: "en-passant", direction: this.direction }
+        arr.push(newPosition);
       }
     }
   }
