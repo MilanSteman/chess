@@ -15,6 +15,7 @@ export default class King extends Piece {
       [0, 1],
       [0, -1],
     ];
+    this.value = 9;
   }
 
   setPossibleMoves = () => {
@@ -41,7 +42,7 @@ export default class King extends Piece {
           };
 
           for (let i = colRange.startCol + 1; i <= colRange.endCol - 1; i++) {
-            const pieceBetween = gameInstance.board.getPieceFromGrid({ row: this.position.row, col: i }, gameInstance.board.grid);
+            const pieceBetween = gameInstance.board.getPieceFromGrid({ row: this.position.row, col: i });
 
             if (pieceBetween) {
               return false;

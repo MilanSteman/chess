@@ -10,6 +10,7 @@ export default class Bishop extends Piece {
       [-1, -1],
       [1, -1],
     ];
+    this.value = 3;
   }
 
   setPossibleMoves = () => {

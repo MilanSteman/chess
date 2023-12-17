@@ -14,6 +14,7 @@ export default class Knight extends Piece {
       [-1, -2],
       [1, -2],
     ];
+    this.value = 3;
   }
 
   setPossibleMoves = () => {

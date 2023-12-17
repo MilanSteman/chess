@@ -5,6 +5,7 @@ export default class Board {
   constructor() {
     this.size = 8;
     this.fenString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    this.duplicateGrid = [];
 
     const createGrid = () => {
       return Array.from({ length: this.size }, () => {
@@ -20,23 +21,23 @@ export default class Board {
     return row >= 0 && row < this.size && col >= 0 && col < this.size;
   }
 
-  getPieceFromGrid = (position, grid) => {
+  getPieceFromGrid = (position) => {
     const { row, col } = position;
-    return this.isPositionInBounds(position) && grid[row][col];
+    return this.isPositionInBounds(position) && this.grid[row][col];
   }
 
   getAllPiecesFromGrid = (filter) => {
     return this.grid.flatMap(row => row.filter(obj => obj && obj.color === filter));
   }
 
-  setPieceFromGrid = (piece, grid) => {
+  setPieceFromGrid = (piece) => {
     const { row, col } = piece._position;
-    return this.isPositionInBounds(piece._position) && (grid[row][col] = piece);
+    return this.isPositionInBounds(piece._position) && (this.grid[row][col] = piece);
   }
 
-  removePieceFromGrid = (piece, grid) => {
+  removePieceFromGrid = (piece) => {
     const { row, col } = piece._position;
-    return this.isPositionInBounds(piece._position) && (grid[row][col] = null);
+    return this.isPositionInBounds(piece._position) && (this.grid[row][col] = null);
   }
 
   initializePieceInGrid = (char, position) => {

@@ -4,6 +4,7 @@ import Piece from "./Piece.js";
 export default class Pawn extends Piece {
   constructor(position, player, color, name) {
     super(position, player, color, name);
+    this.value = 1;
 
     this.direction = this.color === "white" ? 1 : -1;
     this.enPassantRow = this.color === "white" ? 4 : 3;
@@ -25,7 +26,7 @@ export default class Pawn extends Piece {
 
     for (let i = 1; i <= maxDistance; i++) {
       let move = { row: this.position.row + i * this.direction, col: this.position.col };
-      const targetPiece = gameInstance.board.getPieceFromGrid(move, gameInstance.board.grid);
+      const targetPiece = gameInstance.board.getPieceFromGrid(move);
 
       if (targetPiece) {
         break;
@@ -44,7 +45,7 @@ export default class Pawn extends Piece {
       let move = { row: this.position.row + x, col: this.position.col + y };
 
       if (gameInstance.board.isPositionInBounds(move)) {
-        const targetPiece = gameInstance.board.getPieceFromGrid(move, gameInstance.board.grid);
+        const targetPiece = gameInstance.board.getPieceFromGrid(move);
 
         if (move.row === this.promotionRow) {
           move = { ...move, case: "promotion" };

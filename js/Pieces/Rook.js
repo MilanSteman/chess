@@ -10,6 +10,7 @@ export default class Rook extends Piece {
       [0, 1],
       [0, -1],
     ];
+    this.value = 5;
   }
 
   setPossibleMoves = () => {

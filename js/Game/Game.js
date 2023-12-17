@@ -13,11 +13,13 @@ class Game {
     }
 
     this.players = {
-      white: new Player("white", this.timeControl.initialTime),
-      black: new Player("black", this.timeControl.initialTime),
+      white: new Player("white", this),
+      black: new Player("black", this),
     }
 
     this.currentPlayer = this.players.white;
+
+    this.advantage = 0;
 
     this.state = {
       checkmate: false,
@@ -35,6 +37,15 @@ class Game {
     this.currentPlayer.pauseTimer();
   }
 
+  get advantage() {
+    return this._advantage;
+  }
+
+  set advantage(newAdvantage) {
+    this._advantage = newAdvantage;
+    console.log(this._advantage)
+  }
+
   runGame = () => {
     this.board.setPiecesFromFen();
 
@@ -46,10 +57,11 @@ class Game {
   switchCurrentPlayer = () => {
     this.currentPlayer.time += this.timeControl.increment;
     this.currentPlayer.pauseTimer();
+    
     this.currentPlayer = this.currentPlayer === this.players.white ? this.players.black : this.players.white;
+    
     this.currentPlayer.startTimer();
     this.handleGameState();
-    console.log(this._state)
   }
 
   getOpponent = () => {

@@ -14,6 +14,7 @@ export default class Queen extends Piece {
       [0, 1],
       [0, -1],
     ];
+    this.value = 9;
   }
 
   setPossibleMoves = () => {
