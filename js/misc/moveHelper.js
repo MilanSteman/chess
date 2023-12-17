@@ -84,11 +84,11 @@ export const isInCheckAfterMove = (piece, nextPosition) => {
   return isCheck;
 }
 
-function deepCopyArray(arr) {
-  var copiedArray = [];
+const deepCopyArray = (arr) => {
+  const copiedArray = [];
 
   for (var i = 0; i < arr.length; i++) {
-    var innerArray = [];
+    const innerArray = [];
     
     for (var j = 0; j < arr[i].length; j++) {
       innerArray.push(arr[i][j]);
