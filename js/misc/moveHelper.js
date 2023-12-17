@@ -71,18 +71,31 @@ export const isInCheckAfterMove = (piece, nextPosition) => {
 
   piece._position = nextPosition;
 
-  gameInstance.board.setPieceFromGrid(piece, gameInstance.board.grid);
-  gameInstance.board.removePieceFromGrid(originalPiece, gameInstance.board.grid);
+  gameInstance.board.setPieceFromGrid(piece, simulateGrid);
+  gameInstance.board.removePieceFromGrid(originalPiece, simulateGrid);
   
   const isCheck = isInCheck();
   
   piece._position = originalPiece._position;
 
-  gameInstance.board.grid = simulateGrid;
+
+  simulateGrid = gameInstance.board.grid;
 
   return isCheck;
 }
 
 function deepCopyArray(arr) {
-  return Array.from(arr, row => Array.from(row));
+  var copiedArray = [];
+
+  for (var i = 0; i < arr.length; i++) {
+    var innerArray = [];
+    
+    for (var j = 0; j < arr[i].length; j++) {
+      innerArray.push(arr[i][j]);
+    }
+
+    copiedArray.push(innerArray);
+  }
+
+  return copiedArray;
 }
