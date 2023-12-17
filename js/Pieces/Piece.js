@@ -63,18 +63,29 @@ export default class Piece {
   moveToTile = (move) => {
     let targetPiece = gameInstance.board.getPieceFromGrid(move);
 
-    const originalPiece = { ...this };
-
-    this.position = move;
-
     if (move.case && move.case === "en-passant") {
-      const enPassantPosition = { row: move.row - 1 * move.direction, col: move.col };
-      targetPiece = gameInstance.board.getPieceFromGrid(enPassantPosition);
+      targetPiece = gameInstance.board.getPieceFromGrid({ row: move.row - 1 * move.direction, col: move.col });
     }
-    
+
+    if (move.case && move.case === "castle") {
+      const rookDirection = move.type === "long" ? -1 : 1;
+      const rookPosition = move.type === "long" ? 0 : 7;
+      const castledRook = gameInstance.board.getPieceFromGrid({ row: move.row, col: rookPosition });
+      castledRook.makeMove({ row: move.row, col: move.col - rookDirection });
+    }
+
     if (targetPiece) {
       targetPiece.domElement.remove();
     }
+
+    this.makeMove(move);
+    gameInstance.switchCurrentPlayer();
+  };
+
+  makeMove = (move) => {
+    const originalPiece = { ...this };
+
+    this.position = move;
 
     gameInstance.board.setPieceFromGrid(this);
     gameInstance.board.removePieceFromGrid(originalPiece);
@@ -91,7 +102,5 @@ export default class Piece {
     this.player.moves.push(moveData);
 
     clearAllVisuals();
-
-    gameInstance.switchCurrentPlayer();
-  };
+  }
 }

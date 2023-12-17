@@ -40,7 +40,7 @@ export const singleMove = (position, player, directionArr) => {
 }
 
 const getKing = () => {
-  const allyPieces = gameInstance.board.getAllPiecesFromGrid(gameInstance.currentPlayer);
+  const allyPieces = gameInstance.board.getAllPiecesFromGrid(gameInstance.currentPlayer.color);
   return allyPieces.find((piece) => piece.name === "king");
 }
 
