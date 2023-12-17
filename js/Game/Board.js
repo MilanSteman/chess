@@ -4,7 +4,7 @@ import gameInstance from './Game.js';
 export default class Board {
   constructor() {
     this.size = 8;
-    this.fenString = "rnbqkbnr/pppppppp/8/8/8/8/PPPP3P/R3K2R w KQkq - 0 1";
+    this.fenString = "8/8/8/8/8/2k5/3q4/1K6 w - - 0 1";
     this.gridSnapShot = null;
 
     const createGrid = () => {

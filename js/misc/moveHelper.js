@@ -41,7 +41,7 @@ const getKing = () => {
   return allyPieces.find((piece) => piece.name === "king");
 }
 
-const isInCheck = () => {
+export const isInCheck = () => {
   const king = getKing();
   const opponent = gameInstance.getOpponent();
   const opponentPieces = gameInstance.board.getAllPiecesFromGrid(opponent.color);
