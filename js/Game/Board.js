@@ -4,7 +4,7 @@ import gameInstance from './Game.js';
 export default class Board {
   constructor() {
     this.size = 8;
-    this.fenString = "8/8/8/8/8/2k5/3q4/1K6 w - - 0 1";
+    this.fenString = "8/6PP/3k4/8/8/8/2pp2K1/8 w - - 0 1";
     this.gridSnapShot = null;
 
     const createGrid = () => {
@@ -53,6 +53,12 @@ export default class Board {
     return this.isPositionInBounds(piece._position) && (this.grid[row][col] = null);
   }
 
+  initializePieceInGrid = (char, position) => {
+    const { player, Piece } = pieceMap.get(char);
+    const generatedPiece = new Piece(position, gameInstance.players[player], Piece.name.toLowerCase());
+    this.setPieceFromGrid(generatedPiece);
+}
+
   setPiecesFromFen = () => {
     const rows = this.fenString.split(" ")[0].split("/").reverse();
 
@@ -65,10 +71,8 @@ export default class Board {
         }
 
         if (pieceMap.has(char)) {
-          const { player, Piece } = pieceMap.get(char);
           const position = { row, col };
-          const generatedPiece = new Piece(position, gameInstance.players[player], Piece.name.toLowerCase());
-          this.setPieceFromGrid(generatedPiece);
+          this.initializePieceInGrid(char, position)
 
           col++;
         }

@@ -1,4 +1,3 @@
-import Piece from '../Pieces/Piece.js';
 import { isInCheck } from '../misc/moveHelper.js';
 import Board from './Board.js';
 import Player from './Player.js';
@@ -26,6 +25,15 @@ class Game {
       winner: null
     }
   }
+  
+  get state() {
+    return this._state;
+  }
+
+  set state(newValue) {
+    this._state = newValue;
+    this.currentPlayer.pauseTimer();
+  }
 
   runGame = () => {
     this.board.setPiecesFromFen();
@@ -39,8 +47,8 @@ class Game {
     this.currentPlayer.time += this.timeControl.increment;
     this.currentPlayer.pauseTimer();
     this.currentPlayer = this.currentPlayer === this.players.white ? this.players.black : this.players.white;
-    this.handleGameState();
     this.currentPlayer.startTimer();
+    this.handleGameState();
   }
 
   getOpponent = () => {
@@ -49,28 +57,18 @@ class Game {
 
   handleGameState = () => {
     const currentPlayerPieces = this.board.getAllPiecesFromGrid(this.currentPlayer.color);
-    const test = isInCheck();
 
     if (currentPlayerPieces.some(piece => piece.setLegalMoves().length)) {
       return false;
     }
 
+    //mayb insufficient material down the line idc
+
     if (isInCheck()) {
       this.state = { ...this.state, winner: this.getOpponent(), checkmate: true };
     } else {
-      this.state = { ...this.state, winner: this.getOpponent(), stalemate: true };
+      this.state = { ...this.state, stalemate: true };
     }
-
-  }
-
-  get state() {
-    return this._state;
-  }
-
-  set state(newValue) {
-    this._state = newValue;
-
-    console.log(this.state);
   }
 }
 

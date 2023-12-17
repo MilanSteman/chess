@@ -11,19 +11,19 @@ export default class Piece {
     this.isSelected = false;
     this.hasMoved = false;
 
-    document.addEventListener("DOMContentLoaded", () => {
-      this.domElement = document.querySelector(
-        `img[data-row="${this.position.row}"][data-col="${this.position.col}"]`,
-      );
-    });
-
     const initializeDomElement = () => {
       const pieceDomElement = document.createElement("img");
       pieceDomElement.src = `images/pieces/${this.color}-${this.name}.png`;
       pieceDomElement.setAttribute("data-row", position.row);
       pieceDomElement.setAttribute("data-col", position.col);
       pieceDomElement.addEventListener("click", () => { setPieceClick() });
-      gameInstance.domElement.appendChild(pieceDomElement)
+      gameInstance.domElement.appendChild(pieceDomElement);
+      console.log(this)
+
+      this.domElement = document.querySelector(
+        `img[data-row="${this.position.row}"][data-col="${this.position.col}"]`,
+      );
+
     }
 
     const setPieceClick = () => {
@@ -79,6 +79,15 @@ export default class Piece {
     }
 
     this.makeMove(move);
+
+    if (move.case && move.case === "promotion") {
+      setTimeout(() => {
+        const queenChar = this.color === "white" ? "Q" : "q";
+        this.domElement.remove();
+        gameInstance.board.initializePieceInGrid(queenChar, { row: move.row, col: move.col });
+      }, 300);
+    }
+
     gameInstance.switchCurrentPlayer();
   };
 
