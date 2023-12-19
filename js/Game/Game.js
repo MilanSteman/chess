@@ -6,6 +6,7 @@ import Player from './Player.js';
 class Game {
   constructor() {
     this.domElement = document.querySelector("#chessboard");
+    this.moveListElement = document.querySelector(".moveList");
     this.board = new Board();
 
     this.timeControl = {

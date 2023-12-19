@@ -1,3 +1,4 @@
+import { setScoreElement } from "../misc/moveHelper.js";
 import { formatTime } from "../misc/timeHelper.js";
 
 export default class Player {
@@ -9,8 +10,8 @@ export default class Player {
     this.moves = [];
     this.time = this.game.timeControl.initialTime;
     this.timeInterval = null;
-    this.timerElement = document.querySelector(`#timer-${this.color}`);
-    this.capturesElement = document.querySelector(`#captures-${this.color}`);
+    this.timerElement = document.querySelector(`.timer-${this.color}`);
+    this.capturesElement = document.querySelector(`.captures-${this.color}`);
     this.advantageDirection = this.color === "white" ? 1 : -1;
   }
 
@@ -41,7 +42,7 @@ export default class Player {
     const move = this.moves[this.moves.length - 1];
 
     if (move) {
-      console.log(move)
+      setScoreElement(move);
     }
   }
 

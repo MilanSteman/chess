@@ -191,4 +191,65 @@ main > aside > div:first-of-type div.score {
   font-size: 0.75rem;
   margin-left: 0.25rem;
 }
+
+body > aside {
+  height: calc(var(--width-board) + 8rem);
+  width: calc(var(--width-board) / 2);
+  background-color: #222;
+  padding: 1rem 0;
+}
+
+body > aside > div.moveList {
+  counter-reset: moveCount;
+}
+
+body > aside > div.moveList > div.turn {
+  counter-increment: moveCount;
+  padding: 0.25rem 1rem;
+  font-size: 14px;
+  font-weight: 600;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+body > aside > div.moveList > div.turn > span {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  padding: 0.75rem 1rem;
+  -webkit-transition: 200ms;
+  transition: 200ms;
+  border-bottom: 4px solid #222;
+  cursor: pointer;
+}
+
+body > aside > div.moveList > div.turn > span:hover {
+  background-color: #555;
+  border-bottom: 4px solid #666;
+}
+
+body > aside > div.moveList > div.turn > span:nth-of-type(2) {
+  margin-left: 3rem;
+}
+
+body > aside > div.moveList > div.turn:before {
+  content: counter(moveCount) ".";
+  color: #ffffff75;
+  margin-right: 1.25rem;
+  width: 1rem;
+  padding: 0.75rem 0;
+}
+
+body > aside > div.moveList > div.turn:nth-child(even) {
+  background-color: #333;
+}
+
+body > aside > div.moveList > div.turn:nth-child(even) span {
+  border-bottom: 4px solid #333;
+}
+
+body > aside > div.moveList > div.turn:nth-child(even) span:hover {
+  border-bottom: 4px solid #666;
+}
 /*# sourceMappingURL=style.css.map */

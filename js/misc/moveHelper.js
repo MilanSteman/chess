@@ -81,3 +81,57 @@ export const isInCheckAfterMove = (piece, nextPosition) => {
 
   return isCheck;
 }
+
+const scoreMap = new Map([
+  ["rook", { char: "r" }],
+  ["knight", { char: "n" }],
+  ["bishop", { char: "b" }],
+  ["queen", { char: "q" }],
+  ["king", { char: "k" }],
+  ["pawn", { char: "" }],
+]);
+
+export const setScoreElement = (data) => {
+  const scoreData = manipulateData(data);
+
+  if (scoreData) {
+    if (data.player.color === "white") {
+      const turnElement = document.createElement("div");
+      turnElement.classList.add("turn");
+      gameInstance.moveListElement.append(turnElement);
+    }
+
+    const moveElement = document.createElement("span");
+    moveElement.textContent = scoreData;
+
+    const currentTurnElement = gameInstance.moveListElement.lastChild;
+    currentTurnElement.appendChild(moveElement);
+  }
+}
+
+const setVisibleLetter = (num) => String.fromCharCode(97 + num);
+
+const manipulateData = (data) => {
+  const reformedData = {
+    ...data,
+    position: { row: data.toPosition.row + 1, col: setVisibleLetter(data.toPosition.col) },
+    prevPosition: { row: data.fromPosition.row + 1, col: setVisibleLetter(data.fromPosition.col) },
+  };
+
+  const isCastle = reformedData.piece === "O-O" || reformedData.piece === "O-O-O";
+
+  const pieceAnnotation = isCastle
+    ? reformedData.piece
+    : scoreMap.get(reformedData.piece).char;
+
+  const captureText = reformedData.piece === "pawn" ? `${reformedData.prevPosition.col}x` : "x";
+  const captureString = reformedData.capture && !isCastle ? captureText : "";
+
+  const checkString = reformedData.checkmate ? "#" : (reformedData.check ? "+" : "");
+
+  const positionString = isCastle ? "" : `${reformedData.position.col}${reformedData.position.row}`;
+
+  return `${pieceAnnotation}${captureString}${positionString}${checkString}`;
+};
+
+
