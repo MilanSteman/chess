@@ -36,13 +36,13 @@ export const singleMove = (position, player, directionArr) => {
   return moveInDirection(position, player, directionArr, false);
 }
 
-const getKing = () => {
-  const allyPieces = gameInstance.currentPlayer.pieces;
+export const getKing = (player) => {
+  const allyPieces = player.pieces;
   return allyPieces.find((piece) => piece.name === "king");
 }
 
 export const isInCheck = () => {
-  const king = getKing();
+  const king = getKing(gameInstance.currentPlayer);
   const opponent = gameInstance.getOpponent();
   const opponentPieces = gameInstance.board.getAllPiecesFromGrid(opponent.color);
 
@@ -66,7 +66,7 @@ export const isInCheck = () => {
 }
 
 export const isInCheckAfterMove = (piece, nextPosition) => {
-  if (piece.color !== gameInstance.currentPlayer) {
+  if (piece.color === gameInstance.currentPlayer) {
     const copiedGrid = gameInstance.board.grid.map(inner => [...inner]);
     const originalPiece = { ...piece };
   

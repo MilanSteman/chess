@@ -33,8 +33,8 @@ export default class King extends Piece {
 
       allyRooks.forEach((allyRook) => {
         if (!allyRook.hasMoved) {
-          const castleType = allyRook.position.col < this.position.col ? "long" : "short";
-          const castleOffset = castleType === "long" ? -2 : 2;
+          const castleType = allyRook.position.col < this.position.col ? "O-O-O" : "O-O";
+          const castleOffset = castleType === "O-O-O" ? -2 : 2;
 
           const colRange = {
             startCol: allyRook.position.col < this.position.col ? allyRook.position.col : this.position.col,

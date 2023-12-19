@@ -17,7 +17,6 @@
   --width-board: 40rem;
   --width-4x4: calc(var(--width-board) / 4);
   --width-tile: calc(var(--width-board) / 8);
-
 }
 
 body {
@@ -25,12 +24,19 @@ body {
   background-color: var(--background-color);
   color: #fff;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 1rem;
   font-family: "Inter", Arial, Helvetica, sans-serif;
   max-width: 976px;
   margin: auto;
+
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
 }
 @import "./board", "./interface";

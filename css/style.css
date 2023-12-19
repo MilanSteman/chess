@@ -25,6 +25,22 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 1rem;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  max-width: 976px;
+  margin: auto;
+}
+
+body main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -36,9 +52,6 @@ body {
       -ms-flex-pack: center;
           justify-content: center;
   gap: 1rem;
-  font-family: "Inter", Arial, Helvetica, sans-serif;
-  max-width: 976px;
-  margin: auto;
 }
 
 article#chessboard {
@@ -143,7 +156,7 @@ article#chessboard > div.is-capturable {
   background-size: 100%;
 }
 
-aside {
+main > aside {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -160,7 +173,7 @@ aside {
   background-color: #222;
 }
 
-aside > div:first-of-type {
+main > aside > div:first-of-type {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -169,12 +182,12 @@ aside > div:first-of-type {
           align-items: center;
 }
 
-aside > div:first-of-type img {
+main > aside > div:first-of-type img {
   width: 1.75rem;
   aspect-ratio: 1/1;
 }
 
-aside > div:first-of-type div.score {
+main > aside > div:first-of-type div.score {
   font-size: 0.75rem;
   margin-left: 0.25rem;
 }

@@ -12,7 +12,6 @@ export const clearAllVisuals = () => {
 
 export const highlightPossibleMoves = (piece) => {
   clearAllVisuals();
-  
   const copiedGrid = gameInstance.board.grid.map(innerArray => [...innerArray]);
 
   const allyPieces = piece.player.pieces;
@@ -28,7 +27,7 @@ export const highlightPossibleMoves = (piece) => {
     return false;
   }
 
-  const pieceMoves = piece.setLegalMoves(copiedGrid);
+  const pieceMoves = piece.setLegalMoves();
 
   pieceMoves.forEach((move) => {
     const attackedPiece = gameInstance.board.getPieceFromGrid(move);

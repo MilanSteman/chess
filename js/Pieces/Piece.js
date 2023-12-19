@@ -1,6 +1,6 @@
 import gameInstance from '../Game/Game.js';
 import { highlightPossibleMoves, clearAllVisuals } from '../misc/visualHelper.js';
-import { isInCheckAfterMove } from '../misc/moveHelper.js';
+import { getKing, isInCheckAfterMove } from '../misc/moveHelper.js';
 
 export default class Piece {
   constructor(position, player, name) {
@@ -61,17 +61,18 @@ export default class Piece {
   }
 
   moveToTile = (move) => {
-    let targetPiece = gameInstance.board.getPieceFromGrid(move);
+    const targetPiece = gameInstance.board.getPieceFromGrid(move);
+    const isCapture = targetPiece !== null;
 
     if (move.case && move.case === "en-passant") {
       targetPiece = gameInstance.board.getPieceFromGrid({ row: move.row - 1 * move.direction, col: move.col });
     }
 
     if (move.case && move.case === "castle") {
-      const rookDirection = move.type === "long" ? -1 : 1;
-      const rookPosition = move.type === "long" ? 0 : 7;
+      const rookDirection = move.type === "O-O-O" ? -1 : 1;
+      const rookPosition = move.type === "O-O-O" ? 0 : 7;
       const castledRook = gameInstance.board.getPieceFromGrid({ row: move.row, col: rookPosition });
-      castledRook.makeMove({ row: move.row, col: move.col - rookDirection });
+      castledRook.makeMove({ row: move.row, col: move.col - rookDirection }, false, true);
     }
 
     if (targetPiece) {
@@ -80,7 +81,7 @@ export default class Piece {
       this.player.captures = [...this.player.captures, targetPiece];
     }
 
-    this.makeMove(move);
+    this.makeMove(move, isCapture);
 
     if (move.case && move.case === "promotion") {
       setTimeout(() => {
@@ -94,8 +95,9 @@ export default class Piece {
     gameInstance.switchCurrentPlayer();
   };
 
-  makeMove = (move) => {
+  makeMove = (move, isCapture, isDoubleMove) => {
     const originalPiece = { ...this };
+    let isCheck = false;
 
     this.position = move;
 
@@ -105,13 +107,35 @@ export default class Piece {
     this.isSelected = false;
     this.hasMoved = true;
 
-    const moveData = {
-      piece: this.name,
-      toPosition: this.position,
-      fromPosition: originalPiece._position,
+    const legalMoves = this.setPossibleMoves();
+
+    if (legalMoves) {
+      const opponentKing = getKing(gameInstance.getOpponent());
+
+      for (const move of legalMoves) {
+        const { row, col } = move;
+
+        if (row === opponentKing.position.row && col === opponentKing.position.col) {
+          isCheck = true;
+        }
+      }
     }
 
-    this.player.moves.push(moveData);
+    if (!isDoubleMove) {
+      const moveData = {
+        piece: move.type ? move.type : this.name,
+        toPosition: this.position,
+        fromPosition: originalPiece._position,
+        player: this.player,
+        capture: isCapture,
+        check: isCheck,
+        checkmate: gameInstance.state.checkmate,
+      }
+
+      this.player.moves.push(moveData);
+
+      console.log(this.player.moves[this.player.moves.length - 1])
+    }
 
     clearAllVisuals();
   }
