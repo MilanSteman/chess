@@ -84,7 +84,11 @@ class Game {
     this.handleGameState();
   }
 
-  getOpponent = () => {
+  getOpponent = (player) => {
+    if (player) {
+      return player === this.players.white ? this.players.black : this.players.white;
+    }
+    
     return this.currentPlayer === this.players.white ? this.players.black : this.players.white;
   }
 

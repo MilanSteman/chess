@@ -66,21 +66,18 @@ export const isInCheck = () => {
 }
 
 export const isInCheckAfterMove = (piece, nextPosition) => {
-  if (piece.color === gameInstance.currentPlayer) {
-    const copiedGrid = gameInstance.board.grid.map(inner => [...inner]);
-    const originalPiece = { ...piece };
-  
-    piece._position = nextPosition;
-  
-    gameInstance.board.setPieceFromGrid(piece);
-    gameInstance.board.removePieceFromGrid(originalPiece);
-    
-    const isCheck = isInCheck();
-  
-    piece._position = originalPiece._position;
-  
-    gameInstance.board.grid = copiedGrid;
-  
-    return isCheck;
-  }
+  const copiedGrid = gameInstance.board.grid.map(inner => [...inner]);
+  const originalPiece = { ...piece };
+  piece._position = nextPosition;
+
+  gameInstance.board.setPieceFromGrid(piece);
+  gameInstance.board.removePieceFromGrid(originalPiece);
+
+  const isCheck = isInCheck();
+
+  piece._position = originalPiece._position;
+
+  gameInstance.board.grid = copiedGrid;
+
+  return isCheck;
 }

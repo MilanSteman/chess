@@ -31,7 +31,6 @@ export const highlightPossibleMoves = (piece) => {
 
   pieceMoves.forEach((move) => {
     const attackedPiece = gameInstance.board.getPieceFromGrid(move);
-
     const visualType = attackedPiece === null ? "is-attacked" : "is-capturable";
 
     const visualDomElement = document.createElement("div");

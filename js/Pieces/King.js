@@ -1,5 +1,5 @@
 import Piece from "./Piece.js";
-import { isInCheckAfterMove, singleMove } from "../misc/moveHelper.js";
+import { isInCheck, isInCheckAfterMove, singleMove } from "../misc/moveHelper.js";
 import gameInstance from "../Game/Game.js";
 
 export default class King extends Piece {
@@ -27,7 +27,7 @@ export default class King extends Piece {
   }
 
   castleMovement = (arr) => {
-    if (!this.hasMoved && this.player) {
+    if (!this.hasMoved && this.player === gameInstance.currentPlayer && !isInCheck()) {
       const allyPieces = this.player.pieces;
       const allyRooks = allyPieces.filter((piece) => piece.name === "rook");
 
