@@ -17,14 +17,13 @@ export default class Piece {
       pieceDomElement.setAttribute("data-row", position.row);
       pieceDomElement.setAttribute("data-col", position.col);
       pieceDomElement.draggable = true;
-      pieceDomElement.ondragstart  = () => { renderMovements(); }
-      pieceDomElement.addEventListener("click", () => { renderMovements() });
+      pieceDomElement.ondragstart = () => { renderMovements(); }
+      pieceDomElement.addEventListener("click", () => { renderMovements(); });
       gameInstance.domElement.appendChild(pieceDomElement);
 
       this.domElement = document.querySelector(
         `img[data-row="${this.position.row}"][data-col="${this.position.col}"]`,
       );
-
     }
 
     const renderMovements = () => {
@@ -79,7 +78,6 @@ export default class Piece {
       targetPiece.domElement.remove();
       targetPiece.player.pieces = targetPiece.player.pieces.filter((piece) => piece !== targetPiece);
       this.player.captures = [...this.player.captures, targetPiece];
-      // this.player.captures.push(targetPiece)
     }
 
     this.makeMove(move);

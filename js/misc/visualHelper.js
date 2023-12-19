@@ -12,6 +12,7 @@ export const clearAllVisuals = () => {
 
 export const highlightPossibleMoves = (piece) => {
   clearAllVisuals();
+  
   const copiedGrid = gameInstance.board.grid.map(innerArray => [...innerArray]);
 
   const allyPieces = piece.player.pieces;
