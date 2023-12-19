@@ -22,9 +22,19 @@ body {
   min-height: 100vh;
   background-color: var(--background-color);
   color: #fff;
-  display: -ms-grid;
-  display: grid;
-  place-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   gap: 1rem;
   font-family: "Inter", Arial, Helvetica, sans-serif;
   max-width: 976px;
@@ -131,5 +141,44 @@ article#chessboard > div.is-attacked {
 article#chessboard > div.is-capturable {
   background-image: url("../images/capture-dot.png");
   background-size: 100%;
+}
+
+aside {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: var(--width-board);
+  padding: 0 2rem 0 1.5rem;
+  height: 3rem;
+  gap: 2rem;
+  background-color: #222;
+}
+
+aside > div:first-of-type {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+aside > div:first-of-type img {
+  width: 1.75rem;
+  aspect-ratio: 1/1;
+}
+
+aside > div:first-of-type div {
+  font-size: 12px;
 }
 /*# sourceMappingURL=style.css.map */

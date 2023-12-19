@@ -1,0 +1,25 @@
+aside {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: var(--width-board);
+  padding: 0 2rem 0 1.5rem;
+  height: 3rem;
+  gap: 2rem;
+  background-color: #222;
+
+  & > div:first-of-type {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+
+    img {
+      width: 1.75rem;
+      aspect-ratio: 1/1;
+    }
+
+    div {
+      font-size: 12px;
+    }
+  }
+}

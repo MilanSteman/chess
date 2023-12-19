@@ -24,11 +24,13 @@ body {
   min-height: 100vh;
   background-color: var(--background-color);
   color: #fff;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 1rem;
   font-family: "Inter", Arial, Helvetica, sans-serif;
   max-width: 976px;
   margin: auto;
 }
-@import "./board";
+@import "./board", "./interface";

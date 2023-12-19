@@ -4,7 +4,7 @@ import gameInstance from './Game.js';
 export default class Board {
   constructor() {
     this.size = 8;
-    this.fenString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    this.fenString = "8/8/4k3/6N1/8/5K2/8/8 w - - 0 1";
     this.duplicateGrid = [];
 
     const createGrid = () => {

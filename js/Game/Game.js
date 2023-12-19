@@ -1,4 +1,5 @@
 import { isInCheck } from '../misc/moveHelper.js';
+import { isInsufficientMaterial } from '../misc/stateHelper.js';
 import Board from './Board.js';
 import Player from './Player.js';
 
@@ -22,19 +23,27 @@ class Game {
     this.advantage = 0;
 
     this.state = {
+      gameOver: false,
       checkmate: false,
       stalemate: false,
+      insufficientMaterial: false,
+      time: false,
       winner: null
     }
   }
-  
+
   get state() {
     return this._state;
   }
 
   set state(newValue) {
     this._state = newValue;
-    this.currentPlayer.pauseTimer();
+    console.log(this._state)
+
+    if (this.state.gameOver === true) {
+      this.currentPlayer.pauseTimer();
+      this.currentPlayer = null;
+    }
   }
 
   get advantage() {
@@ -43,7 +52,19 @@ class Game {
 
   set advantage(newAdvantage) {
     this._advantage = newAdvantage;
-    console.log(this._advantage)
+
+    Object.values(this.players).forEach((player) => {
+      const scoreElement = player.capturesElement.querySelector(".score");
+
+      if (
+        (this._advantage < 0 && player.color === "black") ||
+        (this._advantage > 0 && player.color === "white")
+      ) {
+        scoreElement.textContent = `+${Math.abs(this._advantage)}`;
+      } else {
+        scoreElement.textContent = null;
+      }
+    });
   }
 
   runGame = () => {
@@ -57,9 +78,9 @@ class Game {
   switchCurrentPlayer = () => {
     this.currentPlayer.time += this.timeControl.increment;
     this.currentPlayer.pauseTimer();
-    
+
     this.currentPlayer = this.currentPlayer === this.players.white ? this.players.black : this.players.white;
-    
+
     this.currentPlayer.startTimer();
     this.handleGameState();
   }
@@ -69,18 +90,23 @@ class Game {
   }
 
   handleGameState = () => {
-    const currentPlayerPieces = gameInstance.currentPlayer.pieces;
+    const currentPlayerPieces = this.currentPlayer.pieces;
+    const opponentPlayerPieces = this.getOpponent().pieces;
 
+    if (isInsufficientMaterial(currentPlayerPieces, opponentPlayerPieces)) {
+      this.state = { ...this.state, gameOver: true, insufficientMaterial: true };
+      return false;
+    }
+
+    // somewhere we need to return when insufficient material is here. So e.g.: King and opponent King
     if (currentPlayerPieces.some(piece => piece.setLegalMoves().length)) {
       return false;
     }
 
-    //mayb insufficient material down the line idc
-
     if (isInCheck()) {
-      this.state = { ...this.state, winner: this.getOpponent(), checkmate: true };
+      this.state = { ...this.state, gameOver: true, checkmate: true, winner: this.getOpponent() };
     } else {
-      this.state = { ...this.state, stalemate: true };
+      this.state = { ...this.state, gameOver: true, stalemate: true };
     }
   }
 }

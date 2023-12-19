@@ -66,8 +66,8 @@ export const isInCheck = () => {
 }
 
 export const isInCheckAfterMove = (piece, nextPosition) => {
-  if (piece.color === gameInstance.currentPlayer) {
-    const copiedGrid = deepCopyArray(gameInstance.board.grid);
+  if (piece.color !== gameInstance.currentPlayer) {
+    const copiedGrid = gameInstance.board.grid.map(inner => [...inner]);
     const originalPiece = { ...piece };
   
     piece._position = nextPosition;
@@ -82,10 +82,5 @@ export const isInCheckAfterMove = (piece, nextPosition) => {
     gameInstance.board.grid = copiedGrid;
   
     return isCheck;
-  
   }
-}
-
-const deepCopyArray = (arr) => {
-  return arr.map(innerArray => [...innerArray]);
 }

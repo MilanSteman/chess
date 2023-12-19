@@ -6,11 +6,11 @@ export default class Player {
     this.game = game;
     this.pieces = [];
     this.captures = [];
-    this.value = 0;
     this.moves = [];
     this.time = this.game.timeControl.initialTime;
     this.timeInterval = null;
     this.timerElement = document.querySelector(`#timer-${this.color}`);
+    this.capturesElement = document.querySelector(`#captures-${this.color}`);
     this.advantageDirection = this.color === "white" ? 1 : -1;
   }
 
@@ -20,19 +20,15 @@ export default class Player {
 
   set captures(newCaptures) {
     this._captures = newCaptures;
+    const capture = this.captures[this.captures.length - 1];
 
-    if (this.captures[this.captures.length - 1]) {
-      this.value += this.captures[this.captures.length - 1].value;
+    if (capture) {
+      this.game.advantage += this.captures[this.captures.length - 1].value * this.advantageDirection;
+
+      const captureDomElement = document.createElement("img");
+      captureDomElement.src = `images/pieces/${capture.color}-${capture.name}.png`;
+      this.capturesElement.appendChild(captureDomElement)
     }
-  }
-
-  get value() {
-    return this._value;
-  }
-
-  set value(newValue) {
-    this._value = newValue;
-    this.game.advantage += this._value * this.advantageDirection;
   }
 
   get time() {
@@ -41,6 +37,11 @@ export default class Player {
 
   set time(newTime) {
     this._time = newTime;
+
+    if (this._time === 0) {
+      this.game.state = { ...this.game.state, gameOver: true, time: true, winner: this.game.getOpponent() };
+    }
+    
     this.setTimer();
   }
 
