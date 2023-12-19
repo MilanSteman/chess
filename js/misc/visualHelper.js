@@ -38,7 +38,16 @@ export const highlightPossibleMoves = (piece) => {
     visualDomElement.setAttribute("data-row", move.row);
     visualDomElement.setAttribute("data-col", move.col);
     visualDomElement.classList.add(visualType);
-    visualDomElement.addEventListener("click", () => { (piece.moveToTile(move)) });
+    visualDomElement.addEventListener("click", () => { piece.moveToTile(move) });
+
+    visualDomElement.ondragover = (e) => {
+      e.preventDefault();
+    };
+
+    visualDomElement.ondrop = (e) => {
+      e.preventDefault();
+      piece.moveToTile(move);
+    };
 
     gameInstance.domElement.appendChild(visualDomElement);
   });

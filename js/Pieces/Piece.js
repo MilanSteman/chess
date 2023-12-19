@@ -16,7 +16,9 @@ export default class Piece {
       pieceDomElement.src = `images/pieces/${this.color}-${this.name}.png`;
       pieceDomElement.setAttribute("data-row", position.row);
       pieceDomElement.setAttribute("data-col", position.col);
-      pieceDomElement.addEventListener("click", () => { setPieceClick() });
+      pieceDomElement.draggable = true;
+      pieceDomElement.ondragstart  = () => { renderMovements(); }
+      pieceDomElement.addEventListener("click", () => { renderMovements() });
       gameInstance.domElement.appendChild(pieceDomElement);
 
       this.domElement = document.querySelector(
@@ -25,7 +27,7 @@ export default class Piece {
 
     }
 
-    const setPieceClick = () => {
+    const renderMovements = () => {
       if (gameInstance.currentPlayer === this.player) {
         highlightPossibleMoves(this);
       }
@@ -44,7 +46,7 @@ export default class Piece {
     this.domElement.setAttribute("data-col", this._position.col);
   }
 
-  setPossibleMoves = () => {}
+  setPossibleMoves = () => { }
 
   setLegalMoves = () => {
     const moves = this.setPossibleMoves();
