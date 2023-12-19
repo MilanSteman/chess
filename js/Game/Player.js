@@ -32,6 +32,19 @@ export default class Player {
     }
   }
 
+  get moves() {
+    return this._moves;
+  }
+
+  set moves(newMoves) {
+    this._moves = newMoves;
+    const move = this.moves[this.moves.length - 1];
+
+    if (move) {
+      console.log(move)
+    }
+  }
+
   get time() {
     return this._time;
   }

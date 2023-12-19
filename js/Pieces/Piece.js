@@ -95,6 +95,8 @@ export default class Piece {
       }, 300);
     }
 
+    gameInstance.switchCurrentPlayer();
+
     const moveData = {
       piece: move.type ? move.type : this.name,
       toPosition: this.position,
@@ -105,13 +107,9 @@ export default class Piece {
       checkmate: gameInstance.state.checkmate,
     }
 
-    this.player.moves.push(moveData);
-
-    console.log(this.player.moves[this.player.moves.length - 1])
-
+    this.player.moves = [...this.player.moves, moveData];
+    
     clearAllVisuals();
-
-    gameInstance.switchCurrentPlayer();
   };
 
   makeMove = (move) => {
