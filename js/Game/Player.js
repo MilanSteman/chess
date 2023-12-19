@@ -25,9 +25,10 @@ export default class Player {
     if (capture) {
       this.game.advantage += this.captures[this.captures.length - 1].value * this.advantageDirection;
 
+      const captureElement = this.capturesElement.querySelector(`.${capture.name}`);
       const captureDomElement = document.createElement("img");
       captureDomElement.src = `images/pieces/${capture.color}-${capture.name}.png`;
-      this.capturesElement.appendChild(captureDomElement)
+      captureElement.appendChild(captureDomElement)
     }
   }
 
@@ -41,7 +42,7 @@ export default class Player {
     if (this._time === 0) {
       this.game.state = { ...this.game.state, gameOver: true, time: true, winner: this.game.getOpponent() };
     }
-    
+
     this.setTimer();
   }
 

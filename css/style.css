@@ -164,10 +164,6 @@ aside > div:first-of-type {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: reverse;
-      -ms-flex-direction: row-reverse;
-          flex-direction: row-reverse;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -178,7 +174,8 @@ aside > div:first-of-type img {
   aspect-ratio: 1/1;
 }
 
-aside > div:first-of-type div {
-  font-size: 12px;
+aside > div:first-of-type div.score {
+  font-size: 0.75rem;
+  margin-left: 0.25rem;
 }
 /*# sourceMappingURL=style.css.map */

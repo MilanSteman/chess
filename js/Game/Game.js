@@ -38,7 +38,6 @@ class Game {
 
   set state(newValue) {
     this._state = newValue;
-    console.log(this._state)
 
     if (this.state.gameOver === true) {
       this.currentPlayer.pauseTimer();
@@ -98,7 +97,6 @@ class Game {
       return false;
     }
 
-    // somewhere we need to return when insufficient material is here. So e.g.: King and opponent King
     if (currentPlayerPieces.some(piece => piece.setLegalMoves().length)) {
       return false;
     }

@@ -10,7 +10,6 @@ aside {
 
   & > div:first-of-type {
     display: flex;
-    flex-direction: row-reverse;
     align-items: center;
 
     img {
@@ -18,8 +17,9 @@ aside {
       aspect-ratio: 1/1;
     }
 
-    div {
-      font-size: 12px;
+    div.score {
+      font-size: 0.75rem;
+      margin-left: 0.25rem
     }
   }
 }
