@@ -1,11 +1,10 @@
-import pieceMap from '../misc/pieceMap.js';
+import { charMap } from '../misc/pieceMap.js';
 import gameInstance from './Game.js';
 
 export default class Board {
   constructor() {
     this.size = 8;
-    this.fenString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w KQkq - 0 1";
-    this.duplicateGrid = [];
+    this.fenString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
     const createGrid = () => {
       return Array.from({ length: this.size }, () => {
@@ -41,7 +40,7 @@ export default class Board {
   }
 
   initializePieceInGrid = (char, position) => {
-    const { player, Piece } = pieceMap.get(char);
+    const { player, Piece } = charMap.get(char);
     const generatedPiece = new Piece(position, gameInstance.players[player], Piece.name.toLowerCase());
     gameInstance.players[player].pieces.push(generatedPiece);
     this.setPieceFromGrid(generatedPiece, gameInstance.board.grid);
@@ -58,7 +57,7 @@ export default class Board {
           col += parseInt(char);
         }
 
-        if (pieceMap.has(char)) {
+        if (charMap.has(char)) {
           const position = { row, col };
           this.initializePieceInGrid(char, position)
 

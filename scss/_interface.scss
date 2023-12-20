@@ -19,7 +19,7 @@ main > aside {
 
     div.score {
       font-size: 0.75rem;
-      margin-left: 0.25rem;
+      margin-left: 0.5rem;
     }
   }
 }
@@ -29,9 +29,30 @@ body > aside {
   width: calc(var(--width-board) / 2);
   background-color: #222;
   padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
 
-  & > div.moveList {
+  & > div.move-list {
     counter-reset: moveCount;
+    flex-grow: 1;
+    overflow-y: scroll;
+    margin-right: 0.375rem;
+
+    &::-webkit-scrollbar {
+      width: 0.625rem;
+      padding: 0.5rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: grey;
+      border-radius: 8px;
+      padding: 0.5rem;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: #222;
+      padding: 0.5rem;
+    }
 
     & > div.turn {
       counter-increment: moveCount;
@@ -39,42 +60,49 @@ body > aside {
       font-size: 14px;
       font-weight: 600;
       display: flex;
-
+      margin-right: 0.375rem;
+      
       & > span {
         display: inline-flex;
+        width: 4rem;
         padding: 0.75rem 1rem;
-        transition: 200ms;
-        border-bottom: 4px solid #222;
-        cursor: pointer;
-
-        &:hover {
-          background-color: #555;
-          border-bottom: 4px solid #666;
-        }
       }
 
       & > span:nth-of-type(2) {
-        margin-left: 3rem;
+        margin-left: 2.5rem;
       }
 
       &:before {
         content: counter(moveCount) ".";
         color: #ffffff75;
         margin-right: 1.25rem;
-        width: 1rem;
+        width: 1.5rem;
         padding: 0.75rem 0;
       }
 
       &:nth-child(even) {
         background-color: #333;
-        
-        span {
-          border-bottom: 4px solid #333;
+      }
+    }
+  }
 
-          &:hover {
-            border-bottom: 4px solid #666;
-          }
-        }
+  & > div.controls {
+    display: flex;
+    gap: 1rem;
+    padding: 0 1rem;
+
+    & > * {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #333;
+      transition: 300ms;
+      font-weight: 600;
+      color: #fff;
+      font-size: 14px;
+      margin-top: 1rem;
+
+      &:hover {
+        background-color: #444;
       }
     }
   }

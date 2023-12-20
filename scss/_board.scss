@@ -26,6 +26,14 @@ article#chessboard {
   background-repeat: repeat;
   background-size: var(--width-4x4) var(--width-4x4);
   background-position: top left;
+
+  &.reversed {
+    rotate: 0.5turn;
+
+    & > * {
+      rotate: 0.5turn;
+    }
+  }
   
   & > * {
     @include position();

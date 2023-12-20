@@ -5,7 +5,7 @@ import Pawn from "../Pieces/Pawn.js";
 import Queen from "../Pieces/Queen.js";
 import Rook from "../Pieces/Rook.js";
 
-export default new Map([
+export const charMap = new Map([
   ["r", { Piece: Rook, player: "black" }],
   ["n", { Piece: Knight, player: "black" }],
   ["b", { Piece: Bishop, player: "black" }],
@@ -18,4 +18,13 @@ export default new Map([
   ["Q", { Piece: Queen, player: "white" }],
   ["K", { Piece: King, player: "white" }],
   ["P", { Piece: Pawn, player: "white" }],
+]);
+
+export const nameMap = new Map([
+  ["rook", { char: "r" }],
+  ["knight", { char: "n" }],
+  ["bishop", { char: "b" }],
+  ["queen", { char: "q" }],
+  ["king", { char: "k" }],
+  ["pawn", { char: "pawn" }],
 ]);

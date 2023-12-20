@@ -1,4 +1,5 @@
 import gameInstance from "../Game/Game.js";
+import { nameMap } from "./pieceMap.js";
 
 const moveInDirection = (position, player, directionArr, isRepeating) => {
   const possibleMoves = [];
@@ -70,7 +71,7 @@ export const isInCheckAfterMove = (piece, nextPosition) => {
   const originalPiece = { ...piece };
   piece._position = nextPosition;
 
-  gameInstance.board.setPieceFromGrid(piece);
+  gameInstance.board.setPieceFromGrid(piece, gameInstance.board.grid);
   gameInstance.board.removePieceFromGrid(originalPiece);
 
   const isCheck = isInCheck();
@@ -82,15 +83,6 @@ export const isInCheckAfterMove = (piece, nextPosition) => {
   return isCheck;
 }
 
-const scoreMap = new Map([
-  ["rook", { char: "r" }],
-  ["knight", { char: "n" }],
-  ["bishop", { char: "b" }],
-  ["queen", { char: "q" }],
-  ["king", { char: "k" }],
-  ["pawn", { char: "" }],
-]);
-
 export const setScoreElement = (data) => {
   const scoreData = manipulateData(data);
 
@@ -99,6 +91,8 @@ export const setScoreElement = (data) => {
       const turnElement = document.createElement("div");
       turnElement.classList.add("turn");
       gameInstance.moveListElement.append(turnElement);
+
+      gameInstance.moveListElement.scrollTop = gameInstance.moveListElement.scrollHeight;
     }
 
     const moveElement = document.createElement("span");
@@ -118,11 +112,16 @@ const manipulateData = (data) => {
     prevPosition: { row: data.fromPosition.row + 1, col: setVisibleLetter(data.fromPosition.col) },
   };
 
+  const annotationMap = new Map([
+    ...nameMap,
+    ["pawn", { char: "" }],
+  ]);
+
   const isCastle = reformedData.piece === "O-O" || reformedData.piece === "O-O-O";
 
   const pieceAnnotation = isCastle
     ? reformedData.piece
-    : scoreMap.get(reformedData.piece).char;
+    : annotationMap.get(reformedData.piece).char;
 
   const captureText = reformedData.piece === "pawn" ? `${reformedData.prevPosition.col}x` : "x";
   const captureString = reformedData.capture && !isCastle ? captureText : "";
@@ -133,5 +132,3 @@ const manipulateData = (data) => {
 
   return `${pieceAnnotation}${captureString}${positionString}${checkString}`;
 };
-
-

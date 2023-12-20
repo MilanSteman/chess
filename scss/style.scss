@@ -27,9 +27,15 @@ body {
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  font-family: "Inter", Arial, Helvetica, sans-serif;
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
   max-width: 976px;
   margin: auto;
+
+  &.reversed {
+    main {
+      flex-direction: column-reverse;
+    }
+  }
 
   main {
     display: flex;
@@ -39,4 +45,12 @@ body {
     gap: 1rem;
   }
 }
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+}
+
 @import "./board", "./interface";
