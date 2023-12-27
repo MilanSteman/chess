@@ -5,6 +5,13 @@ import Pawn from "../Pieces/Pawn.js";
 import Queen from "../Pieces/Queen.js";
 import Rook from "../Pieces/Rook.js";
 
+/**
+ * Map of FEN characters to corresponding piece and player information.
+ * @type {Map<string, { 
+*   Piece: Piece, 
+*   player: string 
+* }>}
+*/
 export const charMap = new Map([
   ["r", { Piece: Rook, player: "black" }],
   ["n", { Piece: Knight, player: "black" }],
@@ -20,6 +27,12 @@ export const charMap = new Map([
   ["P", { Piece: Pawn, player: "white" }],
 ]);
 
+/**
+ * Map of piece names to their corresponding FEN characters.
+ * @type {Map<string, { 
+*   char: string 
+* }>}
+*/
 export const nameMap = new Map([
   ["rook", { char: "r" }],
   ["knight", { char: "n" }],
