@@ -209,12 +209,12 @@ class Game {
       return false;
     }
 
-    // Check if current player has any moves left
+    // Check if current player has any moves left.
     if (currentPlayerPieces.some(piece => piece.setLegalMoves().length)) {
       return false;
     }
 
-    // If current player has no moves left and is in check, return checkmate. Otherwise stalemate.
+    // If current player has no moves left and is in check, return checkmate. Otherwise stalemate (player has no moves, but not in check).
     if (isInCheck()) {
       this.state = { ...this.state, gameOver: true, checkmate: true, winner: this.getOpponent() };
     } else {

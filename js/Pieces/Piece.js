@@ -7,18 +7,18 @@ import { getKing, isInCheckAfterMove } from '../misc/moveHelper.js';
  */
 export default class Piece {
   /**
- * Creates a new chess piece.
- * @constructor
- * @param {Object} position - The initial position of the piece on the board.
- * @param {Player} player - The player to whom the piece belongs.
- * @param {string} name - The name of the piece.
- */
-
+   * Creates a new chess piece.
+   * @constructor
+   * @param {Object} position - The initial position of the piece on the board.
+   * @param {Player} player - The player to whom the piece belongs.
+   * @param {string} name - The name of the piece.
+   */
   constructor(position, player, name) {
     this._position = position;
     this.player = player;
     this.color = this.player.color;
     this.name = name;
+
     this.isSelected = false;
     this.hasMoved = false;
 
@@ -187,7 +187,7 @@ export default class Piece {
     const originalPiece = { ...this };
     let isCheck = false;
 
-    // Update piece position on the board
+    // Update piece position on the board.
     this.position = move;
 
     // Update the board to make the move.
