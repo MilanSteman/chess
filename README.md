@@ -2,7 +2,7 @@
 <p align="center">
   <img src="images/docs/banner.png" alt="logo" width="400px"/>
     <br>
-      <i>Een interactief schaakspel vanaf nul opgebouwd.
+      <i>Een interactief schaakspel, opgebouwd vanaf nul.
         <br>Gemaakt in Javascript in een Object Oriented structuur.</i>
   <br>
 </p>
@@ -22,6 +22,8 @@
 - [x] Opslaan van gemaakte zetten (in beurten) en omzetten naar de juiste <a href="https://www.chess.com/terms/chess-notation">annotatie</a>;
 - [x] Van kant wisselen en nieuwe wedstrijd starten.
 
+<br>  
+
 ## Learnings
 - [x] Toepassen van OOP principes zoals abstraction, encapsulation, inheritance en polymorphisme;
 - [x] Werken met getters en setters;
@@ -31,20 +33,24 @@
 
 Notities zijn te vinden in de <a href="https://github.com/MilanSteman/chess/wiki">wiki van de repo</a>
 
+<br>
+
 ## Timetable
-| Type                                           | Week       | Tijd    |
-| ---------------------------------------------- | ---------- | ------- |
-| Object Oriented Course volgen en aantekeningen | 1          | 4.5 uur |
-| Unit testing volgen en aantekeningen           | 1          | 6 uur   |
-| Structuur uitdenken applicatie                 | 1          | 1 uur   |
-| Schaakapplicatie minimal viable product        | 1          | 8.5 uur |
-| Unit testing m.v.p.                            | 1          | 2.5 uur |
-| Schaakapplicatie doorontwikkeling features     | 2          | 6 uur   |
-| Refactor & documentatie                        | 2          | 4.5 uur |
-| ---------------------------------------------- | ---------- | ------- |
-| Totaal                                         |            | 33 uur  |
+| Type                                           | Week | Tijd    |
+| :--------------------------------------------- | :--- | :------ |
+| Object Oriented Course volgen en aantekeningen | 1    | 4.5 uur |
+| Unit testing volgen en aantekeningen           | 1    | 6 uur   |
+| Structuur uitdenken applicatie                 | 1    | 1 uur   |
+| Schaakapplicatie minimal viable product        | 1    | 8.5 uur |
+| Unit testing m.v.p.                            | 1    | 2.5 uur |
+| Schaakapplicatie doorontwikkeling features     | 2    | 6 uur   |
+| Refactor & documentatie                        | 2    | 4.5 uur |
+|                                                |      |         |
+| Totaal                                         |      | 33 uur  |
+
+<br>
 
 ## Algemene Informatie
 | Naam         | Studentnr. | Vak | Datum      |
-| ------------ | ---------- | --- | ---------- |
+| :----------- | :--------- | :-- | :--------- |
 | Milan Steman | 500800819  | SRP | 27/12/2023 |
