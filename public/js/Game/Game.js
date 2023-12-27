@@ -1,5 +1,6 @@
 import { isInCheck } from "../misc/moveHelper.js";
 import { isInsufficientMaterial } from "../misc/stateHelper.js";
+import { capitalizeFirstLetter } from "../misc/visualHelper.js";
 import Board from "./Board.js";
 import Player from "./Player.js";
 
@@ -71,20 +72,24 @@ class Game {
      * The state of the game.
      * @type {{
      *   gameOver: boolean,
-     *   checkmate: boolean,
-     *   stalemate: boolean,
-     *   insufficientMaterial: boolean,
-     *   time: boolean,
-     *   winner: Player|null
+     *   winner: Player|null,
+     *   winType: {
+     *     checkmate: boolean,
+     *     stalemate: boolean,
+     *     insufficientMaterial: boolean,
+     *     time: boolean,
+     *   }
      * }}
      */
     this._state = {
       gameOver: false,
-      checkmate: false,
-      stalemate: false,
-      insufficientMaterial: false,
-      time: false,
       winner: null,
+      winType: {
+        checkmate: false,
+        stalemate: false,
+        insufficientMaterial: false,
+        time: false,
+      },
     };
   }
 
@@ -92,11 +97,13 @@ class Game {
    * Gets the current state of the game.
    * @returns {{
    *   gameOver: boolean,
-   *   checkmate: boolean,
-   *   stalemate: boolean,
-   *   insufficientMaterial: boolean,
-   *   time: boolean,
-   *   winner: Player|null
+   *   winner: Player|null,
+   *   winType: {
+   *     checkmate: boolean,
+   *     stalemate: boolean,
+   *     insufficientMaterial: boolean,
+   *     time: boolean,
+   *   }
    * }}
    */
   get state() {
@@ -107,17 +114,52 @@ class Game {
    * Sets the state of the game.
    * @param {{
    *   gameOver: boolean,
-   *   checkmate: boolean,
-   *   stalemate: boolean,
-   *   insufficientMaterial: boolean,
-   *   time: boolean,
-   *   winner: Player|null
+   *   winner: Player|null,
+   *   winType: {
+   *     checkmate: boolean,
+   *     stalemate: boolean,
+   *     insufficientMaterial: boolean,
+   *     time: boolean,
+   *   }
    * }} newValue - The new state value.
    */
   set state(newValue) {
     this._state = newValue;
 
     if (this.state.gameOver === true) {
+      // Create game over modal.
+      const checkmateModal = document.createElement("div");
+      checkmateModal.classList.add("popup-modal");
+
+      // Set text to 'Tie' if there is no winner (winner = null).
+      const winnerText = this.state.winner
+        ? `${capitalizeFirstLetter(this.state.winner.color)} Won`
+        : "Tie";
+
+      checkmateModal.textContent = winnerText;
+
+      // Set text that declares the win type.
+      const winTypeText = document.createElement("span");
+      let winType = Object.keys(this.state.winType).find(
+        (type) => this.state.winType[type],
+      );
+
+      // Update insufficient material text to not be camelCase on render.
+      winType =
+        winType === "insufficientMaterial" ? "Insufficient Material" : winType;
+
+      winTypeText.textContent = `By ${winType}`;
+      checkmateModal.appendChild(winTypeText);
+
+      // Create button that restarts game.
+      const buttonModal = document.createElement("button");
+      buttonModal.textContent = "New Game";
+      buttonModal.addEventListener("click", () => window.location.reload());
+      checkmateModal.appendChild(buttonModal);
+
+      this.domElement.appendChild(checkmateModal);
+
+      // Set properties to null to avoid continuation of the game.
       this.currentPlayer.pauseTimer();
       this.currentPlayer = null;
     }
@@ -215,7 +257,10 @@ class Game {
       this.state = {
         ...this.state,
         gameOver: true,
-        insufficientMaterial: true,
+        winType: {
+          ...this.state.winType,
+          insufficientMaterial: true,
+        },
       };
       return false;
     }
@@ -230,11 +275,21 @@ class Game {
       this.state = {
         ...this.state,
         gameOver: true,
-        checkmate: true,
+        winType: {
+          ...this.state.winType,
+          checkmate: true,
+        },
         winner: this.getOpponent(),
       };
     } else {
-      this.state = { ...this.state, gameOver: true, stalemate: true };
+      this.state = {
+        ...this.state,
+        gameOver: true,
+        winType: {
+          ...this.state.winType,
+          stalemate: true,
+        },
+      };
     }
   };
 }

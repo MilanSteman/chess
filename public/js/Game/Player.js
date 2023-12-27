@@ -151,7 +151,10 @@ export default class Player {
       this.game.state = {
         ...this.game.state,
         gameOver: true,
-        time: true,
+        winType: {
+          ...this.game.state.winType,
+          time: true,
+        },
         winner: this.game.getOpponent(),
       };
     }

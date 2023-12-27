@@ -39,17 +39,17 @@ Notities zijn te vinden in <a href="https://github.com/MilanSteman/chess/wiki">d
 
 ## Timetable
 
-| Type taak                                      | Week | Tijd    |
-| :--------------------------------------------- | :--- | :------ |
-| Object Oriented Course volgen en aantekeningen | 1    | 4.5 uur |
-| Unit testing volgen en aantekeningen           | 1    | 6 uur   |
-| Structuur uitdenken applicatie                 | 1    | 1 uur   |
-| Schaakapplicatie minimal viable product        | 1    | 8.5 uur |
-| Unit testing minimal viable product            | 1    | 2.5 uur |
-| Schaakapplicatie doorontwikkeling features     | 2    | 6 uur   |
-| Refactor & documentatie                        | 2    | 4.5 uur |
-| &nbsp;                                         |      |         |
-| Totaal                                         |      | 33 uur  |
+| Type taak                                            | Week | Tijd    |
+| :--------------------------------------------------- | :--- | :------ |
+| Object Oriented course volgen en aantekeningen maken | 1    | 4.5 uur |
+| Unit Testing course volgen en aantekeningen maken    | 1    | 6 uur   |
+| Structuur uitdenken applicatie                       | 1    | 1 uur   |
+| Schaakapplicatie minimal viable product              | 1    | 8.5 uur |
+| Unit testing minimal viable product                  | 1    | 2.5 uur |
+| Schaakapplicatie doorontwikkeling features           | 2    | 6 uur   |
+| Refactor & documentatie                              | 2    | 4.5 uur |
+| &nbsp;                                               |      |         |
+| Totaal                                               |      | 33 uur  |
 
 <br>
 

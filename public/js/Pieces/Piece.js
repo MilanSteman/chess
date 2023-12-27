@@ -192,7 +192,7 @@ export default class Piece {
       player: this.player,
       capture: isCapture,
       check: isCheck,
-      checkmate: gameInstance.state.checkmate,
+      checkmate: gameInstance.state.winType.checkmate,
     };
 
     this.player.moves = [...this.player.moves, moveData];

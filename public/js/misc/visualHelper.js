@@ -71,3 +71,6 @@ export const highlightPossibleMoves = (piece) => {
   // Set the current piece as the selected one.
   piece.isSelected = true;
 };
+
+export const capitalizeFirstLetter = (str) =>
+  str.charAt(0).toUpperCase() + str.slice(1);

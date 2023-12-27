@@ -27,6 +27,74 @@ article#chessboard {
   background-size: var(--width-4x4) var(--width-4x4);
   background-position: top left;
 
+  & > div.popup-modal {
+    position: absolute;
+    width: calc(var(--width-tile) * 3);
+    aspect-ratio: 1/1;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #222;
+    border-radius: 1rem;
+    font-weight: 600;
+    font-size: 1.5rem;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 1rem;
+
+    & button {
+      width: 100%;
+      padding: 1rem;
+      background-color: rgb(129, 86, 255);
+      border-radius: 0.25rem;
+      transition: 300ms;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #fff;
+      margin-top: 1rem;
+
+      &:hover {
+        background-color: rgb(118, 75, 245);
+      }
+    }
+
+    & span {
+      display: inline-flex;
+      font-size: 1rem;
+      text-transform: lowercase;
+      color: #ffffff75;
+    }
+  }
+
+  div.numbers {
+    width: var(--width-board);
+    aspect-ratio: 1/1;
+    position: relative;
+    pointer-events: none;
+
+    & > span {
+      @include position();
+      padding: 0.25rem;
+      width: var(--width-tile);
+      aspect-ratio: 1/1;
+      color: var(--tile-light);
+      pointer-events: none;
+
+      &:nth-of-type(even) {
+        color: var(--tile-dark);
+      }
+
+      &.letter {
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+      }
+    }
+  }
+
   &.reversed {
     rotate: 0.5turn;
 
@@ -35,7 +103,7 @@ article#chessboard {
     }
   }
 
-  & > * {
+  & > *:not(div.popup-modal):not(div.numbers) {
     @include position();
     width: var(--width-tile);
     aspect-ratio: 1/1;
