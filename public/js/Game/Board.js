@@ -1,5 +1,5 @@
-import { charMap } from '../misc/pieceMap.js';
-import gameInstance from './Game.js';
+import { charMap } from "../misc/pieceMap.js";
+import gameInstance from "./Game.js";
 
 /**
  * Represents a chessboard.
@@ -31,7 +31,7 @@ export default class Board {
       return Array.from({ length: this.size }, () => {
         return Array.from({ length: this.size }).fill(null);
       });
-    }
+    };
 
     // Set the grid to a two-dimensional array.
     this.grid = createGrid();
@@ -45,7 +45,7 @@ export default class Board {
   isPositionInBounds = (position) => {
     const { row, col } = position;
     return row >= 0 && row < this.size && col >= 0 && col < this.size;
-  }
+  };
 
   /**
    * Retrieves the piece at a given position on the chessboard.
@@ -55,7 +55,7 @@ export default class Board {
   getPieceFromGrid = (position) => {
     const { row, col } = position;
     return this.isPositionInBounds(position) && this.grid[row][col];
-  }
+  };
 
   /**
    * Retrieves all pieces on the chessboard that belong to a specified player.
@@ -63,8 +63,10 @@ export default class Board {
    * @returns {Array<Piece>} An array of pieces belonging to the specified player.
    */
   getAllPiecesFromGrid = (filter) => {
-    return this.grid.flatMap(row => row.filter(obj => obj && obj.color === filter));
-  }
+    return this.grid.flatMap((row) =>
+      row.filter((obj) => obj && obj.color === filter),
+    );
+  };
 
   /**
    * Sets a piece on the chessboard at the specified position.
@@ -73,8 +75,10 @@ export default class Board {
    */
   setPieceFromGrid = (piece) => {
     const { row, col } = piece._position;
-    return this.isPositionInBounds(piece._position) && (this.grid[row][col] = piece);
-  }
+    return (
+      this.isPositionInBounds(piece._position) && (this.grid[row][col] = piece)
+    );
+  };
 
   /**
    * Removes a piece from the chessboard at the specified position.
@@ -83,8 +87,10 @@ export default class Board {
    */
   removePieceFromGrid = (piece) => {
     const { row, col } = piece._position;
-    return this.isPositionInBounds(piece._position) && (this.grid[row][col] = null);
-  }
+    return (
+      this.isPositionInBounds(piece._position) && (this.grid[row][col] = null)
+    );
+  };
 
   /**
    * Initializes a piece on the chessboard based on the provided FEN character and position.
@@ -93,11 +99,15 @@ export default class Board {
    */
   initializePieceInGrid = (char, position) => {
     const { player, Piece } = charMap.get(char);
-    const generatedPiece = new Piece(position, gameInstance.players[player], Piece.name.toLowerCase());
+    const generatedPiece = new Piece(
+      position,
+      gameInstance.players[player],
+      Piece.name.toLowerCase(),
+    );
 
     gameInstance.players[player].pieces.push(generatedPiece);
     this.setPieceFromGrid(generatedPiece, gameInstance.board.grid);
-  }
+  };
 
   /**
    * Sets up the chessboard with pieces based on the initial FEN string.
@@ -125,5 +135,5 @@ export default class Board {
         }
       });
     });
-  }
+  };
 }

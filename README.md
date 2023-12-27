@@ -1,6 +1,6 @@
 <br>
 <p align="center">
-  <img src="images/docs/banner.png" alt="logo" width="400px"/>
+  <img src="public/images/docs/banner.png" alt="logo" width="400px"/>
     <br>
       <i>Een interactief schaakspel, opgebouwd vanaf nul.
         <br>Gemaakt in Javascript in een Object Oriented structuur.</i>
@@ -15,6 +15,7 @@
 <br>
 
 ## Features
+
 - [x] Volledig werkende zetten (incl. speciale zetten als <a href="https://en.wikipedia.org/wiki/Castling">rokade</a>, <a href="https://en.wikipedia.org/wiki/En_passant">en-passant</a>, etc.) en checks op schaak(mat);
 - [x] Zetten maken via drag & drop of klik;
 - [x] State management voor schaakmat, pat(stelling), timers en onvoldoende materiaal;
@@ -22,9 +23,10 @@
 - [x] Opslaan van gemaakte zetten (in beurten) en omzetten naar de juiste <a href="https://www.chess.com/terms/chess-notation">annotatie</a>;
 - [x] Van kant wisselen en nieuwe wedstrijd starten.
 
-<br>  
+<br>
 
 ## Learnings
+
 - [x] Toepassen van OOP principes zoals abstraction, encapsulation, inheritance en polymorphism;
 - [x] Werken met getters en setters;
 - [x] Slimmer gebruiken maken van Objects, Properties in Objects en Higher Order Functions/ES6 Syntax;
@@ -36,6 +38,7 @@ Notities zijn te vinden in <a href="https://github.com/MilanSteman/chess/wiki">d
 <br>
 
 ## Timetable
+
 | Type taak                                      | Week | Tijd    |
 | :--------------------------------------------- | :--- | :------ |
 | Object Oriented Course volgen en aantekeningen | 1    | 4.5 uur |
@@ -51,6 +54,7 @@ Notities zijn te vinden in <a href="https://github.com/MilanSteman/chess/wiki">d
 <br>
 
 ## Metadata
+
 | Naam         | Studentnr. | Vak | Datum      |
 | :----------- | :--------- | :-- | :--------- |
 | Milan Steman | 500800819  | SRP | 27/12/2023 |

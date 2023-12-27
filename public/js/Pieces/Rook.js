@@ -1,5 +1,5 @@
-import Piece from './Piece.js';
-import { repeatingMove } from '../misc/moveHelper.js';
+import Piece from "./Piece.js";
+import { repeatingMove } from "../misc/moveHelper.js";
 
 /**
  * Represents a Rook chess piece.
@@ -24,10 +24,10 @@ export default class Rook extends Piece {
      * @type {Array<[number, number]>}
      */
     this.directions = [
-      [1, 0],     // horizontally right
-      [-1, 0],    // horizontally left
-      [0, 1],     // vertically up
-      [0, -1],    // vertically down
+      [1, 0], // horizontally right
+      [-1, 0], // horizontally left
+      [0, 1], // vertically up
+      [0, -1], // vertically down
     ];
 
     /**
@@ -44,5 +44,5 @@ export default class Rook extends Piece {
    */
   setPossibleMoves = () => {
     return repeatingMove(this.position, this.player, this.directions);
-  }
+  };
 }

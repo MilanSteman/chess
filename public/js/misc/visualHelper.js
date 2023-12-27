@@ -5,15 +5,13 @@ import gameInstance from "../Game/Game.js";
  */
 export const clearAllVisuals = () => {
   // Select all elements with classes 'is-attacked' and 'is-capturable'
-  const visuals = document.querySelectorAll(
-    ".is-attacked, .is-capturable",
-  );
+  const visuals = document.querySelectorAll(".is-attacked, .is-capturable");
 
   // Remove each visual element
   visuals.forEach((visual) => {
     visual.remove();
   });
-}
+};
 
 /**
  * Highlights possible legal moves for a given chess piece.
@@ -53,7 +51,9 @@ export const highlightPossibleMoves = (piece) => {
     visualDomElement.setAttribute("data-row", move.row);
     visualDomElement.setAttribute("data-col", move.col);
     visualDomElement.classList.add(visualType);
-    visualDomElement.addEventListener("click", () => { piece.moveToTile(move) });
+    visualDomElement.addEventListener("click", () => {
+      piece.moveToTile(move);
+    });
 
     // Drag and drop functionalities.
     visualDomElement.ondragover = (e) => {
@@ -70,4 +70,4 @@ export const highlightPossibleMoves = (piece) => {
 
   // Set the current piece as the selected one.
   piece.isSelected = true;
-}
+};

@@ -1,50 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="public/css/style.css" />
+    <title>Chess</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css">
-  <title>Chess</title>
-</head>
+  <body>
+    <main>
+      <aside>
+        <div class="captures-black">
+          <div class="pawn"></div>
+          <div class="knight"></div>
+          <div class="bishop"></div>
+          <div class="rook"></div>
+          <div class="queen"></div>
+          <div class="score"></div>
+        </div>
+        <div class="timer-black"></div>
+      </aside>
 
-<body>
-  <main>
+      <article id="chessboard"></article>
+
+      <aside>
+        <div class="captures-white">
+          <div class="pawn"></div>
+          <div class="knight"></div>
+          <div class="bishop"></div>
+          <div class="rook"></div>
+          <div class="queen"></div>
+          <div class="score"></div>
+        </div>
+        <div class="timer-white"></div>
+      </aside>
+    </main>
+
     <aside>
-      <div class="captures-black">
-        <div class="pawn"></div>
-        <div class="knight"></div>
-        <div class="bishop"></div>
-        <div class="rook"></div>
-        <div class="queen"></div>
-        <div class="score"></div>
+      <div class="move-list"></div>
+      <div class="controls">
+        <button id="new-game">New game</button>
+        <button id="switch-side">Switch side</button>
       </div>
-      <div class="timer-black"></div>
     </aside>
-
-    <article id="chessboard"></article>
-    
-    <aside>
-      <div class="captures-white">
-        <div class="pawn"></div>
-        <div class="knight"></div>
-        <div class="bishop"></div>
-        <div class="rook"></div>
-        <div class="queen"></div>
-        <div class="score"></div>
-      </div>
-      <div class="timer-white"></div>
-    </aside>
-  </main>
-
-  <aside>
-    <div class="move-list"></div>
-    <div class="controls">
-      <button id="new-game">New game</button>
-      <button id="switch-side">Switch side</button>
-    </div>
-  </aside>
-</body>
-<script src="js/app.js" type="module"></script>
-
+  </body>
+  <script src="public/js/app.js" type="module"></script>
 </html>

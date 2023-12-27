@@ -1,0 +1,30 @@
+{
+  "name": "chess",
+  "version": "1.0.0",
+  "description": "Een interactief schaakspel, opgebouwd vanaf nul. Gemaakt in Javascript in een Object Oriented structuur.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MilanSteman/chess.git"
+  },
+  "keywords": [
+    "Chess",
+    "OOP"
+  ],
+  "author": "Milan Steman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MilanSteman/chess/issues"
+  },
+  "homepage": "https://github.com/MilanSteman/chess#readme",
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.2",
+    "prettier": "^3.1.1"
+  }
+}

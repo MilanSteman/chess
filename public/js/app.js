@@ -1,4 +1,4 @@
-import gameInstance from './Game/Game.js';
+import gameInstance from "./Game/Game.js";
 
 // Get references to HTML elements
 const newGameButton = document.querySelector("#new-game");

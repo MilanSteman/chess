@@ -5,7 +5,7 @@
  */
 const hasOnlyKing = (pieces) => {
   return pieces.length === 1 && pieces[0].name === "king";
-}
+};
 
 /**
  * Checks if a player has a king and a specific piece in their pieces.
@@ -14,10 +14,12 @@ const hasOnlyKing = (pieces) => {
  * @returns {boolean} True if the player has a king and the specified piece, false otherwise.
  */
 const hasKingAndPiece = (pieces, pieceName) => {
-  return pieces.length === 2 &&
-    pieces.some(piece => piece.name === "king") &&
-    pieces.some(piece => piece.name === pieceName);
-}
+  return (
+    pieces.length === 2 &&
+    pieces.some((piece) => piece.name === "king") &&
+    pieces.some((piece) => piece.name === pieceName)
+  );
+};
 
 /**
  * Checks if there is insufficient material on the board for both players.
@@ -26,8 +28,14 @@ const hasKingAndPiece = (pieces, pieceName) => {
  * @returns {boolean} True if both players have insufficient material, false otherwise.
  */
 export const isInsufficientMaterial = (currentPieces, opponentPieces) => {
-  const isCurrentPlayerInsufficient = hasOnlyKing(currentPieces) || hasKingAndPiece(currentPieces, "bishop") || hasKingAndPiece(currentPieces, "knight");
-  const isOpponentPlayerInsufficient = hasOnlyKing(opponentPieces) || hasKingAndPiece(opponentPieces, "bishop") || hasKingAndPiece(opponentPieces, "knight");
+  const isCurrentPlayerInsufficient =
+    hasOnlyKing(currentPieces) ||
+    hasKingAndPiece(currentPieces, "bishop") ||
+    hasKingAndPiece(currentPieces, "knight");
+  const isOpponentPlayerInsufficient =
+    hasOnlyKing(opponentPieces) ||
+    hasKingAndPiece(opponentPieces, "bishop") ||
+    hasKingAndPiece(opponentPieces, "knight");
 
   return isCurrentPlayerInsufficient && isOpponentPlayerInsufficient;
-}
+};

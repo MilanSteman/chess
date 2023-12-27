@@ -1,5 +1,5 @@
-import gameInstance from '../Game/Game.js';
-import Piece from './Piece.js';
+import gameInstance from "../Game/Game.js";
+import Piece from "./Piece.js";
 
 /**
  * Represents a Pawn chess piece.
@@ -28,19 +28,19 @@ export default class Pawn extends Piece {
      * The direction in which the pawn can move (1 for white, -1 for black).
      * @type {number}
      */
-    this.direction = this.color === 'white' ? 1 : -1;
+    this.direction = this.color === "white" ? 1 : -1;
 
     /**
      * The row at which the pawn can perform en passant captures.
      * @type {number}
      */
-    this.enPassantRow = this.color === 'white' ? 4 : 3;
+    this.enPassantRow = this.color === "white" ? 4 : 3;
 
     /**
      * The row at which the pawn can be promoted.
      * @type {number}
      */
-    this.promotionRow = this.color === 'white' ? 7 : 0;
+    this.promotionRow = this.color === "white" ? 7 : 0;
   }
 
   /**
@@ -56,7 +56,7 @@ export default class Pawn extends Piece {
     this.enPassantMovement(possibleMoves);
 
     return possibleMoves;
-  }
+  };
 
   /**
    * Adds possible forward movements to the array.
@@ -69,7 +69,10 @@ export default class Pawn extends Piece {
     // Loop through each vertical step of the pawn.
     for (let i = 1; i <= maxDistance; i++) {
       // Set the move based on the direction of the pawn (white moves upwards, while black moves downwards).
-      const move = { row: this.position.row + i * this.direction, col: this.position.col };
+      const move = {
+        row: this.position.row + i * this.direction,
+        col: this.position.col,
+      };
       const targetPiece = gameInstance.board.getPieceFromGrid(move);
 
       // If there is a piece in front of the pawn, break (as it can't move through pieces).
@@ -79,12 +82,12 @@ export default class Pawn extends Piece {
 
       // If the next row is a promotion row, set the move with a special case to trigger a promotion.
       if (move.row === this.promotionRow) {
-        move = { ...move, case: 'promotion' };
+        move = { ...move, case: "promotion" };
       }
 
       arr.push(move);
     }
-  }
+  };
 
   /**
    * Adds possible capture movements to the array.
@@ -92,7 +95,10 @@ export default class Pawn extends Piece {
    */
   captureMovement = (arr) => {
     // Loop through the possible capture squares (one up + left/right).
-    for (const [x, y] of [[this.direction, -1], [this.direction, 1]]) {
+    for (const [x, y] of [
+      [this.direction, -1],
+      [this.direction, 1],
+    ]) {
       const move = { row: this.position.row + x, col: this.position.col + y };
 
       if (gameInstance.board.isPositionInBounds(move)) {
@@ -100,7 +106,7 @@ export default class Pawn extends Piece {
 
         // If the next row is a promotion row, set the move with a special case to trigger a promotion.
         if (move.row === this.promotionRow) {
-          move = { ...move, case: 'promotion' };
+          move = { ...move, case: "promotion" };
         }
 
         // If there is an opponent piece on the square, add it as a valid capture.
@@ -109,7 +115,7 @@ export default class Pawn extends Piece {
         }
       }
     }
-  }
+  };
 
   /**
    * Adds possible en passant movements to the array.
@@ -124,14 +130,21 @@ export default class Pawn extends Piece {
 
       // Check if the last move of the opponent adhered to the rules of en passant.
       if (
-        opponentLastMove.piece === 'pawn' &&
+        opponentLastMove.piece === "pawn" &&
         opponentLastMove.toPosition.row === this.position.row &&
         Math.abs(opponentLastMove.toPosition.col - this.position.col) === 1 &&
-        Math.abs(opponentLastMove.toPosition.row - opponentLastMove.fromPosition.row) === 2
+        Math.abs(
+          opponentLastMove.toPosition.row - opponentLastMove.fromPosition.row,
+        ) === 2
       ) {
-        const move = { row: opponentLastMove.toPosition.row + this.direction, col: opponentLastMove.toPosition.col, case: 'en-passant', direction: this.direction };
+        const move = {
+          row: opponentLastMove.toPosition.row + this.direction,
+          col: opponentLastMove.toPosition.col,
+          case: "en-passant",
+          direction: this.direction,
+        };
         arr.push(move);
       }
     }
-  }
+  };
 }

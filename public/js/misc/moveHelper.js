@@ -83,7 +83,9 @@ export const getKing = (player) => {
 export const isInCheck = () => {
   const king = getKing(gameInstance.currentPlayer);
   const opponent = gameInstance.getOpponent();
-  const opponentPieces = gameInstance.board.getAllPiecesFromGrid(opponent.color);
+  const opponentPieces = gameInstance.board.getAllPiecesFromGrid(
+    opponent.color,
+  );
 
   if (king) {
     // Loop through all opponent pieces.
@@ -117,7 +119,7 @@ export const isInCheck = () => {
 export const isInCheckAfterMove = (piece, nextPosition) => {
   // Create a deep copy of the current board. This is done so that your copied array isn't modified after initialization.
   // For more information, see: https://developer.mozilla.org/en-US/docs/Glossary/Deep_copy
-  const copiedGrid = gameInstance.board.grid.map(inner => [...inner]);
+  const copiedGrid = gameInstance.board.grid.map((inner) => [...inner]);
   const originalPiece = { ...piece };
 
   // Set target piece position to the desired next position.
@@ -156,7 +158,8 @@ export const setScoreElement = (data) => {
       gameInstance.moveListElement.append(turnElement);
 
       // Automatically scroll so that the latest move is always visible, even on overflow.
-      gameInstance.moveListElement.scrollTop = gameInstance.moveListElement.scrollHeight;
+      gameInstance.moveListElement.scrollTop =
+        gameInstance.moveListElement.scrollHeight;
     }
 
     // Create the move element (e.g., 'exd5')
@@ -178,15 +181,18 @@ const manipulateData = (data) => {
   // Update the data so that the position and prevPosition are modifed to show the true names of the row and column.
   const updatedData = {
     ...data,
-    position: { row: data.toPosition.row + 1, col: setVisibleLetter(data.toPosition.col) },
-    prevPosition: { row: data.fromPosition.row + 1, col: setVisibleLetter(data.fromPosition.col) },
+    position: {
+      row: data.toPosition.row + 1,
+      col: setVisibleLetter(data.toPosition.col),
+    },
+    prevPosition: {
+      row: data.fromPosition.row + 1,
+      col: setVisibleLetter(data.fromPosition.col),
+    },
   };
 
   // Set the annotation map with a new column for the pawn that holds no character.
-  const annotationMap = new Map([
-    ...nameMap,
-    ["pawn", { char: "" }],
-  ]);
+  const annotationMap = new Map([...nameMap, ["pawn", { char: "" }]]);
 
   // Check if move is castle by checking the piece of the move.
   const isCastle = updatedData.piece === "O-O" || updatedData.piece === "O-O-O";
@@ -197,16 +203,23 @@ const manipulateData = (data) => {
     : annotationMap.get(updatedData.piece).char;
 
   // Set the capture text by checking if the piece is a pawn. If it is, it should set the previous column in front of the 'x'.
-  const captureText = updatedData.piece === "pawn" ? `${updatedData.prevPosition.col}x` : "x";
+  const captureText =
+    updatedData.piece === "pawn" ? `${updatedData.prevPosition.col}x` : "x";
 
   // If move is castle, it can't have a capture string.
   const captureString = updatedData.capture && !isCastle ? captureText : "";
 
   // Set the string of the check by checking if it is checkmate, check or nothing.
-  const checkString = updatedData.checkmate ? "#" : (updatedData.check ? "+" : "");
+  const checkString = updatedData.checkmate
+    ? "#"
+    : updatedData.check
+      ? "+"
+      : "";
 
   // If the move is castle, it can't have a position.
-  const positionString = isCastle ? "" : `${updatedData.position.col}${updatedData.position.row}`;
+  const positionString = isCastle
+    ? ""
+    : `${updatedData.position.col}${updatedData.position.row}`;
 
   // Return a stringbuilder of all possible outcomes.
   return `${pieceAnnotation}${captureString}${positionString}${checkString}`;

@@ -97,11 +97,13 @@ export default class Player {
       this.game.advantage += capture.value * this.advantageDirection;
 
       // Set the DOM Element for visually displaying the piece.
-      const captureElement = this.capturesElement.querySelector(`.${capture.name}`);
+      const captureElement = this.capturesElement.querySelector(
+        `.${capture.name}`,
+      );
       const captureDomElement = document.createElement("img");
-      captureDomElement.src = `images/pieces/${capture.color}-${capture.name}.png`;
+      captureDomElement.src = `public/images/pieces/${capture.color}-${capture.name}.png`;
 
-      captureElement.appendChild(captureDomElement)
+      captureElement.appendChild(captureDomElement);
     }
   }
 
@@ -146,7 +148,12 @@ export default class Player {
 
     // If a player's time is up, set the opponent as the winner.
     if (this._time === 0) {
-      this.game.state = { ...this.game.state, gameOver: true, time: true, winner: this.game.getOpponent() };
+      this.game.state = {
+        ...this.game.state,
+        gameOver: true,
+        time: true,
+        winner: this.game.getOpponent(),
+      };
     }
 
     // Update the visual timer.
@@ -161,7 +168,7 @@ export default class Player {
     this.timeInterval = setInterval(() => {
       this.time -= 1;
     }, 1000);
-  }
+  };
 
   /**
    * Updates the player's timer display.
@@ -177,5 +184,5 @@ export default class Player {
    */
   pauseTimer = () => {
     clearInterval(this.timeInterval);
-  }
+  };
 }

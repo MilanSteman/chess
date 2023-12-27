@@ -1,5 +1,5 @@
-import Piece from './Piece.js';
-import { singleMove } from '../misc/moveHelper.js';
+import Piece from "./Piece.js";
+import { singleMove } from "../misc/moveHelper.js";
 
 /**
  * Represents a Knight chess piece.
@@ -24,14 +24,14 @@ export default class Knight extends Piece {
      * @type {Array<[number, number]>}
      */
     this.directions = [
-      [2, -1],   // two up, one left
-      [2, 1],    // two up, one right
-      [-2, -1],  // two down, one left
-      [-2, 1],   // two down, one right
-      [-1, 2],   // one down, two right
-      [1, 2],    // one up, two right
-      [-1, -2],  // one down, two left
-      [1, -2],   // one up, two left
+      [2, -1], // two up, one left
+      [2, 1], // two up, one right
+      [-2, -1], // two down, one left
+      [-2, 1], // two down, one right
+      [-1, 2], // one down, two right
+      [1, 2], // one up, two right
+      [-1, -2], // one down, two left
+      [1, -2], // one up, two left
     ];
 
     /**
@@ -48,5 +48,5 @@ export default class Knight extends Piece {
    */
   setPossibleMoves = () => {
     return singleMove(this.position, this.player, this.directions);
-  }
+  };
 }

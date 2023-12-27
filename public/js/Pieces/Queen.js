@@ -1,5 +1,5 @@
-import Piece from './Piece.js';
-import { repeatingMove } from '../misc/moveHelper.js';
+import Piece from "./Piece.js";
+import { repeatingMove } from "../misc/moveHelper.js";
 
 /**
  * Represents a Queen chess piece.
@@ -24,14 +24,14 @@ export default class Queen extends Piece {
      * @type {Array<[number, number]>}
      */
     this.directions = [
-      [1, 1],     // diagonally up-right
-      [-1, 1],    // diagonally up-left
-      [-1, -1],   // diagonally down-left
-      [1, -1],    // diagonally down-right
-      [1, 0],     // horizontally right
-      [-1, 0],    // horizontally left
-      [0, 1],     // vertically up
-      [0, -1],    // vertically down
+      [1, 1], // diagonally up-right
+      [-1, 1], // diagonally up-left
+      [-1, -1], // diagonally down-left
+      [1, -1], // diagonally down-right
+      [1, 0], // horizontally right
+      [-1, 0], // horizontally left
+      [0, 1], // vertically up
+      [0, -1], // vertically down
     ];
 
     /**
@@ -48,5 +48,5 @@ export default class Queen extends Piece {
    */
   setPossibleMoves = () => {
     return repeatingMove(this.position, this.player, this.directions);
-  }
+  };
 }

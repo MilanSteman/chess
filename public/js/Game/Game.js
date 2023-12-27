@@ -1,7 +1,7 @@
-import { isInCheck } from '../misc/moveHelper.js';
-import { isInsufficientMaterial } from '../misc/stateHelper.js';
-import Board from './Board.js';
-import Player from './Player.js';
+import { isInCheck } from "../misc/moveHelper.js";
+import { isInsufficientMaterial } from "../misc/stateHelper.js";
+import Board from "./Board.js";
+import Player from "./Player.js";
 
 /**
  * Represents a chess game.
@@ -165,7 +165,7 @@ class Game {
     Object.values(this.players).forEach((player) => {
       player.setTimer();
     });
-  }
+  };
 
   /**
    * Switches the current player and handles game state accordingly.
@@ -176,12 +176,15 @@ class Game {
     this.currentPlayer.pauseTimer();
 
     // Switch the active player.
-    this.currentPlayer = this.currentPlayer === this.players.white ? this.players.black : this.players.white;
+    this.currentPlayer =
+      this.currentPlayer === this.players.white
+        ? this.players.black
+        : this.players.white;
 
     // Start the opponent timer and check for a change in the state of the game (e.g., checkmate).
     this.currentPlayer.startTimer();
     this.handleGameState();
-  }
+  };
 
   /**
    * Gets the opponent player of the given player.
@@ -190,11 +193,15 @@ class Game {
    */
   getOpponent = (player) => {
     if (player) {
-      return player === this.players.white ? this.players.black : this.players.white;
+      return player === this.players.white
+        ? this.players.black
+        : this.players.white;
     }
 
-    return this.currentPlayer === this.players.white ? this.players.black : this.players.white;
-  }
+    return this.currentPlayer === this.players.white
+      ? this.players.black
+      : this.players.white;
+  };
 
   /**
    * Handles the current game state, checking for checkmate, stalemate, and insufficient material.
@@ -205,22 +212,31 @@ class Game {
 
     // Check for insufficient material
     if (isInsufficientMaterial(currentPlayerPieces, opponentPlayerPieces)) {
-      this.state = { ...this.state, gameOver: true, insufficientMaterial: true };
+      this.state = {
+        ...this.state,
+        gameOver: true,
+        insufficientMaterial: true,
+      };
       return false;
     }
 
     // Check if current player has any moves left.
-    if (currentPlayerPieces.some(piece => piece.setLegalMoves().length)) {
+    if (currentPlayerPieces.some((piece) => piece.setLegalMoves().length)) {
       return false;
     }
 
     // If current player has no moves left and is in check, return checkmate. Otherwise stalemate (player has no moves, but not in check).
     if (isInCheck()) {
-      this.state = { ...this.state, gameOver: true, checkmate: true, winner: this.getOpponent() };
+      this.state = {
+        ...this.state,
+        gameOver: true,
+        checkmate: true,
+        winner: this.getOpponent(),
+      };
     } else {
       this.state = { ...this.state, gameOver: true, stalemate: true };
     }
-  }
+  };
 }
 
 /**

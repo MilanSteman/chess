@@ -34,7 +34,7 @@ article#chessboard {
       rotate: 0.5turn;
     }
   }
-  
+
   & > * {
     @include position();
     width: var(--width-tile);

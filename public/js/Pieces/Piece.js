@@ -1,6 +1,9 @@
-import gameInstance from '../Game/Game.js';
-import { highlightPossibleMoves, clearAllVisuals } from '../misc/visualHelper.js';
-import { getKing, isInCheckAfterMove } from '../misc/moveHelper.js';
+import gameInstance from "../Game/Game.js";
+import {
+  highlightPossibleMoves,
+  clearAllVisuals,
+} from "../misc/visualHelper.js";
+import { getKing, isInCheckAfterMove } from "../misc/moveHelper.js";
 
 /**
  * Represents a chess piece.
@@ -25,13 +28,17 @@ export default class Piece {
     // Initialize the DOM element and render movements
     const initializeDomElement = () => {
       const pieceDomElement = document.createElement("img");
-      pieceDomElement.src = `images/pieces/${this.color}-${this.name}.png`;
+      pieceDomElement.src = `public/images/pieces/${this.color}-${this.name}.png`;
       pieceDomElement.setAttribute("data-row", position.row);
       pieceDomElement.setAttribute("data-col", position.col);
 
       pieceDomElement.draggable = true;
-      pieceDomElement.ondragstart = () => { renderMovements(); }
-      pieceDomElement.addEventListener("click", () => { renderMovements(); });
+      pieceDomElement.ondragstart = () => {
+        renderMovements();
+      };
+      pieceDomElement.addEventListener("click", () => {
+        renderMovements();
+      });
 
       gameInstance.domElement.appendChild(pieceDomElement);
 
@@ -42,14 +49,14 @@ export default class Piece {
       this.domElement = document.querySelector(
         `img[data-row="${this.position.row}"][data-col="${this.position.col}"]`,
       );
-    }
+    };
 
     // Handle movement rendering on interaction
     const renderMovements = () => {
       if (gameInstance.currentPlayer === this.player) {
         highlightPossibleMoves(this);
       }
-    }
+    };
 
     // Call the initialization function
     initializeDomElement();
@@ -78,7 +85,7 @@ export default class Piece {
    */
   setPossibleMoves = () => {
     return false;
-  }
+  };
 
   /**
    * Filters the possible moves to get legal moves (moves that do not result in check).
@@ -91,12 +98,12 @@ export default class Piece {
     for (const move of moves) {
       // Check if the king is in check after every generated move, if it isn't, add it to the legal moves.
       if (!isInCheckAfterMove(this, move)) {
-        legalMoves.push(move)
+        legalMoves.push(move);
       }
     }
 
     return legalMoves;
-  }
+  };
 
   /**
    * Moves the piece to the specified tile and handles capture, check, and promotion.
@@ -104,7 +111,7 @@ export default class Piece {
    */
   moveToTile = (move) => {
     let targetPiece = gameInstance.board.getPieceFromGrid(move);
-    const isCapture = targetPiece !== null
+    const isCapture = targetPiece !== null;
     let isCheck = false;
 
     const originalPiece = { ...this };
@@ -112,20 +119,29 @@ export default class Piece {
     // Handle the en-passant move
     if (move.case && move.case === "en-passant") {
       // Update the targetPiece so that it gets removed from the game.
-      targetPiece = gameInstance.board.getPieceFromGrid({ row: move.row - 1 * move.direction, col: move.col });
+      targetPiece = gameInstance.board.getPieceFromGrid({
+        row: move.row - 1 * move.direction,
+        col: move.col,
+      });
     }
 
-    // Handle the castle move 
+    // Handle the castle move
     if (move.case && move.case === "castle") {
       // Set the move based on a long or short castle.
       const rookDirection = move.type === "O-O-O" ? -1 : 1;
       const rookPosition = move.type === "O-O-O" ? 0 : 7;
 
       // Get the target rook.
-      const castledRook = gameInstance.board.getPieceFromGrid({ row: move.row, col: rookPosition });
+      const castledRook = gameInstance.board.getPieceFromGrid({
+        row: move.row,
+        col: rookPosition,
+      });
 
       // Set isCheck to true if the rook is attacking the opponent king after castling.
-      isCheck = castledRook.makeMove({ row: move.row, col: move.col - rookDirection });
+      isCheck = castledRook.makeMove({
+        row: move.row,
+        col: move.col - rookDirection,
+      });
 
       this.makeMove(move);
     } else {
@@ -136,7 +152,9 @@ export default class Piece {
     // Remove a piece if it is captured in the move.
     if (targetPiece) {
       targetPiece.domElement.remove();
-      targetPiece.player.pieces = targetPiece.player.pieces.filter((piece) => piece !== targetPiece);
+      targetPiece.player.pieces = targetPiece.player.pieces.filter(
+        (piece) => piece !== targetPiece,
+      );
       this.player.captures = [...this.player.captures, targetPiece];
     }
 
@@ -151,10 +169,15 @@ export default class Piece {
         this.domElement.remove();
 
         // Filter out the moved piece, so that it gets removed from the game.
-        this.player.pieces = this.player.pieces.filter((piece) => piece !== this);
+        this.player.pieces = this.player.pieces.filter(
+          (piece) => piece !== this,
+        );
 
         // Update the board with the new promoted queen.
-        gameInstance.board.initializePieceInGrid(queenChar, { row: move.row, col: move.col });
+        gameInstance.board.initializePieceInGrid(queenChar, {
+          row: move.row,
+          col: move.col,
+        });
       }, 300);
     }
 
@@ -170,7 +193,7 @@ export default class Piece {
       capture: isCapture,
       check: isCheck,
       checkmate: gameInstance.state.checkmate,
-    }
+    };
 
     this.player.moves = [...this.player.moves, moveData];
 
@@ -207,12 +230,15 @@ export default class Piece {
       for (const move of legalMoves) {
         const { row, col } = move;
 
-        if (row === opponentKing.position.row && col === opponentKing.position.col) {
+        if (
+          row === opponentKing.position.row &&
+          col === opponentKing.position.col
+        ) {
           isCheck = true;
         }
       }
     }
 
     return isCheck;
-  }
+  };
 }
