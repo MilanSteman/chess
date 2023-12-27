@@ -45,7 +45,7 @@ Notities zijn te vinden in de <a href="https://github.com/MilanSteman/chess/wiki
 | Unit testing m.v.p.                            | 1    | 2.5 uur |
 | Schaakapplicatie doorontwikkeling features     | 2    | 6 uur   |
 | Refactor & documentatie                        | 2    | 4.5 uur |
-|                                                |      |         |
+| &nbsp;                                         |      |         |
 | Totaal                                         |      | 33 uur  |
 
 <br>
