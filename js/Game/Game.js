@@ -178,7 +178,7 @@ class Game {
     // Switch the active player.
     this.currentPlayer = this.currentPlayer === this.players.white ? this.players.black : this.players.white;
 
-    // Start the opponent timer and check for a change in the state of the game (e.g. checkmate).
+    // Start the opponent timer and check for a change in the state of the game (e.g., checkmate).
     this.currentPlayer.startTimer();
     this.handleGameState();
   }

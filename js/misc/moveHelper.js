@@ -159,7 +159,7 @@ export const setScoreElement = (data) => {
       gameInstance.moveListElement.scrollTop = gameInstance.moveListElement.scrollHeight;
     }
 
-    // Create the move element (e.g. 'exd5')
+    // Create the move element (e.g., 'exd5')
     const moveElement = document.createElement("span");
     moveElement.textContent = scoreData;
 
@@ -191,7 +191,7 @@ const manipulateData = (data) => {
   // Check if move is castle by checking the piece of the move.
   const isCastle = updatedData.piece === "O-O" || updatedData.piece === "O-O-O";
 
-  // If it is castle, set the annotation to it's name (e.g. 'O-O'). Otherwise set it to it's character (e.g. 'q' for queen).
+  // If it is castle, set the annotation to it's name (e.g., 'O-O'). Otherwise set it to it's character (e.g., 'q' for queen).
   const pieceAnnotation = isCastle
     ? updatedData.piece
     : annotationMap.get(updatedData.piece).char;
