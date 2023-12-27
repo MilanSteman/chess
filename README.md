@@ -15,8 +15,8 @@
 <br>
 
 ## Features
-- [x] Volledig werkende zetten (incl. speciale zetten als <a href="https://en.wikipedia.org/wiki/Castling#:~:text=Castling%20is%20a%20move%20in,that%20the%20king%20passed%20over.">rokade</a>, <a href="https://en.wikipedia.org/wiki/En_passant">en-passant</a>, etc.) en checks op schaak(mat);
-- [x] Zetten maken via drag & drop of klik.
+- [x] Volledig werkende zetten (incl. speciale zetten als <a href="https://en.wikipedia.org/wiki/Castling">rokade</a>, <a href="https://en.wikipedia.org/wiki/En_passant">en-passant</a>, etc.) en checks op schaak(mat);
+- [x] Zetten maken via drag & drop of klik;
 - [x] State management voor schaakmat, pat(stelling), timers en onvoldoende materiaal;
 - [x] Opslaan van geslagen stukken en materiaal 'telling';
 - [x] Opslaan van gemaakte zetten (in beurten) en omzetten naar de juiste <a href="https://www.chess.com/terms/chess-notation">annotatie</a>;
@@ -25,24 +25,24 @@
 <br>  
 
 ## Learnings
-- [x] Toepassen van OOP principes zoals abstraction, encapsulation, inheritance en polymorphisme;
+- [x] Toepassen van OOP principes zoals abstraction, encapsulation, inheritance en polymorphism;
 - [x] Werken met getters en setters;
 - [x] Slimmer gebruiken maken van Objects, Properties in Objects en Higher Order Functions/ES6 Syntax;
 - [x] JSDoc toepassen op classes en methods;
 - [x] Basis Unit testing.
 
-Notities zijn te vinden in de <a href="https://github.com/MilanSteman/chess/wiki">wiki van de repo</a>
+Notities zijn te vinden in <a href="https://github.com/MilanSteman/chess/wiki">de wiki van de repo</a>
 
 <br>
 
 ## Timetable
-| Type                                           | Week | Tijd    |
+| Type taak                                      | Week | Tijd    |
 | :--------------------------------------------- | :--- | :------ |
 | Object Oriented Course volgen en aantekeningen | 1    | 4.5 uur |
 | Unit testing volgen en aantekeningen           | 1    | 6 uur   |
 | Structuur uitdenken applicatie                 | 1    | 1 uur   |
 | Schaakapplicatie minimal viable product        | 1    | 8.5 uur |
-| Unit testing m.v.p.                            | 1    | 2.5 uur |
+| Unit testing minimal viable product            | 1    | 2.5 uur |
 | Schaakapplicatie doorontwikkeling features     | 2    | 6 uur   |
 | Refactor & documentatie                        | 2    | 4.5 uur |
 | &nbsp;                                         |      |         |
@@ -50,7 +50,7 @@ Notities zijn te vinden in de <a href="https://github.com/MilanSteman/chess/wiki
 
 <br>
 
-## Algemene Informatie
+## Metadata
 | Naam         | Studentnr. | Vak | Datum      |
 | :----------- | :--------- | :-- | :--------- |
 | Milan Steman | 500800819  | SRP | 27/12/2023 |
