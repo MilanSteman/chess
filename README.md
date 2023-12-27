@@ -45,6 +45,6 @@ Notities zijn te vinden in de <a href="https://github.com/MilanSteman/chess/wiki
 | Totaal                                         |            | 33 uur  |
 
 ## Algemene Informatie
-| Naam         | Studentnr. | Vak                    | Startniveau |
-| ------------ | ---------- | ---------------------- | ----------- |
-| Milan Steman | 500800819  | SRP | Zwart       |
+| Naam         | Studentnr. | Vak | Datum      |
+| ------------ | ---------- | --- | ---------- |
+| Milan Steman | 500800819  | SRP | 14/27/2023 |
