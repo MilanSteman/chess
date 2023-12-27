@@ -47,4 +47,4 @@ Notities zijn te vinden in de <a href="https://github.com/MilanSteman/chess/wiki
 ## Algemene Informatie
 | Naam         | Studentnr. | Vak | Datum      |
 | ------------ | ---------- | --- | ---------- |
-| Milan Steman | 500800819  | SRP | 14/27/2023 |
+| Milan Steman | 500800819  | SRP | 27/12/2023 |
