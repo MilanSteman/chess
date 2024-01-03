@@ -17,12 +17,40 @@ export default class Piece {
    * @param {string} name - The name of the piece.
    */
   constructor(position, player, name) {
+    /**
+     * The position of the piece on the chessboard.
+     * @type {Object}
+     */
     this._position = position;
+
+    /**
+     * The player to whom the piece belongs.
+     * @type {Player}
+     */
     this.player = player;
+
+    /**
+     * The color of the piece, derived from the player's color.
+     * @type {string}
+     */
     this.color = this.player.color;
+
+    /**
+     * The name or type of the piece.
+     * @type {string}
+     */
     this.name = name;
 
+    /**
+     * Indicates whether the piece is currently selected on the board.
+     * @type {boolean}
+     */
     this.isSelected = false;
+
+    /**
+     * Indicates whether the piece has moved during the game.
+     * @type {boolean}
+     */
     this.hasMoved = false;
 
     // Initialize the DOM element and render movements
@@ -40,7 +68,9 @@ export default class Piece {
         renderMovements();
       });
 
-      gameInstance.domElement.appendChild(pieceDomElement);
+      if (gameInstance.domElement) {
+        gameInstance.domElement.appendChild(pieceDomElement);
+      }
 
       /**
        * The DOM element representing the chess piece on the game board.

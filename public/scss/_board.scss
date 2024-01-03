@@ -98,6 +98,10 @@ article#chessboard {
   &.reversed {
     rotate: 0.5turn;
 
+    & > div.popup-modal {
+      transform: translate(50%, 50%);
+    }
+
     & > * {
       rotate: 0.5turn;
     }

@@ -238,6 +238,11 @@ article#chessboard.reversed {
   rotate: 0.5turn;
 }
 
+article#chessboard.reversed > div.popup-modal {
+  -webkit-transform: translate(50%, 50%);
+  transform: translate(50%, 50%);
+}
+
 article#chessboard.reversed > * {
   rotate: 0.5turn;
 }

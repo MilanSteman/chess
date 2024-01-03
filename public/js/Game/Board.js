@@ -10,18 +10,12 @@ export default class Board {
    * Creates a new chessboard.
    * @constructor
    */
-  constructor() {
+  constructor(size) {
     /**
      * The size of the chessboard.
      * @type {number}
      */
-    this.size = 8;
-
-    /**
-     * The FEN (Forsyth-Edwards Notation) string representing the initial board position.
-     * @type {string}
-     */
-    this.fenString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    this.size = size;
 
     /**
      * The 2D array representing the grid of the chessboard.
@@ -62,9 +56,9 @@ export default class Board {
    * @param {string} filter - The color of the player ('white' or 'black').
    * @returns {Array<Piece>} An array of pieces belonging to the specified player.
    */
-  getAllPiecesFromGrid = (filter) => {
+  getAllPiecesFromGrid = (filter = null) => {
     return this.grid.flatMap((row) =>
-      row.filter((obj) => obj && obj.color === filter),
+      row.filter((obj) => obj && (filter ? obj.color === filter : true)),
     );
   };
 
@@ -112,9 +106,9 @@ export default class Board {
   /**
    * Sets up the chessboard with pieces based on the initial FEN string.
    */
-  setPiecesFromFen = () => {
+  setPiecesFromFen = (string) => {
     // Split the fen string so that only the characters are used
-    const rows = this.fenString.split(" ")[0].split("/").reverse();
+    const rows = string.split(" ")[0].split("/").reverse();
 
     // Loop through each row (noted by the "/" in the string).
     rows.forEach((chars, row) => {

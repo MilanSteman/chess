@@ -27,10 +27,16 @@ class Game {
     this.moveListElement = document.querySelector(".move-list");
 
     /**
+     * The size of the chessboard.
+     * @type {number}
+     */
+    this.boardSize = 8;
+
+    /**
      * The chessboard instance for the game.
      * @type {Board}
      */
-    this.board = new Board();
+    this.board = new Board(this.boardSize);
 
     /**
      * The time control settings for the game.
@@ -43,6 +49,12 @@ class Game {
       initialTime: 1200,
       increment: 2,
     };
+
+    /**
+     * The FEN (Forsyth-Edwards Notation) string representing the initial board position.
+     * @type {string}
+     */
+    this.fenString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
     /**
      * The players participating in the game.
@@ -181,19 +193,23 @@ class Game {
     this._advantage = newAdvantage;
 
     // Loop through each player to set the advantage on the score element.
-    Object.values(this.players).forEach((player) => {
-      const scoreElement = player.capturesElement.querySelector(".score");
+    for (const color in this.players) {
+      const player = this.players[color];
 
-      // Set the advantage if it isn't equal to 0.
-      if (
-        (this._advantage < 0 && player.color === "black") ||
-        (this._advantage > 0 && player.color === "white")
-      ) {
-        scoreElement.textContent = `+${Math.abs(this._advantage)}`;
-      } else {
-        scoreElement.textContent = null;
+      if (player.capturesElement) {
+        const scoreElement = player.capturesElement.querySelector(".score");
+
+        // Set the advantage if it isn't equal to 0.
+        if (
+          (this._advantage < 0 && player.color === "black") ||
+          (this._advantage > 0 && player.color === "white")
+        ) {
+          scoreElement.textContent = `+${Math.abs(this._advantage)}`;
+        } else {
+          scoreElement.textContent = null;
+        }
       }
-    });
+    }
   }
 
   /**
@@ -201,12 +217,13 @@ class Game {
    */
   runGame = () => {
     // Initialize the board.
-    this.board.setPiecesFromFen();
+    this.board.setPiecesFromFen(this.fenString);
 
     // Set the timer element.
-    Object.values(this.players).forEach((player) => {
+    for (const color in this.players) {
+      const player = this.players[color];
       player.setTimer();
-    });
+    }
   };
 
   /**
