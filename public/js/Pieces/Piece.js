@@ -14,6 +14,7 @@ export default class Piece {
    * @param {Object} position - The initial position of the piece on the board.
    * @param {Player} player - The player to whom the piece belongs.
    * @param {string} name - The name of the piece.
+   * @param {Game} game - The game instance the piece is part of.
    */
   constructor(position, player, name, game) {
     /**
@@ -148,99 +149,106 @@ export default class Piece {
    * @param {Object} move - The target position for the move.
    */
   moveToTile = (move) => {
-    let targetPiece = this.game.board.getPieceFromGrid(move);
-    const isCapture = targetPiece !== null;
-    let isCheck = false;
+    // Double check if move is valid
+    const isMoveLegal = this.setLegalMoves().some(
+      (obj) => obj.row === move.row && obj.col === move.col,
+    );
 
-    const originalPiece = { ...this };
+    if (this.game.currentPlayer === this.player && isMoveLegal) {
+      let targetPiece = this.game.board.getPieceFromGrid(move);
+      const isCapture = targetPiece !== null;
+      let isCheck = false;
 
-    // Handle the en-passant move
-    if (move.case && move.case === "en-passant") {
-      // Update the targetPiece so that it gets removed from the game.
-      targetPiece = this.game.board.getPieceFromGrid({
-        row: move.row - 1 * move.direction,
-        col: move.col,
-      });
-    }
+      const originalPiece = { ...this };
 
-    // Handle the castle move
-    if (move.case && move.case === "castle") {
-      // Set the move based on a long or short castle.
-      const rookDirection = move.type === "O-O-O" ? -1 : 1;
-      const rookPosition = move.type === "O-O-O" ? 0 : 7;
-
-      // Get the target rook.
-      const castledRook = this.game.board.getPieceFromGrid({
-        row: move.row,
-        col: rookPosition,
-      });
-
-      // Set isCheck to true if the rook is attacking the opponent king after castling.
-      isCheck = castledRook.makeMove({
-        row: move.row,
-        col: move.col - rookDirection,
-      });
-
-      this.makeMove(move);
-    } else {
-      // Set isCheck to the makeMove, this is put in the else, because castling is the only movement where two pieces move together.
-      isCheck = this.makeMove(move);
-    }
-
-    // Remove a piece if it is captured in the move.
-    if (targetPiece) {
-      if (targetPiece.domElement) {
-        targetPiece.domElement.remove();
-      }
-
-      targetPiece.player.pieces = targetPiece.player.pieces.filter(
-        (piece) => piece !== targetPiece,
-      );
-
-      this.player.captures = [...this.player.captures, targetPiece];
-    }
-
-    // Handle the promotion of a pawn.
-    if (move.case && move.case === "promotion") {
-      // Set a timeout, so that the animation can play out smoothly.
-      setTimeout(() => {
-        // Get the queenChar based on the color (uppercase is white, lowercase is black).
-        const queenChar = this.color === "white" ? "Q" : "q";
-
-        // Remove the DOM Element of the moved piece.
-        this.domElement.remove();
-
-        // Filter out the moved piece, so that it gets removed from the game.
-        this.player.pieces = this.player.pieces.filter(
-          (piece) => piece !== this,
-        );
-
-        // Update the board with the new promoted queen.
-        this.game.board.initializePieceInGrid(queenChar, {
-          row: move.row,
+      // Handle the en-passant move
+      if (move.case && move.case === "en-passant") {
+        // Update the targetPiece so that it gets removed from the game.
+        targetPiece = this.game.board.getPieceFromGrid({
+          row: move.row - 1 * move.direction,
           col: move.col,
         });
-      }, 300);
+      }
+
+      // Handle the castle move
+      if (move.case && move.case === "castle") {
+        // Set the move based on a long or short castle.
+        const rookDirection = move.type === "O-O-O" ? -1 : 1;
+        const rookPosition = move.type === "O-O-O" ? 0 : 7;
+
+        // Get the target rook.
+        const castledRook = this.game.board.getPieceFromGrid({
+          row: move.row,
+          col: rookPosition,
+        });
+
+        // Set isCheck to true if the rook is attacking the opponent king after castling.
+        isCheck = castledRook.makeMove({
+          row: move.row,
+          col: move.col - rookDirection,
+        });
+
+        this.makeMove(move);
+      } else {
+        // Set isCheck to the makeMove, this is put in the else, because castling is the only movement where two pieces move together.
+        isCheck = this.makeMove(move);
+      }
+
+      // Remove a piece if it is captured in the move.
+      if (targetPiece) {
+        if (targetPiece.domElement) {
+          targetPiece.domElement.remove();
+        }
+
+        targetPiece.player.pieces = targetPiece.player.pieces.filter(
+          (piece) => piece !== targetPiece,
+        );
+
+        this.player.captures = [...this.player.captures, targetPiece];
+      }
+
+      // Handle the promotion of a pawn.
+      if (move.case && move.case === "promotion") {
+        // Set a timeout, so that the animation can play out smoothly.
+        setTimeout(() => {
+          // Get the queenChar based on the color (uppercase is white, lowercase is black).
+          const queenChar = this.color === "white" ? "Q" : "q";
+
+          // Remove the DOM Element of the moved piece.
+          this.domElement.remove();
+
+          // Filter out the moved piece, so that it gets removed from the game.
+          this.player.pieces = this.player.pieces.filter(
+            (piece) => piece !== this,
+          );
+
+          // Update the board with the new promoted queen.
+          this.game.board.initializePieceInGrid(queenChar, {
+            row: move.row,
+            col: move.col,
+          });
+        }, 300);
+      }
+
+      // Switch current player after the move has been made.
+      this.game.switchCurrentPlayer();
+
+      // Log the data so that it can be displayed in the sidebar.
+      const moveData = {
+        piece: move.type ? move.type : this.name,
+        toPosition: this.position,
+        fromPosition: originalPiece._position,
+        player: this.player,
+        capture: isCapture,
+        check: isCheck,
+        checkmate: this.game.state.winType.checkmate,
+      };
+
+      this.player.moves = [...this.player.moves, moveData];
+
+      // Clear any remaining visuals.
+      clearAllVisuals();
     }
-
-    // Switch current player after the move has been made.
-    this.game.switchCurrentPlayer();
-
-    // Log the data so that it can be displayed in the sidebar.
-    const moveData = {
-      piece: move.type ? move.type : this.name,
-      toPosition: this.position,
-      fromPosition: originalPiece._position,
-      player: this.player,
-      capture: isCapture,
-      check: isCheck,
-      checkmate: this.game.state.winType.checkmate,
-    };
-
-    this.player.moves = [...this.player.moves, moveData];
-
-    // Clear any remaining visuals.
-    clearAllVisuals();
   };
 
   /**

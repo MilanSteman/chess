@@ -13,6 +13,7 @@ export default class Knight extends Piece {
    * @param {Player} player - The player to whom the piece belongs.
    * @param {string} color - The color of the piece (e.g., 'white' or 'black').
    * @param {string} name - The name of the piece (e.g., 'knight').
+   * @param {Game} game - The game instance the piece is part of.
    */
   constructor(position, player, color, name, game) {
     super(position, player, color, name, game);

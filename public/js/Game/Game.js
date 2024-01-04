@@ -199,14 +199,16 @@ export default class Game {
       if (player.capturesElement) {
         const scoreElement = player.capturesElement.querySelector(".score");
 
-        // Set the advantage if it isn't equal to 0.
-        if (
-          (this._advantage < 0 && player.color === "black") ||
-          (this._advantage > 0 && player.color === "white")
-        ) {
-          scoreElement.textContent = `+${Math.abs(this._advantage)}`;
-        } else {
-          scoreElement.textContent = null;
+        if (scoreElement) {
+          // Set the advantage if it isn't equal to 0.
+          if (
+            (this._advantage < 0 && player.color === "black") ||
+            (this._advantage > 0 && player.color === "white")
+          ) {
+            scoreElement.textContent = `+${Math.abs(this._advantage)}`;
+          } else {
+            scoreElement.textContent = null;
+          }
         }
       }
     }

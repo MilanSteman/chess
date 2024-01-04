@@ -1,25 +1,50 @@
 /**
- * @jest-environment jsdom
+ * @jest-environment node
  */
-
 import Game from "./Game.js";
+import { JSDOM } from "jsdom";
+import { formatTime } from "../misc/timeHelper.js";
+jest.useFakeTimers();
 
-it("Should run the game and check if pieces are automatically added.", () => {
-  const game = new Game();
-  game.runGame();
+describe("Game Initialization", () => {
+  let dom;
+  let game;
 
-  const pieces = game.board.getAllPiecesFromGrid();
+  beforeEach(() => {
+    dom = new JSDOM(
+      '<html><body><div class="timer-white"></div><div class="timer-black"></div></body></html>',
+    );
 
-  // Expectation on run game should be greater than 0.
-  expect(pieces.length).toBeGreaterThan(0);
+    global.document = dom.window.document;
+    global.window = dom.window;
+
+    game = new Game();
+    game.runGame();
+  });
+
+  it("Should have pieces automatically added to the board", () => {
+    const pieces = game.board.getAllPiecesFromGrid();
+
+    // Expectation on run game is should be that there are pieces on the board.
+    expect(pieces.length).toBeGreaterThan(0);
+  });
+
+  it("Should initialize timers with proper formatting", () => {
+    // Expectation on run game should be that the white timer is initialized and properly formatted.
+    expect(game.players.white.timerElement.textContent).toBe(
+      formatTime(game.timeControl.initialTime),
+    );
+
+    // Expectation on run game should be that the black timer is initialized and properly formatted.
+    expect(game.players.black.timerElement.textContent).toBe(
+      formatTime(game.timeControl.initialTime),
+    );
+  });
 });
 
 // Test case: Should switch active player correctly.
 it("Should switch active player correctly.", () => {
-  // Creating a new instance of the Game class.
   const game = new Game();
-
-  // Running the game logic.
   game.runGame();
 
   // Expectation that the initial active player to be the white player.
@@ -38,8 +63,8 @@ it("Should switch active player correctly.", () => {
   expect(game.currentPlayer).toBe(game.players.white);
 });
 
-// Describe block for handling game state detects.
-describe("Handling game state detects", () => {
+// Describe block for handling game state detections.
+describe("Handle detection on game states", () => {
   let game;
 
   // Before each test, creating a new instance of the Game class.
@@ -48,7 +73,7 @@ describe("Handling game state detects", () => {
   });
 
   // Test case: Checkmate detection.
-  it("Checkmate", () => {
+  it("Should handle checkmate", () => {
     // Setting up a specific FEN string for checkmate scenario.
     game.fenString = "7k/5Q2/5K2/8/8/8/8/8 w - - 0 1";
 
@@ -66,7 +91,7 @@ describe("Handling game state detects", () => {
   });
 
   // Test case: Stalemate detection.
-  it("Stalemate", () => {
+  it("Should handle stalemate", () => {
     // Setting up a specific FEN string for stalemate scenario.
     game.fenString = "7k/8/5QK1/8/8/8/8/8 w - - 0 1";
 
@@ -84,11 +109,9 @@ describe("Handling game state detects", () => {
   });
 
   // Test case: Insufficient Material detection.
-  it("Insufficient Material", () => {
+  it("Should handle insufficient Material", () => {
     // Setting up a specific FEN string for insufficient material scenario.
     game.fenString = "8/8/8/8/2k5/8/1n6/K7 w - - 0 1";
-
-    // Running the game logic.
     game.runGame();
 
     // Moving the white king to create insufficient material scenario.
