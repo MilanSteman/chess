@@ -66,11 +66,11 @@ it("Should return an array of pieces on the board", () => {
 
   // Creating an array of pieces with different types and player affiliations.
   const pieces = [
-    new King({ row: 1, col: 1 }, game.players.white, "white", "king"),
-    new Queen({ row: 2, col: 1 }, game.players.white, "white", "queen"),
-    new King({ row: 3, col: 1 }, game.players.black, "black", "king"),
-    new Queen({ row: 4, col: 1 }, game.players.black, "black", "queen"),
-    new Pawn({ row: 5, col: 1 }, game.players.black, "black", "pawn"),
+    new King({ row: 1, col: 1 }, game.players.white, "king", game),
+    new Queen({ row: 2, col: 1 }, game.players.white, "queen", game),
+    new King({ row: 3, col: 1 }, game.players.black, "king", game),
+    new Queen({ row: 4, col: 1 }, game.players.black, "queen", game),
+    new Pawn({ row: 5, col: 1 }, game.players.black, "pawn", game),
   ];
 
   // Setting the specified pieces on the grid.
@@ -89,13 +89,10 @@ it("Should return an array of pieces on the board", () => {
 
 // Test case: Should return an array of pieces from a FEN string.
 it("Should return an array of pieces from a FEN string.", () => {
-  const game = new Game();
-
-  // Specifying a FEN string representing a chess board state.
-  const fenString = "7k/8/8/8/8/8/8/K7 w - - 0 1";
+  const game = new Game("7k/8/8/8/8/8/8/K7 w - - 0 1");
 
   // Setting pieces on the grid based on the provided FEN string.
-  game.board.setPiecesFromFen(fenString);
+  game.board.setPiecesFromFen(game.fenString);
 
   // Expectations: Checking if specific positions on the grid contain instances of King.
   expect(game.board.grid[0][0]).toBeInstanceOf(King);

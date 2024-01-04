@@ -12,6 +12,20 @@
   }
 }
 
+@mixin reversed-position {
+  @for $i from 0 through 7 {
+    $reversed-i: 7 - $i;
+
+    &[data-row="#{$i}"] {
+      bottom: #{(80 * $i)}px;
+    }
+
+    &[data-col="#{$i}"] {
+      left: #{(80 * $reversed-i)}px;
+    }
+  }
+}
+
 article#chessboard {
   width: var(--width-board);
   aspect-ratio: 1/1;
@@ -100,6 +114,31 @@ article#chessboard {
 
     & > div.popup-modal {
       transform: translate(50%, 50%);
+    }
+
+    & > div.numbers {
+      & > span {
+        @include reversed-position();
+        color: var(--tile-dark);
+
+        &:nth-of-type(even) {
+          color: var(--tile-light);
+        }
+
+        &:not(.letter) {
+          @for $i from 0 through 7 {
+            $reversed-i: 7 - $i;
+
+            &[data-row="#{$i}"] {
+              bottom: #{(80 * $reversed-i)}px;
+            }
+
+            &[data-col="#{$i}"] {
+              left: 0px;
+            }
+          }
+        }
+      }
     }
 
     & > * {

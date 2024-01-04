@@ -243,6 +243,142 @@ article#chessboard.reversed > div.popup-modal {
   transform: translate(50%, 50%);
 }
 
+article#chessboard.reversed > div.numbers > span {
+  color: var(--tile-dark);
+}
+
+article#chessboard.reversed > div.numbers > span[data-row="0"] {
+  bottom: 0px;
+}
+
+article#chessboard.reversed > div.numbers > span[data-col="0"] {
+  left: 560px;
+}
+
+article#chessboard.reversed > div.numbers > span[data-row="1"] {
+  bottom: 80px;
+}
+
+article#chessboard.reversed > div.numbers > span[data-col="1"] {
+  left: 480px;
+}
+
+article#chessboard.reversed > div.numbers > span[data-row="2"] {
+  bottom: 160px;
+}
+
+article#chessboard.reversed > div.numbers > span[data-col="2"] {
+  left: 400px;
+}
+
+article#chessboard.reversed > div.numbers > span[data-row="3"] {
+  bottom: 240px;
+}
+
+article#chessboard.reversed > div.numbers > span[data-col="3"] {
+  left: 320px;
+}
+
+article#chessboard.reversed > div.numbers > span[data-row="4"] {
+  bottom: 320px;
+}
+
+article#chessboard.reversed > div.numbers > span[data-col="4"] {
+  left: 240px;
+}
+
+article#chessboard.reversed > div.numbers > span[data-row="5"] {
+  bottom: 400px;
+}
+
+article#chessboard.reversed > div.numbers > span[data-col="5"] {
+  left: 160px;
+}
+
+article#chessboard.reversed > div.numbers > span[data-row="6"] {
+  bottom: 480px;
+}
+
+article#chessboard.reversed > div.numbers > span[data-col="6"] {
+  left: 80px;
+}
+
+article#chessboard.reversed > div.numbers > span[data-row="7"] {
+  bottom: 560px;
+}
+
+article#chessboard.reversed > div.numbers > span[data-col="7"] {
+  left: 0px;
+}
+
+article#chessboard.reversed > div.numbers > span:nth-of-type(even) {
+  color: var(--tile-light);
+}
+
+article#chessboard.reversed > div.numbers > span:not(.letter)[data-row="0"] {
+  bottom: 560px;
+}
+
+article#chessboard.reversed > div.numbers > span:not(.letter)[data-col="0"] {
+  left: 0px;
+}
+
+article#chessboard.reversed > div.numbers > span:not(.letter)[data-row="1"] {
+  bottom: 480px;
+}
+
+article#chessboard.reversed > div.numbers > span:not(.letter)[data-col="1"] {
+  left: 0px;
+}
+
+article#chessboard.reversed > div.numbers > span:not(.letter)[data-row="2"] {
+  bottom: 400px;
+}
+
+article#chessboard.reversed > div.numbers > span:not(.letter)[data-col="2"] {
+  left: 0px;
+}
+
+article#chessboard.reversed > div.numbers > span:not(.letter)[data-row="3"] {
+  bottom: 320px;
+}
+
+article#chessboard.reversed > div.numbers > span:not(.letter)[data-col="3"] {
+  left: 0px;
+}
+
+article#chessboard.reversed > div.numbers > span:not(.letter)[data-row="4"] {
+  bottom: 240px;
+}
+
+article#chessboard.reversed > div.numbers > span:not(.letter)[data-col="4"] {
+  left: 0px;
+}
+
+article#chessboard.reversed > div.numbers > span:not(.letter)[data-row="5"] {
+  bottom: 160px;
+}
+
+article#chessboard.reversed > div.numbers > span:not(.letter)[data-col="5"] {
+  left: 0px;
+}
+
+article#chessboard.reversed > div.numbers > span:not(.letter)[data-row="6"] {
+  bottom: 80px;
+}
+
+article#chessboard.reversed > div.numbers > span:not(.letter)[data-col="6"] {
+  left: 0px;
+}
+
+article#chessboard.reversed > div.numbers > span:not(.letter)[data-row="7"] {
+  bottom: 0px;
+}
+
+article#chessboard.reversed > div.numbers > span:not(.letter)[data-col="7"] {
+  left: 0px;
+}
+
 article#chessboard.reversed > * {
   rotate: 0.5turn;
 }

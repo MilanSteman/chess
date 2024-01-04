@@ -65,17 +65,10 @@ it("Should switch active player correctly.", () => {
 
 // Describe block for handling game state detections.
 describe("Handle detection on game states", () => {
-  let game;
-
-  // Before each test, creating a new instance of the Game class.
-  beforeEach(() => {
-    game = new Game();
-  });
-
   // Test case: Checkmate detection.
   it("Should handle checkmate", () => {
     // Setting up a specific FEN string for checkmate scenario.
-    game.fenString = "7k/5Q2/5K2/8/8/8/8/8 w - - 0 1";
+    const game = new Game("7k/5Q2/5K2/8/8/8/8/8 w - - 0 1");
 
     // Running the game logic.
     game.runGame();
@@ -93,7 +86,7 @@ describe("Handle detection on game states", () => {
   // Test case: Stalemate detection.
   it("Should handle stalemate", () => {
     // Setting up a specific FEN string for stalemate scenario.
-    game.fenString = "7k/8/5QK1/8/8/8/8/8 w - - 0 1";
+    const game = new Game("7k/8/5QK1/8/8/8/8/8 w - - 0 1");
 
     // Running the game logic.
     game.runGame();
@@ -111,7 +104,7 @@ describe("Handle detection on game states", () => {
   // Test case: Insufficient Material detection.
   it("Should handle insufficient Material", () => {
     // Setting up a specific FEN string for insufficient material scenario.
-    game.fenString = "8/8/8/8/2k5/8/1n6/K7 w - - 0 1";
+    const game = new Game("8/8/8/8/2k5/8/1n6/K7 w - - 0 1");
     game.runGame();
 
     // Moving the white king to create insufficient material scenario.

@@ -17,9 +17,9 @@ describe("Player Captures", () => {
     global.document = dom.window.document;
     global.window = dom.window;
 
-    game = new Game();
-    game.fenString =
-      "rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1";
+    game = new Game(
+      "rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1",
+    );
     game.runGame();
 
     // Expectation on run game should be 0, as no captures have taken place.
@@ -40,7 +40,7 @@ describe("Player Captures", () => {
     const captureElement =
       game.players.white.capturesElement.querySelector(".pawn");
 
-    // Expectation on capture of piece should be that the piece is added to the HTML.
+    // Expectation on capture of piece should be that image of the (captured) piece is added to the HTML.
     expect(captureElement.innerHTML).toContain(
       '<img src="public/images/pieces/black-pawn.png">',
     );

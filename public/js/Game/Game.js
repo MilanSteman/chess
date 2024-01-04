@@ -11,9 +11,10 @@ import Player from "./Player.js";
 export default class Game {
   /**
    * Creates a new chess game.
+   * @param {string} fenString - The FEN (Forsyth-Edwards Notation) string representing the initial board position (optional).
    * @constructor
    */
-  constructor() {
+  constructor(fenString) {
     /**
      * The DOM element representing the chessboard.
      * @type {HTMLElement}
@@ -54,7 +55,8 @@ export default class Game {
      * The FEN (Forsyth-Edwards Notation) string representing the initial board position.
      * @type {string}
      */
-    this.fenString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    this.fenString =
+      fenString || "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
     /**
      * The players participating in the game.
@@ -72,7 +74,7 @@ export default class Game {
      * The current player making a move.
      * @type {Player}
      */
-    this.currentPlayer = this.players.white;
+    this.currentPlayer = undefined;
 
     /**
      * The advantage score of the current game state.
@@ -220,6 +222,7 @@ export default class Game {
   runGame = () => {
     // Initialize the board.
     this.board.setPiecesFromFen(this.fenString);
+    this.currentPlayer = this.players.white;
 
     // Set the timer element.
     for (const color in this.players) {
