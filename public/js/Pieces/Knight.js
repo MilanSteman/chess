@@ -14,8 +14,8 @@ export default class Knight extends Piece {
    * @param {string} color - The color of the piece (e.g., 'white' or 'black').
    * @param {string} name - The name of the piece (e.g., 'knight').
    */
-  constructor(position, player, color, name) {
-    super(position, player, color, name);
+  constructor(position, player, color, name, game) {
+    super(position, player, color, name, game);
 
     /**
      * Possible movement directions for a knight.
@@ -47,6 +47,6 @@ export default class Knight extends Piece {
    * @returns {Array<Object>} An array of possible move positions.
    */
   setPossibleMoves = () => {
-    return singleMove(this.position, this.player, this.directions);
+    return singleMove(this);
   };
 }

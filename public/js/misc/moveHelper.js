@@ -1,4 +1,3 @@
-import gameInstance from "../Game/Game.js";
 import { nameMap } from "./pieceMap.js";
 
 /**
@@ -9,25 +8,25 @@ import { nameMap } from "./pieceMap.js";
  * @param {boolean} isRepeating - Indicates if the move is repeating (like for bishops and rooks).
  * @returns {Array<{ row: number, col: number }>} An array of possible moves in the specified direction.
  */
-const moveInDirection = (position, player, directionArr, isRepeating) => {
+const moveInDirection = (piece, isRepeating) => {
   const possibleMoves = [];
 
   // Loop through each possible direction
-  for (const [x, y] of directionArr) {
-    const newPosition = { row: position.row, col: position.col };
+  for (const [x, y] of piece.directions) {
+    const newPosition = { row: piece.position.row, col: piece.position.col };
 
     // Update the position based on the provided direction until the move is out of bounds or repeating is false.
     do {
       newPosition.row += x;
       newPosition.col += y;
 
-      if (gameInstance.board.isPositionInBounds(newPosition)) {
-        const occupiedTile = gameInstance.board.getPieceFromGrid(newPosition);
+      if (piece.game.board.isPositionInBounds(newPosition)) {
+        const occupiedTile = piece.game.board.getPieceFromGrid(newPosition);
 
         // Check if a tile is occupied by another piece.
         if (occupiedTile) {
           // If a tile is occupied by an opponent piece, add it to the list of moves.
-          if (occupiedTile.player !== player) {
+          if (occupiedTile.player !== piece.player) {
             possibleMoves.push({ ...newPosition });
           }
 
@@ -38,7 +37,7 @@ const moveInDirection = (position, player, directionArr, isRepeating) => {
           possibleMoves.push({ ...newPosition });
         }
       }
-    } while (isRepeating && gameInstance.board.isPositionInBounds(newPosition));
+    } while (isRepeating && piece.game.board.isPositionInBounds(newPosition));
   }
 
   return possibleMoves;
@@ -51,8 +50,8 @@ const moveInDirection = (position, player, directionArr, isRepeating) => {
  * @param {Array<[number, number]>} directionArr - An array of direction vectors to move the piece.
  * @returns {Array<{ row: number, col: number }>} An array of possible repeating moves.
  */
-export const repeatingMove = (position, player, directionArr) => {
-  return moveInDirection(position, player, directionArr, true);
+export const repeatingMove = (piece) => {
+  return moveInDirection(piece, true);
 };
 
 /**
@@ -62,8 +61,8 @@ export const repeatingMove = (position, player, directionArr) => {
  * @param {Array<[number, number]>} directionArr - An array of direction vectors to move the piece.
  * @returns {Array<{ row: number, col: number }>} An array of possible single moves.
  */
-export const singleMove = (position, player, directionArr) => {
-  return moveInDirection(position, player, directionArr, false);
+export const singleMove = (piece) => {
+  return moveInDirection(piece, false);
 };
 
 /**
@@ -80,12 +79,10 @@ export const getKing = (player) => {
  * Checks if the current player's king is in check.
  * @returns {boolean} True if the current player's king is in check, false otherwise.
  */
-export const isInCheck = () => {
-  const king = getKing(gameInstance.currentPlayer);
-  const opponent = gameInstance.getOpponent();
-  const opponentPieces = gameInstance.board.getAllPiecesFromGrid(
-    opponent.color,
-  );
+export const isInCheck = (game) => {
+  const king = getKing(game.currentPlayer);
+  const opponent = game.getOpponent();
+  const opponentPieces = game.board.getAllPiecesFromGrid(opponent.color);
 
   if (king) {
     // Loop through all opponent pieces.
@@ -119,24 +116,24 @@ export const isInCheck = () => {
 export const isInCheckAfterMove = (piece, nextPosition) => {
   // Create a deep copy of the current board. This is done so that your copied array isn't modified after initialization.
   // For more information, see: https://developer.mozilla.org/en-US/docs/Glossary/Deep_copy
-  const copiedGrid = gameInstance.board.grid.map((inner) => [...inner]);
+  const copiedGrid = piece.game.board.grid.map((inner) => [...inner]);
   const originalPiece = { ...piece };
 
   // Set target piece position to the desired next position.
   piece._position = nextPosition;
 
   // Update the board to simulate the move.
-  gameInstance.board.setPieceFromGrid(piece, gameInstance.board.grid);
-  gameInstance.board.removePieceFromGrid(originalPiece);
+  piece.game.board.setPieceFromGrid(piece, piece.game.board.grid);
+  piece.game.board.removePieceFromGrid(originalPiece);
 
   // Check is your king is in check after the move.
-  const isCheck = isInCheck();
+  const isCheck = isInCheck(piece.game);
 
   // Return piece to original position.
   piece._position = originalPiece._position;
 
   // Restore the grid back to the original position.
-  gameInstance.board.grid = copiedGrid;
+  piece.game.board.grid = copiedGrid;
 
   // Return if the simulate move resulted in a check.
   return isCheck;
@@ -146,20 +143,19 @@ export const isInCheckAfterMove = (piece, nextPosition) => {
  * Sets the score element in the move list.
  * @param {Object} data - The move data including player, piece, positions, etc.
  */
-export const setScoreElement = (data) => {
+export const setScoreElement = (data, game) => {
   // Alter the data so that it can be converted to a more desired result.
   const scoreData = manipulateData(data);
 
-  if (scoreData) {
+  if (scoreData && game.moveListElement) {
     // If the player is white, it should create a new row (turn).
     if (data.player.color === "white") {
       const turnElement = document.createElement("div");
       turnElement.classList.add("turn");
-      gameInstance.moveListElement.append(turnElement);
+      game.moveListElement.append(turnElement);
 
       // Automatically scroll so that the latest move is always visible, even on overflow.
-      gameInstance.moveListElement.scrollTop =
-        gameInstance.moveListElement.scrollHeight;
+      game.moveListElement.scrollTop = game.moveListElement.scrollHeight;
     }
 
     // Create the move element (e.g., 'exd5')
@@ -167,7 +163,7 @@ export const setScoreElement = (data) => {
     moveElement.textContent = scoreData;
 
     // Get the latest turn element and append the move to it.
-    const currentTurnElement = gameInstance.moveListElement.lastChild;
+    const currentTurnElement = game.moveListElement.lastChild;
     currentTurnElement.appendChild(moveElement);
   }
 };

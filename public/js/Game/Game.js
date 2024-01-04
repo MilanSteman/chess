@@ -8,7 +8,7 @@ import Player from "./Player.js";
  * Represents a chess game.
  * @class
  */
-class Game {
+export default class Game {
   /**
    * Creates a new chess game.
    * @constructor
@@ -36,7 +36,7 @@ class Game {
      * The chessboard instance for the game.
      * @type {Board}
      */
-    this.board = new Board(this.boardSize);
+    this.board = new Board(this);
 
     /**
      * The time control settings for the game.
@@ -138,7 +138,7 @@ class Game {
   set state(newValue) {
     this._state = newValue;
 
-    if (this.state.gameOver === true) {
+    if (this.state.gameOver === true && this.domElement) {
       // Create game over modal.
       const checkmateModal = document.createElement("div");
       checkmateModal.classList.add("popup-modal");
@@ -288,7 +288,7 @@ class Game {
     }
 
     // If current player has no moves left and is in check, return checkmate. Otherwise stalemate (player has no moves, but not in check).
-    if (isInCheck()) {
+    if (isInCheck(this)) {
       this.state = {
         ...this.state,
         gameOver: true,
@@ -310,11 +310,3 @@ class Game {
     }
   };
 }
-
-/**
- * The instance of the chess game.
- * @type {Game}
- */
-const gameInstance = new Game();
-
-export default gameInstance;

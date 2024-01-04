@@ -1,4 +1,3 @@
-import gameInstance from "../Game/Game.js";
 import {
   highlightPossibleMoves,
   clearAllVisuals,
@@ -16,7 +15,7 @@ export default class Piece {
    * @param {Player} player - The player to whom the piece belongs.
    * @param {string} name - The name of the piece.
    */
-  constructor(position, player, name) {
+  constructor(position, player, name, game) {
     /**
      * The position of the piece on the chessboard.
      * @type {Object}
@@ -40,6 +39,12 @@ export default class Piece {
      * @type {string}
      */
     this.name = name;
+
+    /**
+     * The game instance the piece is part of.
+     * @type {Game}
+     */
+    this.game = game;
 
     /**
      * Indicates whether the piece is currently selected on the board.
@@ -68,8 +73,8 @@ export default class Piece {
         renderMovements();
       });
 
-      if (gameInstance.domElement) {
-        gameInstance.domElement.appendChild(pieceDomElement);
+      if (this.game.domElement) {
+        this.game.domElement.appendChild(pieceDomElement);
       }
 
       /**
@@ -83,7 +88,7 @@ export default class Piece {
 
     // Handle movement rendering on interaction
     const renderMovements = () => {
-      if (gameInstance.currentPlayer === this.player) {
+      if (this.game.currentPlayer === this.player) {
         highlightPossibleMoves(this);
       }
     };
@@ -106,8 +111,11 @@ export default class Piece {
    */
   set position(newPosition) {
     this._position = newPosition;
-    this.domElement.setAttribute("data-row", this._position.row);
-    this.domElement.setAttribute("data-col", this._position.col);
+
+    if (this.domElement) {
+      this.domElement.setAttribute("data-row", this._position.row);
+      this.domElement.setAttribute("data-col", this._position.col);
+    }
   }
 
   /**
@@ -140,7 +148,7 @@ export default class Piece {
    * @param {Object} move - The target position for the move.
    */
   moveToTile = (move) => {
-    let targetPiece = gameInstance.board.getPieceFromGrid(move);
+    let targetPiece = this.game.board.getPieceFromGrid(move);
     const isCapture = targetPiece !== null;
     let isCheck = false;
 
@@ -149,7 +157,7 @@ export default class Piece {
     // Handle the en-passant move
     if (move.case && move.case === "en-passant") {
       // Update the targetPiece so that it gets removed from the game.
-      targetPiece = gameInstance.board.getPieceFromGrid({
+      targetPiece = this.game.board.getPieceFromGrid({
         row: move.row - 1 * move.direction,
         col: move.col,
       });
@@ -162,7 +170,7 @@ export default class Piece {
       const rookPosition = move.type === "O-O-O" ? 0 : 7;
 
       // Get the target rook.
-      const castledRook = gameInstance.board.getPieceFromGrid({
+      const castledRook = this.game.board.getPieceFromGrid({
         row: move.row,
         col: rookPosition,
       });
@@ -181,10 +189,14 @@ export default class Piece {
 
     // Remove a piece if it is captured in the move.
     if (targetPiece) {
-      targetPiece.domElement.remove();
+      if (targetPiece.domElement) {
+        targetPiece.domElement.remove();
+      }
+
       targetPiece.player.pieces = targetPiece.player.pieces.filter(
         (piece) => piece !== targetPiece,
       );
+
       this.player.captures = [...this.player.captures, targetPiece];
     }
 
@@ -204,7 +216,7 @@ export default class Piece {
         );
 
         // Update the board with the new promoted queen.
-        gameInstance.board.initializePieceInGrid(queenChar, {
+        this.game.board.initializePieceInGrid(queenChar, {
           row: move.row,
           col: move.col,
         });
@@ -212,7 +224,7 @@ export default class Piece {
     }
 
     // Switch current player after the move has been made.
-    gameInstance.switchCurrentPlayer();
+    this.game.switchCurrentPlayer();
 
     // Log the data so that it can be displayed in the sidebar.
     const moveData = {
@@ -222,7 +234,7 @@ export default class Piece {
       player: this.player,
       capture: isCapture,
       check: isCheck,
-      checkmate: gameInstance.state.winType.checkmate,
+      checkmate: this.game.state.winType.checkmate,
     };
 
     this.player.moves = [...this.player.moves, moveData];
@@ -244,8 +256,8 @@ export default class Piece {
     this.position = move;
 
     // Update the board to make the move.
-    gameInstance.board.setPieceFromGrid(this);
-    gameInstance.board.removePieceFromGrid(originalPiece);
+    this.game.board.setPieceFromGrid(this);
+    this.game.board.removePieceFromGrid(originalPiece);
 
     // Update the piece properties.
     this.isSelected = false;
@@ -255,7 +267,7 @@ export default class Piece {
     const legalMoves = this.setPossibleMoves();
 
     if (legalMoves) {
-      const opponentKing = getKing(gameInstance.getOpponent());
+      const opponentKing = getKing(this.game.getOpponent());
 
       for (const move of legalMoves) {
         const { row, col } = move;

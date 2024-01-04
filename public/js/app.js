@@ -1,4 +1,4 @@
-import gameInstance from "./Game/Game.js";
+import Game from "./Game/Game.js";
 
 // Get references to HTML elements
 const newGameButton = document.querySelector("#new-game");
@@ -17,4 +17,5 @@ switchSideButton.addEventListener("click", () => {
 });
 
 // Run the game when the page loads
-gameInstance.runGame();
+const game = new Game();
+game.runGame();

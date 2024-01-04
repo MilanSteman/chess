@@ -1,5 +1,3 @@
-import gameInstance from "../Game/Game.js";
-
 /**
  * Clears all visual elements related to piece highlighting.
  */
@@ -43,7 +41,7 @@ export const highlightPossibleMoves = (piece) => {
   // Loop through each legal move and set it's DOM Element
   pieceMoves.forEach((move) => {
     // Set the type of move based on if it's a capture or not.
-    const attackedPiece = gameInstance.board.getPieceFromGrid(move);
+    const attackedPiece = piece.game.board.getPieceFromGrid(move);
     const visualType = attackedPiece === null ? "is-attacked" : "is-capturable";
 
     // Create the DOM Element
@@ -65,7 +63,7 @@ export const highlightPossibleMoves = (piece) => {
       piece.moveToTile(move);
     };
 
-    gameInstance.domElement.appendChild(visualDomElement);
+    piece.game.domElement.appendChild(visualDomElement);
   });
 
   // Set the current piece as the selected one.

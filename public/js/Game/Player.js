@@ -97,13 +97,15 @@ export default class Player {
       this.game.advantage += capture.value * this.advantageDirection;
 
       // Set the DOM Element for visually displaying the piece.
-      const captureElement = this.capturesElement.querySelector(
-        `.${capture.name}`,
-      );
-      const captureDomElement = document.createElement("img");
-      captureDomElement.src = `public/images/pieces/${capture.color}-${capture.name}.png`;
+      if (this.capturesElement) {
+        const captureElement = this.capturesElement.querySelector(
+          `.${capture.name}`,
+        );
+        const captureDomElement = document.createElement("img");
+        captureDomElement.src = `public/images/pieces/${capture.color}-${capture.name}.png`;
 
-      captureElement.appendChild(captureDomElement);
+        captureElement.appendChild(captureDomElement);
+      }
     }
   }
 
@@ -127,7 +129,7 @@ export default class Player {
 
     if (move) {
       // Set the move element as a DOM element in the column to the right of the board.
-      setScoreElement(move);
+      setScoreElement(move, this.game);
     }
   }
 

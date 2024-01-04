@@ -1,5 +1,4 @@
 import { charMap } from "../misc/pieceMap.js";
-import gameInstance from "./Game.js";
 
 /**
  * Represents a chessboard.
@@ -10,12 +9,14 @@ export default class Board {
    * Creates a new chessboard.
    * @constructor
    */
-  constructor(size) {
+  constructor(game) {
+    this.game = game;
+
     /**
      * The size of the chessboard.
      * @type {number}
      */
-    this.size = size;
+    this.size = this.game.boardSize;
 
     /**
      * The 2D array representing the grid of the chessboard.
@@ -95,12 +96,13 @@ export default class Board {
     const { player, Piece } = charMap.get(char);
     const generatedPiece = new Piece(
       position,
-      gameInstance.players[player],
+      this.game.players[player],
       Piece.name.toLowerCase(),
+      this.game,
     );
 
-    gameInstance.players[player].pieces.push(generatedPiece);
-    this.setPieceFromGrid(generatedPiece, gameInstance.board.grid);
+    this.game.players[player].pieces.push(generatedPiece);
+    this.setPieceFromGrid(generatedPiece, this.game.board.grid);
   };
 
   /**

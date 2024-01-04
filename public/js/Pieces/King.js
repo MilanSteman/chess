@@ -4,7 +4,6 @@ import {
   isInCheckAfterMove,
   singleMove,
 } from "../misc/moveHelper.js";
-import gameInstance from "../Game/Game.js";
 
 /**
  * Represents a King chess piece.
@@ -19,8 +18,8 @@ export default class King extends Piece {
    * @param {string} color - The color of the piece (e.g., 'white' or 'black').
    * @param {string} name - The name of the piece (e.g., 'king').
    */
-  constructor(position, player, color, name) {
-    super(position, player, color, name);
+  constructor(position, player, color, name, game) {
+    super(position, player, color, name, game);
 
     /**
      * Possible movement directions for a king.
@@ -52,11 +51,7 @@ export default class King extends Piece {
    * @returns {Array<Object>} An array of possible move positions.
    */
   setPossibleMoves = () => {
-    const possibleMoves = singleMove(
-      this.position,
-      this.player,
-      this.directions,
-    );
+    const possibleMoves = singleMove(this);
 
     // Push castling moves to the possible moves.
     this.castleMovement(possibleMoves);
@@ -73,8 +68,8 @@ export default class King extends Piece {
     // Check if the king hasn't moved, isn't the opponent and is not in check.
     if (
       !this.hasMoved &&
-      this.player === gameInstance.currentPlayer &&
-      !isInCheck()
+      this.player === this.game.currentPlayer &&
+      !isInCheck(this.game)
     ) {
       // Get the allied rooks.
       const allyPieces = this.player.pieces;
@@ -103,7 +98,7 @@ export default class King extends Piece {
           // Loop through each of the squares between the king and rook.
           for (let i = colRange.startCol + 1; i <= colRange.endCol - 1; i++) {
             // Check if there are pieces in between the king and rook.
-            const pieceBetween = gameInstance.board.getPieceFromGrid({
+            const pieceBetween = this.game.board.getPieceFromGrid({
               row: this.position.row,
               col: i,
             });

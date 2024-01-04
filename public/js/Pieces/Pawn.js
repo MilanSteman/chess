@@ -1,4 +1,3 @@
-import gameInstance from "../Game/Game.js";
 import Piece from "./Piece.js";
 
 /**
@@ -14,8 +13,8 @@ export default class Pawn extends Piece {
    * @param {string} color - The color of the piece (e.g., 'white' or 'black').
    * @param {string} name - The name of the piece (e.g., 'pawn').
    */
-  constructor(position, player, color, name) {
-    super(position, player, color, name);
+  constructor(position, player, color, name, game) {
+    super(position, player, color, name, game);
 
     /**
      * The value assigned to the pawn for scoring purposes.
@@ -73,7 +72,7 @@ export default class Pawn extends Piece {
         row: this.position.row + i * this.direction,
         col: this.position.col,
       };
-      const targetPiece = gameInstance.board.getPieceFromGrid(move);
+      const targetPiece = this.game.board.getPieceFromGrid(move);
 
       // If there is a piece in front of the pawn, break (as it can't move through pieces).
       if (targetPiece) {
@@ -101,8 +100,8 @@ export default class Pawn extends Piece {
     ]) {
       const move = { row: this.position.row + x, col: this.position.col + y };
 
-      if (gameInstance.board.isPositionInBounds(move)) {
-        const targetPiece = gameInstance.board.getPieceFromGrid(move);
+      if (this.game.board.isPositionInBounds(move)) {
+        const targetPiece = this.game.board.getPieceFromGrid(move);
 
         // If the next row is a promotion row, set the move with a special case to trigger a promotion.
         if (move.row === this.promotionRow) {
@@ -125,7 +124,7 @@ export default class Pawn extends Piece {
     // Checks if the selected pawn is on the en passant row.
     if (this.position.row === this.enPassantRow) {
       // Get the last move of the opponent
-      const opponent = gameInstance.getOpponent();
+      const opponent = this.game.getOpponent();
       const opponentLastMove = opponent.moves[opponent.moves.length - 1];
 
       // Check if the last move of the opponent adhered to the rules of en passant.
