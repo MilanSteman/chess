@@ -271,6 +271,15 @@ export default class Piece {
 
       this.player.moves = [...this.player.moves, moveData];
 
+      const lastAttackFrom = document.querySelector(".last-attack-from");
+      const lastAttackTo = document.querySelector(".last-attack-to");
+
+      lastAttackFrom.setAttribute("data-row", originalPiece._position.row);
+      lastAttackFrom.setAttribute("data-col", originalPiece._position.col);
+
+      lastAttackTo.setAttribute("data-row", this.position.row);
+      lastAttackTo.setAttribute("data-col", this.position.col);
+
       // Clear any remaining visuals.
       clearAllVisuals();
     }

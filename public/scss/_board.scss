@@ -30,6 +30,7 @@ article#chessboard {
   width: var(--width-board);
   aspect-ratio: 1/1;
   position: relative;
+  overflow: hidden;
 
   background: conic-gradient(
     var(--tile-dark) 90deg,
@@ -40,6 +41,15 @@ article#chessboard {
   background-repeat: repeat;
   background-size: var(--width-4x4) var(--width-4x4);
   background-position: top left;
+
+  & > div.last-attack-from,
+  & > div.last-attack-to {
+    cursor: default!important;
+    bottom: 100%;
+    left: 100%;
+    background-color: #d7b70175;
+    z-index: 0;
+  }
 
   & > div.popup-modal {
     position: absolute;

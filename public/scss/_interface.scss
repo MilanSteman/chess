@@ -22,6 +22,11 @@ main > aside {
       margin-left: 0.5rem;
     }
   }
+
+  & > div:nth-of-type(2) {
+    font-size: 1.25rem;
+    font-weight: 300;
+  }
 }
 
 body > aside {
