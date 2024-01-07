@@ -18,7 +18,7 @@ it("Should initialize the dom elements of pieces in the chessboard", () => {
 
   const game = new Game();
 
-  // Create an array of pieces with different types and player affiliations.
+  // Create an array of pieces.
   const pieces = [
     new King({ row: 1, col: 1 }, game.players.white, "king", game),
     new Queen({ row: 2, col: 1 }, game.players.white, "queen", game),
@@ -65,7 +65,6 @@ it("Shouldn't be able to move if 'x-rayed' (revealing check on king after move)"
   expect(legalMoves).toHaveLength(0);
 });
 
-// Describe block: Legality of castling.
 describe("Legality of castling", () => {
   const castleMove = { row: 0, col: 6 };
 
@@ -169,6 +168,68 @@ describe("Legality of castling", () => {
   });
 });
 
+describe("Legality of en-passant", () => {
+  const enPassantMove = { row: 5, col: 5 };
+
+  it("Should not be possible if the last move wasn't made by the side pawn.", () => {
+    const game = new Game(
+      "rnbqkbnr/ppppp1pp/8/4Pp2/8/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1",
+    );
+
+    game.runGame();
+
+    // Retrieve the white pawn at a specific position.
+    const whitePawn = game.board.getPieceFromGrid({ row: 4, col: 4 });
+
+    // Check if en-passant to the specified position is legal.
+    const isEnPassantLegal = whitePawn
+      .setLegalMoves()
+      .some(
+        (obj) => obj.row === enPassantMove.row && obj.col === enPassantMove.col,
+      );
+
+    // Expectation: Check that en-passant is not legal.
+    expect(isEnPassantLegal).toBeFalsy();
+
+    // Edge case: white pawn can't make the invalid move.
+    whitePawn.moveToTile({ row: 4, col: 5 });
+
+    // Expectation: Position of white pawn is still the same as before.
+    expect(whitePawn.position).toEqual({ row: 4, col: 4 });
+  });
+
+  // Test case: Should be possible if last moved pawn has moved two steps, is next to the other pawn and on the en-passant row.
+  it("Should be possible if all conditions are met", () => {
+    const game = new Game(
+      "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1",
+    );
+
+    game.runGame();
+
+    // Retrieve the white pawn at a specific position.
+    const whitePawn = game.board.getPieceFromGrid({ row: 3, col: 4 });
+    whitePawn.moveToTile({ row: 4, col: 4 });
+
+    // Expectation: Pawn is on the correct en-passant row.
+    const isOnEnPassantRow = whitePawn.enPassantRow === whitePawn.position.row;
+    expect(isOnEnPassantRow).toBeTruthy();
+
+    // Move black pawn so that it validates the en-passant rule.
+    const blackPawn = game.board.getPieceFromGrid({ row: 6, col: 5 });
+    blackPawn.moveToTile({ row: 4, col: 5 });
+
+    // Check if en-passant to the specified position is legal.
+    const isEnPassantLegal = whitePawn
+      .setLegalMoves()
+      .some(
+        (obj) => obj.row === enPassantMove.row && obj.col === enPassantMove.col,
+      );
+
+    // Expectation: Check that en-passant is legal.
+    expect(isEnPassantLegal).toBeTruthy();
+  });
+});
+
 // Test case: Should change the data values of the dom element on movement.
 it("Should change the data values of the dom element on movement.", () => {
   const dom = new JSDOM(
@@ -191,7 +252,7 @@ it("Should change the data values of the dom element on movement.", () => {
   // Make movement.
   whitePawn.moveToTile({ row: 2, col: 3 });
 
-  // Retrieve the white pawn and check if the correct data is processed after movement.
+  // Expectation: The white pawn has it's data-row and -col changed.
   expect(whitePawn.domElement.outerHTML).toContain(
     '<img src="public/images/pieces/white-pawn.png" data-row="2" data-col="3" draggable="true">',
   );
@@ -215,5 +276,3 @@ it("Shouldn't make moves if they are not valid.", () => {
   // Expectation: The current player is still white, as the move hasn't been made (as it's illegal).
   expect(game.currentPlayer).toEqual(game.players.white);
 });
-
-// en passant checken

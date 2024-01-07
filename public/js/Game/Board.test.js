@@ -64,7 +64,7 @@ it("Should set, get, and remove a piece.", () => {
 it("Should return an array of pieces on the board", () => {
   const game = new Game();
 
-  // Creating an array of pieces with different types and player affiliations.
+  // Creating an array of pieces.
   const pieces = [
     new King({ row: 1, col: 1 }, game.players.white, "king", game),
     new Queen({ row: 2, col: 1 }, game.players.white, "queen", game),

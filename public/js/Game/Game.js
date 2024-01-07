@@ -141,6 +141,9 @@ export default class Game {
     this._state = newValue;
 
     if (this.state.gameOver === true && this.domElement) {
+      const gameEndAudio = new Audio("public/audio/game-end.mp3");
+      gameEndAudio.play();
+
       // Create game over modal.
       const checkmateModal = document.createElement("div");
       checkmateModal.classList.add("popup-modal");
@@ -223,6 +226,9 @@ export default class Game {
     // Initialize the board.
     this.board.setPiecesFromFen(this.fenString);
     this.currentPlayer = this.players.white;
+
+    const gameStartAudio = new Audio("public/audio/game-start.mp3");
+    gameStartAudio.play();
 
     // Set the timer element.
     for (const color in this.players) {

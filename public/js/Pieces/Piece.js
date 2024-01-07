@@ -68,10 +68,21 @@ export default class Piece {
 
       pieceDomElement.draggable = true;
       pieceDomElement.ondragstart = () => {
-        renderMovements();
+        if (this.setLegalMoves().length === 0) {
+          const illegalMoveAudio = new Audio("public/audio/illegal.mp3");
+          illegalMoveAudio.play();
+        } else {
+          renderMovements();
+        }
       };
+
       pieceDomElement.addEventListener("click", () => {
-        renderMovements();
+        if (this.setLegalMoves().length === 0) {
+          const illegalMoveAudio = new Audio("public/audio/illegal.mp3");
+          illegalMoveAudio.play();
+        } else {
+          renderMovements();
+        }
       });
 
       if (this.game.domElement) {
@@ -155,6 +166,8 @@ export default class Piece {
     );
 
     if (this.game.currentPlayer === this.player && isMoveLegal) {
+      const audio = new Audio("public/audio/move.mp3");
+
       let targetPiece = this.game.board.getPieceFromGrid(move);
       const isCapture = targetPiece !== null;
       let isCheck = false;
@@ -188,14 +201,22 @@ export default class Piece {
           col: move.col - rookDirection,
         });
 
+        audio.src = "public/audio/castle.mp3";
+
         this.makeMove(move);
       } else {
         // Set isCheck to the makeMove, this is put in the else, because castling is the only movement where two pieces move together.
         isCheck = this.makeMove(move);
       }
 
+      if (isCheck) {
+        audio.src = "public/audio/check.mp3";
+      }
+
       // Remove a piece if it is captured in the move.
       if (targetPiece) {
+        audio.src = "public/audio/capture.mp3";
+
         if (targetPiece.domElement) {
           targetPiece.domElement.remove();
         }
@@ -211,6 +232,8 @@ export default class Piece {
       if (move.case && move.case === "promotion") {
         // Set a timeout, so that the animation can play out smoothly.
         setTimeout(() => {
+          audio.src = "public/audio/promote.mp3";
+
           // Get the queenChar based on the color (uppercase is white, lowercase is black).
           const queenChar = this.color === "white" ? "Q" : "q";
 
@@ -229,6 +252,8 @@ export default class Piece {
           });
         }, 300);
       }
+
+      audio.play();
 
       // Switch current player after the move has been made.
       this.game.switchCurrentPlayer();
