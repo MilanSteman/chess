@@ -69,7 +69,7 @@ export default class Pawn extends Piece {
     // Loop through each vertical step of the pawn.
     for (let i = 1; i <= maxDistance; i++) {
       // Set the move based on the direction of the pawn (white moves upwards, while black moves downwards).
-      const move = {
+      let move = {
         row: this.position.row + i * this.direction,
         col: this.position.col,
       };
@@ -99,7 +99,7 @@ export default class Pawn extends Piece {
       [this.direction, -1],
       [this.direction, 1],
     ]) {
-      const move = { row: this.position.row + x, col: this.position.col + y };
+      let move = { row: this.position.row + x, col: this.position.col + y };
 
       if (this.game.board.isPositionInBounds(move)) {
         const targetPiece = this.game.board.getPieceFromGrid(move);

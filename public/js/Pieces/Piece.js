@@ -209,10 +209,6 @@ export default class Piece {
         isCheck = this.makeMove(move);
       }
 
-      if (isCheck) {
-        audio.src = "public/audio/check.mp3";
-      }
-
       // Remove a piece if it is captured in the move.
       if (targetPiece) {
         audio.src = "public/audio/capture.mp3";
@@ -230,27 +226,52 @@ export default class Piece {
 
       // Handle the promotion of a pawn.
       if (move.case && move.case === "promotion") {
-        // Set a timeout, so that the animation can play out smoothly.
-        setTimeout(() => {
-          audio.src = "public/audio/promote.mp3";
+        audio.src = "public/audio/promote.mp3";
 
-          // Get the queenChar based on the color (uppercase is white, lowercase is black).
-          const queenChar = this.color === "white" ? "Q" : "q";
+        // Get the queenChar based on the color (uppercase is white, lowercase is black).
+        const queenChar = this.color === "white" ? "Q" : "q";
 
-          // Remove the DOM Element of the moved piece.
-          this.domElement.remove();
+        // Remove the DOM Element of the moved piece.
+        this.domElement.remove();
 
-          // Filter out the moved piece, so that it gets removed from the game.
-          this.player.pieces = this.player.pieces.filter(
-            (piece) => piece !== this,
-          );
+        // Filter out the moved piece, so that it gets removed from the game.
+        this.player.pieces = this.player.pieces.filter(
+          (piece) => piece !== this,
+        );
 
-          // Update the board with the new promoted queen.
-          this.game.board.initializePieceInGrid(queenChar, {
-            row: move.row,
-            col: move.col,
-          });
-        }, 300);
+        // Update the board with the new promoted queen.
+        this.game.board.initializePieceInGrid(queenChar, {
+          row: move.row,
+          col: move.col,
+        });
+
+        const promotedPiece = this.game.board.getPieceFromGrid({
+          row: move.row,
+          col: move.col,
+        });
+
+        // If the piece has legal moves, check if any of them result in a check.
+        const legalMoves = promotedPiece.setPossibleMoves();
+
+        if (legalMoves) {
+          const opponentKing = getKing(this.game.getOpponent());
+
+          for (const move of legalMoves) {
+            const { row, col } = move;
+
+            if (
+              row === opponentKing.position.row &&
+              col === opponentKing.position.col
+            ) {
+              isCheck = true;
+            }
+          }
+        }
+      }
+
+      // Set the audio to a check if matches
+      if (isCheck) {
+        audio.src = "public/audio/check.mp3";
       }
 
       audio.play();
