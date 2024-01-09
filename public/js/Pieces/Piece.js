@@ -77,7 +77,10 @@ export default class Piece {
       };
 
       pieceDomElement.addEventListener("click", () => {
-        if (this.setLegalMoves().length === 0) {
+        if (
+          this.setLegalMoves().length === 0 ||
+          this.game.currentPlayer !== this.player
+        ) {
           const illegalMoveAudio = new Audio("public/audio/illegal.mp3");
           illegalMoveAudio.play();
         } else {
