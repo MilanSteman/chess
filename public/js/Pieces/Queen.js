@@ -25,14 +25,14 @@ export default class Queen extends Piece {
      * @type {Array<[number, number]>}
      */
     this.directions = [
-      [1, 1], // diagonally up-right
-      [-1, 1], // diagonally up-left
-      [-1, -1], // diagonally down-left
-      [1, -1], // diagonally down-right
-      [1, 0], // horizontally right
-      [-1, 0], // horizontally left
-      [0, 1], // vertically up
-      [0, -1], // vertically down
+      [1, 1], // up-right
+      [-1, 1], // up-left
+      [-1, -1], // down-left
+      [1, -1], // down-right
+      [1, 0], // right
+      [-1, 0], // left
+      [0, 1], // up
+      [0, -1], // down
     ];
 
     /**

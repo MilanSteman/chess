@@ -25,10 +25,10 @@ export default class Rook extends Piece {
      * @type {Array<[number, number]>}
      */
     this.directions = [
-      [1, 0], // horizontally right
-      [-1, 0], // horizontally left
-      [0, 1], // vertically up
-      [0, -1], // vertically down
+      [1, 0], // right
+      [-1, 0], // left
+      [0, 1], // up
+      [0, -1], // down
     ];
 
     /**
