@@ -1,0 +1,21 @@
+:root {
+  --content-max-width: 1024px;
+  --content-padding-inline: 4rem;
+}
+
+// @container full () {
+
+// }
+
+@mixin container-content() {
+  width: Min(calc(100dvw - (var(--content-padding-inline) * 2)), var(--content-max-width));
+  margin-inline: auto;
+  
+  @include breakpoint(medium) {
+    --content-padding-inline: 2rem;
+  }
+
+  @include breakpoint(small) {
+    --content-padding-inline: 1rem;
+  }
+}

@@ -1,0 +1,27 @@
+:root {
+  /* Primitive */
+  --neutral-white: #ffffff;
+  --neutral-50: hsl(27, 25%, 98%);
+  --neutral-100: hsl(27, 29%, 97%);
+  --neutral-200: hsl(31, 13%, 90%);
+  --neutral-300: hsl(30, 11%, 84%);
+  --neutral-400: hsl(27, 8%, 62%);
+  --neutral-500: hsl(29, 8%, 45%);
+  --neutral-600: hsl(29, 9%, 38%);
+  --neutral-700: hsl(27, 12%, 30%);
+  --neutral-800: hsl(26, 13%, 21%);
+  --neutral-900: hsl(27, 12%, 16%);
+  --neutral-950: hsl(27, 13%, 12%);
+  --neutral-black: hsl(37, 82%, 2%);
+
+  /* Dynamic */
+  --bg-clr: var(--neutral-black);
+  --bg-clr-soft: var(--neutral-950);
+  --bg-clr-softer: var(--neutral-900);
+
+  --txt-clr: var(--neutral-white);
+  --txt-clr-soft: var(--neutral-200);
+
+  --border-clr: var(--neutral-800);
+  --border-clr-soft: var(--neutral-900);
+}

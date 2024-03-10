@@ -1,0 +1,35 @@
+aside.disconnect-modal, aside.queue-modal {
+  height: 3rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #f0a428;
+  display: flex;
+  transition: 0.3s;
+  padding: 1rem;
+
+  &.reconnected {
+    background-color: #35f028;
+  }
+
+  &.hide {
+    transform: translate(0, -100%);
+  }
+
+  & > div {
+    width: Min(calc(100dvw -(var(--content-padding-inline) * 2)), var(--content-max-width));
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    & > p, & > span {
+      color: var(--bg-clr);
+    }
+
+    & > span {
+      font-size: 1rem;
+    }
+  }
+}

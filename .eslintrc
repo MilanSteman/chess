@@ -1,0 +1,17 @@
+{
+  "extends": [
+    "prettier"
+  ],
+  "plugins": [
+    "prettier"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2023,
+    "sourceType": "module"
+  },
+  "rules": {
+    "prettier/prettier": "error",
+    "semi": 0,
+    "no-console": "error"
+  }
+}

@@ -1,0 +1,131 @@
+div.chessboard {
+  aspect-ratio: 1;
+  position: relative;
+
+  & > svg {
+    z-index: 10;
+  }
+
+  /* Rows */
+  & > div {
+    flex: 1;
+    display: flex;
+
+    /* Tiles */
+    & > div {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 0.25rem solid transparent;
+
+      &.light-tile {
+        background-color: #f0d9b5;
+      }
+
+      &.dark-tile {
+        background-color: #b58863;
+      }
+
+      &.highlighted,
+      &.marked {
+        &::before {
+          content: "";
+          height: calc(100% + 0.5rem);
+          aspect-ratio: 1/1;
+        }
+      }
+
+      &.highlighted {
+        &::before {
+          background-color: #dfc55d75;
+        }
+      }
+
+      &.marked {
+        &::before {
+          background-color: #df535e75;
+        }
+      }
+
+      &.hovered {
+        border: 0.25rem solid var(--border-clr);
+      }
+
+      &.attacked-tile,
+      &.attacked-piece {
+        &::before {
+          content: "";
+          border-radius: 50%;
+          opacity: 0.5;
+        }
+      }
+
+      &.attacked-tile {
+        &::before {
+          width: 25%;
+          height: 25%;
+          background-color: var(--border-clr-soft);
+        }
+      }
+
+      &.attacked-piece {
+        &::before {
+          width: 100%;
+          height: 100%;
+          border: 0.375rem solid var(--border-clr-soft);
+          z-index: 10;
+        }
+      }
+
+      /* Pieces */
+      & > img {
+        position: absolute;
+        width: 12.5%;
+        height: 12.5%;
+        cursor: grab;
+        touch-action: none;
+        z-index: 1;
+        transition: transform 0.2s ease-in-out;
+
+        &.captured {
+          visibility: hidden;
+        }
+      }
+    }
+  }
+
+  & > div.game-modal {
+    position: absolute;
+    width: calc(100% / 3);
+    aspect-ratio: 1/1;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--bg-clr-soft);
+    border-radius: 1rem;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 1rem;
+
+    & span {
+      display: inline-flex;
+      font-size: 1rem;
+      color: var(--txt-clr-soft);
+
+      &:not(:first-of-type) {
+        text-transform: lowercase;
+      }
+
+      &:first-of-type {
+        color: var(--txt-clr);
+        font-weight: 600;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+}

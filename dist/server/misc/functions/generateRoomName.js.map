@@ -1,0 +1,1 @@
+{"version":3,"file":"generateRoomName.js","sourceRoot":"","sources":["../../../../src/server/misc/functions/generateRoomName.ts"],"names":[],"mappings":";;;AAAA,MAAM,IAAI,GAAG,EAAE,CAAC;AAChB,MAAM,eAAe,GAAG,CAAC,CAAC;AAE1B,SAAS,kBAAkB;IACzB,OAAO,IAAI,CAAC,MAAM,EAAE,CAAC,QAAQ,CAAC,IAAI,CAAC,CAAC,SAAS,CAAC,eAAe,CAAC,CAAC;AACjE,CAAC;AAEQ,gDAAkB"}
