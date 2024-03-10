@@ -7,7 +7,11 @@ import { Game } from "../Game.js";
 
 interface Revertable {
   revertBoardState: (moveIndex: number) => void;
-  revertSingleMove: (move: MadeMove, isBackwards: boolean, isLastMove: boolean) => void;
+  revertSingleMove: (
+    move: MadeMove,
+    isBackwards: boolean,
+    isLastMove: boolean,
+  ) => void;
   handleMovementProperties: (moveIndex: number) => void;
 }
 
@@ -19,8 +23,8 @@ const RevertableMixin: Revertable = {
    * Reverts the board state to a specific move index
    */
   revertBoardState(moveIndex: number) {
-    console.log(`Before reverting`)
-    console.log(Board.grid)
+    console.log(`Before reverting`);
+    console.log(Board.grid);
     // Determine the direction of reverting based on the current index and target move index
     const isBackwards: boolean = Board.currentIndex > moveIndex;
 
@@ -34,32 +38,53 @@ const RevertableMixin: Revertable = {
     Game.allowMovements = moveIndex === madeMoves.length;
 
     // Determine the start and end index for the loop based on the direction of reverting
-    const startIndex: number = isBackwards ? Board.currentIndex - 1 : Board.currentIndex;
+    const startIndex: number = isBackwards
+      ? Board.currentIndex - 1
+      : Board.currentIndex;
     const endIndex: number = isBackwards ? moveIndex : moveIndex - 1;
 
     // Iterate through the moves and revert each move individually
-    for (let i = startIndex; isBackwards ? i >= endIndex : i <= endIndex; isBackwards ? i-- : i++) {
+    for (
+      let i = startIndex;
+      isBackwards ? i >= endIndex : i <= endIndex;
+      isBackwards ? i-- : i++
+    ) {
       const move: MadeMove = madeMoves[i];
       this.revertSingleMove(move, isBackwards, i === endIndex);
     }
 
     // Set the new highlighted tile or remove existing highlights
-    moveIndex > 0 ? Board.highlightMovePositions(madeMoves[moveIndex - 1]) : document.querySelectorAll(".highlighted").forEach((highlightedTile) => highlightedTile.classList.remove("highlighted"));
+    moveIndex > 0
+      ? Board.highlightMovePositions(madeMoves[moveIndex - 1])
+      : document
+          .querySelectorAll(".highlighted")
+          .forEach((highlightedTile) =>
+            highlightedTile.classList.remove("highlighted"),
+          );
 
     // Update the current index to the target move index
     Board.currentIndex = moveIndex;
 
-    console.log(`After reverting:`)
-    console.log(Board.grid)
+    console.log(`After reverting:`);
+    console.log(Board.grid);
   },
 
   /**
-  * Reverts a single move on the board
-  */
+   * Reverts a single move on the board
+   */
   revertSingleMove(move: MadeMove, isBackwards: boolean, isLastMove: boolean) {
     // Determine the destination row and column based on the direction of reverting
-    const [moveToRow, moveToCol] = isBackwards ? [move.fromRow, move.fromCol] : [move.toRow, move.toCol];
-    const castleCol = move.specialMove === CastlingType.SHORT ? (isBackwards ? 7 : 5) : (isBackwards ? 0 : 3);
+    const [moveToRow, moveToCol] = isBackwards
+      ? [move.fromRow, move.fromCol]
+      : [move.toRow, move.toCol];
+    const castleCol =
+      move.specialMove === CastlingType.SHORT
+        ? isBackwards
+          ? 7
+          : 5
+        : isBackwards
+          ? 0
+          : 3;
 
     // Show captured move
     if (move.capture) {
@@ -68,9 +93,17 @@ const RevertableMixin: Revertable = {
 
     // If it is not the last reverted move, skip all animations to avoid duplication glitches
     if (!isLastMove) {
-      move.piece.MoveableMixin.updatePiecePosition(move.piece, moveToRow, moveToCol);
+      move.piece.MoveableMixin.updatePiecePosition(
+        move.piece,
+        moveToRow,
+        moveToCol,
+      );
       if (move.castledPiece?.pieceDomEl) {
-        move.castledPiece.MoveableMixin.updatePiecePosition(move.castledPiece, move.castledPiece.row, castleCol);
+        move.castledPiece.MoveableMixin.updatePiecePosition(
+          move.castledPiece,
+          move.castledPiece.row,
+          castleCol,
+        );
       }
       return;
     }
@@ -84,7 +117,12 @@ const RevertableMixin: Revertable = {
 
     // If castling occurred, translate the castled piece aswell
     if (move.castledPiece?.pieceDomEl) {
-      const castleColDiff = (isBackwards ? (move.castledPiece.col - castleCol) : (castleCol - move.castledPiece.col)) * 100 * (isBackwards ? -1 : 1);
+      const castleColDiff =
+        (isBackwards
+          ? move.castledPiece.col - castleCol
+          : castleCol - move.castledPiece.col) *
+        100 *
+        (isBackwards ? -1 : 1);
       translate(move.castledPiece.pieceDomEl, 0, castleColDiff);
     }
 
@@ -106,12 +144,24 @@ const RevertableMixin: Revertable = {
     // Asynchronously revert the move after a delay to simulate the original move speed
     setTimeout(() => {
       translate(move.piece.pieceDomEl, DEFAULT_TRANSLATE, DEFAULT_TRANSLATE);
-      move.piece.MoveableMixin.updatePiecePosition(move.piece, moveToRow, moveToCol);
+      move.piece.MoveableMixin.updatePiecePosition(
+        move.piece,
+        moveToRow,
+        moveToCol,
+      );
 
       // If castling occurred, translate the castled piece back to its original position
       if (move.castledPiece?.pieceDomEl) {
-        translate(move.castledPiece.pieceDomEl, DEFAULT_TRANSLATE, DEFAULT_TRANSLATE);
-        move.castledPiece.MoveableMixin.updatePiecePosition(move.castledPiece, move.castledPiece.row, castleCol);
+        translate(
+          move.castledPiece.pieceDomEl,
+          DEFAULT_TRANSLATE,
+          DEFAULT_TRANSLATE,
+        );
+        move.castledPiece.MoveableMixin.updatePiecePosition(
+          move.castledPiece,
+          move.castledPiece.row,
+          castleCol,
+        );
       }
     }, Game.moveSpeed);
   },
@@ -131,9 +181,11 @@ const RevertableMixin: Revertable = {
     });
 
     // Highlight the selected move element
-    const selectedMoveElement = document.querySelector(`span[data-move="${moveIndex}"]`);
+    const selectedMoveElement = document.querySelector(
+      `span[data-move="${moveIndex}"]`,
+    );
     selectedMoveElement?.classList.add("selected");
   },
-}
+};
 
 export { Revertable, RevertableMixin };

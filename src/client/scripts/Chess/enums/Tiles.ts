@@ -4,6 +4,6 @@
 enum Tiles {
   LIGHT = "light",
   DARK = "dark",
-};
+}
 
 export { Tiles };

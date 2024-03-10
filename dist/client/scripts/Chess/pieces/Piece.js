@@ -31,7 +31,7 @@ class Piece {
      * Filters out moves that would result in the player's king being in check
      */
     getLegalMoves() {
-        return this.getPossibleMoves().filter(move => !isInCheckAfterMove(this, move.row, move.col));
+        return this.getPossibleMoves().filter((move) => !isInCheckAfterMove(this, move.row, move.col));
     }
     /**
      * Creates the HTML element for the chess piece and sets its initial properties
@@ -49,7 +49,7 @@ class Piece {
 }
 Piece.Z_INDEX = {
     DEFAULT: "1",
-    DRAGGED: "10"
+    DRAGGED: "10",
 };
 Piece.OFFSET = 0.5;
 export { Piece };

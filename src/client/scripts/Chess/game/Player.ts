@@ -22,8 +22,11 @@ class Player {
     this.color = color;
     this._madeMoves = [];
     this._captures = [];
-    this.interfaceEl = document.createElement('div');
-    this._time = this.color === Players.WHITE ? Game.timeControl.whiteTime : Game.timeControl.blackTime;
+    this.interfaceEl = document.createElement("div");
+    this._time =
+      this.color === Players.WHITE
+        ? Game.timeControl.whiteTime
+        : Game.timeControl.blackTime;
     this.timeInterval = null;
     this.createPlayerInterface();
   }
@@ -40,7 +43,7 @@ class Player {
    */
   set time(newTime: number) {
     this._time = newTime;
-    
+
     // To avoid duplication calls to DB
     if (Game.player === this.color) {
       client.socket.emit("updateTime", newTime, this.color);
@@ -48,7 +51,14 @@ class Player {
 
     // If a player's time is up, set the opponent as the winner.
     if (this._time === 0) {
-      Game.state = { ...Game.state, ...{ status: GameStatus.GAME_OVER, winner: Game.getOpponent(), endType: GameEndTypes.TIME } };
+      Game.state = {
+        ...Game.state,
+        ...{
+          status: GameStatus.GAME_OVER,
+          winner: Game.getOpponent(),
+          endType: GameEndTypes.TIME,
+        },
+      };
     }
 
     // Update the visual timer.
@@ -69,7 +79,9 @@ class Player {
    * Updates the player's timer display.
    */
   setTimer = () => {
-    const timerElement: HTMLDivElement | null = document.querySelector(`.${this.color}-sidebar .timer`);
+    const timerElement: HTMLDivElement | null = document.querySelector(
+      `.${this.color}-sidebar .timer`,
+    );
 
     if (timerElement) {
       timerElement.textContent = formatTime(this.time);
@@ -116,11 +128,15 @@ class Player {
     // Extract the last captured piece from the new captures
     const [newCapture] = newCaptures.slice(-1);
 
-    const newCaptureEl: HTMLImageElement = this.setCaptureInInterface(newCapture);
-    const capturedPiecesEl: HTMLDivElement | null = document.querySelector(`.${this.color}-sidebar .captured-pieces`);
+    const newCaptureEl: HTMLImageElement =
+      this.setCaptureInInterface(newCapture);
+    const capturedPiecesEl: HTMLDivElement | null = document.querySelector(
+      `.${this.color}-sidebar .captured-pieces`,
+    );
     capturedPiecesEl?.appendChild(newCaptureEl);
 
-    Game.advantage += newCapture.value * (this.color === Players.WHITE ? 1 : -1);
+    Game.advantage +=
+      newCapture.value * (this.color === Players.WHITE ? 1 : -1);
 
     this._captures = newCaptures;
   }
@@ -129,8 +145,8 @@ class Player {
     this.interfaceEl.classList.add(`${this.color}-sidebar`);
 
     // Create capture row
-    const captureRow: HTMLDivElement = document.createElement('div');
-    captureRow.classList.add('captured-pieces');
+    const captureRow: HTMLDivElement = document.createElement("div");
+    captureRow.classList.add("captured-pieces");
 
     const timerEl: HTMLDivElement = document.createElement("div");
     timerEl.classList.add("timer");

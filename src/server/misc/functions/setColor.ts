@@ -14,7 +14,7 @@ function setRandomColor(): string {
  * @returns A string with either 'black' or 'white'
  */
 function setOppositeColor(room: Room): string {
-  const existingColor = (Object.values(room.players)[0])?.color;
+  const existingColor = Object.values(room.players)[0]?.color;
 
   return existingColor === Colors.WHITE ? Colors.BLACK : Colors.WHITE;
 }

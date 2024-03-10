@@ -22,7 +22,9 @@ const RevertableMixin = {
         // Check if current move allows further movements
         Game.allowMovements = moveIndex === madeMoves.length;
         // Determine the start and end index for the loop based on the direction of reverting
-        const startIndex = isBackwards ? Board.currentIndex - 1 : Board.currentIndex;
+        const startIndex = isBackwards
+            ? Board.currentIndex - 1
+            : Board.currentIndex;
         const endIndex = isBackwards ? moveIndex : moveIndex - 1;
         // Iterate through the moves and revert each move individually
         for (let i = startIndex; isBackwards ? i >= endIndex : i <= endIndex; isBackwards ? i-- : i++) {
@@ -30,20 +32,32 @@ const RevertableMixin = {
             this.revertSingleMove(move, isBackwards, i === endIndex);
         }
         // Set the new highlighted tile or remove existing highlights
-        moveIndex > 0 ? Board.highlightMovePositions(madeMoves[moveIndex - 1]) : document.querySelectorAll(".highlighted").forEach((highlightedTile) => highlightedTile.classList.remove("highlighted"));
+        moveIndex > 0
+            ? Board.highlightMovePositions(madeMoves[moveIndex - 1])
+            : document
+                .querySelectorAll(".highlighted")
+                .forEach((highlightedTile) => highlightedTile.classList.remove("highlighted"));
         // Update the current index to the target move index
         Board.currentIndex = moveIndex;
         console.log(`After reverting:`);
         console.log(Board.grid);
     },
     /**
-    * Reverts a single move on the board
-    */
+     * Reverts a single move on the board
+     */
     revertSingleMove(move, isBackwards, isLastMove) {
         var _a, _b;
         // Determine the destination row and column based on the direction of reverting
-        const [moveToRow, moveToCol] = isBackwards ? [move.fromRow, move.fromCol] : [move.toRow, move.toCol];
-        const castleCol = move.specialMove === CastlingType.SHORT ? (isBackwards ? 7 : 5) : (isBackwards ? 0 : 3);
+        const [moveToRow, moveToCol] = isBackwards
+            ? [move.fromRow, move.fromCol]
+            : [move.toRow, move.toCol];
+        const castleCol = move.specialMove === CastlingType.SHORT
+            ? isBackwards
+                ? 7
+                : 5
+            : isBackwards
+                ? 0
+                : 3;
         // Show captured move
         if (move.capture) {
             move.capture.pieceDomEl.classList.toggle("captured", !isBackwards);
@@ -63,7 +77,11 @@ const RevertableMixin = {
         translate(move.piece.pieceDomEl, rowDiff, colDiff);
         // If castling occurred, translate the castled piece aswell
         if ((_b = move.castledPiece) === null || _b === void 0 ? void 0 : _b.pieceDomEl) {
-            const castleColDiff = (isBackwards ? (move.castledPiece.col - castleCol) : (castleCol - move.castledPiece.col)) * 100 * (isBackwards ? -1 : 1);
+            const castleColDiff = (isBackwards
+                ? move.castledPiece.col - castleCol
+                : castleCol - move.castledPiece.col) *
+                100 *
+                (isBackwards ? -1 : 1);
             translate(move.castledPiece.pieceDomEl, 0, castleColDiff);
         }
         // Play the correct audio

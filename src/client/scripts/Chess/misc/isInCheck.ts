@@ -2,15 +2,25 @@ import { Board } from "../game/Board.js";
 import { Game } from "../game/Game.js";
 import { Player } from "../game/Player.js";
 import { Piece } from "../pieces/Piece.js";
-import { findAllPiecesFromPlayer, findSingleInstanceofPiece } from "./findPieceFromGrid.js";
+import {
+  findAllPiecesFromPlayer,
+  findSingleInstanceofPiece,
+} from "./findPieceFromGrid.js";
 
 /**
  * Checks if the current player's king is in check.
  * @returns True if the current player's king is in check, otherwise false.
  */
 function isInCheck(player: Player | null): boolean {
-  const currentPlayerKing: Piece | null = findSingleInstanceofPiece(Board.grid, "king", player?.color);
-  const opponentPieces: Piece[] | null = findAllPiecesFromPlayer(Board.grid, Game.getOpponent(player).color);
+  const currentPlayerKing: Piece | null = findSingleInstanceofPiece(
+    Board.grid,
+    "king",
+    player?.color,
+  );
+  const opponentPieces: Piece[] | null = findAllPiecesFromPlayer(
+    Board.grid,
+    Game.getOpponent(player).color,
+  );
 
   // If the current player's king or opponent's pieces are not found, return false
   if (!currentPlayerKing || !opponentPieces) {
@@ -18,10 +28,12 @@ function isInCheck(player: Player | null): boolean {
   }
 
   // Check if any of the opponent's pieces have a possible move to the current player's king's position
-  return opponentPieces.some(opponentPiece =>
-    (opponentPiece.getPossibleMoves() || []).some(opponentMove =>
-      opponentMove.row === currentPlayerKing.row && opponentMove.col === currentPlayerKing.col
-    )
+  return opponentPieces.some((opponentPiece) =>
+    (opponentPiece.getPossibleMoves() || []).some(
+      (opponentMove) =>
+        opponentMove.row === currentPlayerKing.row &&
+        opponentMove.col === currentPlayerKing.col,
+    ),
   );
 }
 
@@ -29,7 +41,11 @@ function isInCheck(player: Player | null): boolean {
  * Checks if the move to the new position would put the king in check
  * @returns True if the move results in the king being in check, otherwise false
  */
-function isInCheckAfterMove(instance: Piece, newRow: number, newCol: number): boolean {
+function isInCheckAfterMove(
+  instance: Piece,
+  newRow: number,
+  newCol: number,
+): boolean {
   // Create a deep copy of the current board state
   const copiedGrid: (Piece | null)[][] = Board.grid.map((inner) => [...inner]);
 

@@ -9,7 +9,10 @@ import { setOppositeColor } from "./setColor.js";
  * Finds the first available room out of all rooms
  * @returns A room if one can be joined, otherwise null
  */
-async function findAvailableRoom(rooms: Map<string, Room>, playerID: string): Promise<Room> | null {
+async function findAvailableRoom(
+  rooms: Map<string, Room>,
+  playerID: string,
+): Promise<Room> | null {
   for (const room of rooms.values()) {
     const playersInRoom: number = getPlayerAmount(room);
 
@@ -24,7 +27,7 @@ async function findAvailableRoom(rooms: Map<string, Room>, playerID: string): Pr
     room.players[playerID] = {
       color: setOppositeColor(room),
       timeLeft: DEFAULT_TIME,
-    }
+    };
 
     const { roomName } = room;
 

@@ -3,6 +3,6 @@
  * @returns True if the string is fully uppercase
  */
 function isUpperCase(str) {
-    return str === str.toUpperCase();
+  return str === str.toUpperCase();
 }
 export { isUpperCase };

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.findAndDeletePlayerInRoom = exports.findRoomFromPlayer = void 0;
 const RoomModel_js_1 = require("../models/RoomModel.js");
 function findRoomFromPlayer(rooms, playerID) {
-    return Array.from(rooms.values()).find(room => room.players[playerID]) || null;
+    return (Array.from(rooms.values()).find((room) => room.players[playerID]) || null);
 }
 exports.findRoomFromPlayer = findRoomFromPlayer;
 async function findAndDeletePlayerInRoom(rooms, playerID) {

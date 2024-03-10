@@ -39,8 +39,11 @@ class Player {
         this.color = color;
         this._madeMoves = [];
         this._captures = [];
-        this.interfaceEl = document.createElement('div');
-        this._time = this.color === Players.WHITE ? Game.timeControl.whiteTime : Game.timeControl.blackTime;
+        this.interfaceEl = document.createElement("div");
+        this._time =
+            this.color === Players.WHITE
+                ? Game.timeControl.whiteTime
+                : Game.timeControl.blackTime;
         this.timeInterval = null;
         this.createPlayerInterface();
     }
@@ -61,7 +64,11 @@ class Player {
         }
         // If a player's time is up, set the opponent as the winner.
         if (this._time === 0) {
-            Game.state = Object.assign(Object.assign({}, Game.state), { status: GameStatus.GAME_OVER, winner: Game.getOpponent(), endType: GameEndTypes.TIME });
+            Game.state = Object.assign(Object.assign({}, Game.state), {
+                status: GameStatus.GAME_OVER,
+                winner: Game.getOpponent(),
+                endType: GameEndTypes.TIME,
+            });
         }
         // Update the visual timer.
         this.setTimer();
@@ -96,14 +103,15 @@ class Player {
         const newCaptureEl = this.setCaptureInInterface(newCapture);
         const capturedPiecesEl = document.querySelector(`.${this.color}-sidebar .captured-pieces`);
         capturedPiecesEl === null || capturedPiecesEl === void 0 ? void 0 : capturedPiecesEl.appendChild(newCaptureEl);
-        Game.advantage += newCapture.value * (this.color === Players.WHITE ? 1 : -1);
+        Game.advantage +=
+            newCapture.value * (this.color === Players.WHITE ? 1 : -1);
         this._captures = newCaptures;
     }
     createPlayerInterface() {
         this.interfaceEl.classList.add(`${this.color}-sidebar`);
         // Create capture row
-        const captureRow = document.createElement('div');
-        captureRow.classList.add('captured-pieces');
+        const captureRow = document.createElement("div");
+        captureRow.classList.add("captured-pieces");
         const timerEl = document.createElement("div");
         timerEl.classList.add("timer");
         this.interfaceEl.appendChild(captureRow);

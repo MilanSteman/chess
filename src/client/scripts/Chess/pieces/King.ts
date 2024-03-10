@@ -26,18 +26,23 @@ class King extends Piece {
    */
   public getPossibleMoves(): PotentialMove[] {
     const directions: number[][] = [
-      [1, 1],    // down-right
-      [-1, 1],   // up-right
-      [-1, -1],  // up-left
-      [1, -1],   // down-left
-      [1, 0],    // down
-      [-1, 0],   // up
-      [0, 1],    // right
-      [0, -1],   // left
+      [1, 1], // down-right
+      [-1, 1], // up-right
+      [-1, -1], // up-left
+      [1, -1], // down-left
+      [1, 0], // down
+      [-1, 0], // up
+      [0, 1], // right
+      [0, -1], // left
     ];
 
     // Calculate standard moves
-    const moves: PotentialMove[] = moveInDirection(this.row, this.col, directions, false);
+    const moves: PotentialMove[] = moveInDirection(
+      this.row,
+      this.col,
+      directions,
+      false,
+    );
 
     // Add all possible castling moves to the moves array
     this.castleMoves(moves);
@@ -52,12 +57,20 @@ class King extends Piece {
    */
   private castleMoves(moves: PotentialMove[]): void {
     // Check conditions for castling: king has not moved, it's the king's turn, and the king is not in check
-    if (this.hasMoved || this.color !== Game.currentPlayer?.color || isInCheckAfterMove(this, this.row, this.col)) {
+    if (
+      this.hasMoved ||
+      this.color !== Game.currentPlayer?.color ||
+      isInCheckAfterMove(this, this.row, this.col)
+    ) {
       return;
     }
 
     // Find all Rooks of the same color that have not moved
-    const rooks: Piece[] | null = findAllInstancesOfPiece(Board.grid, Rook.name.toLowerCase(), this.color);
+    const rooks: Piece[] | null = findAllInstancesOfPiece(
+      Board.grid,
+      Rook.name.toLowerCase(),
+      this.color,
+    );
 
     // Return if no eligible rooks are found
     if (!rooks) {
@@ -71,17 +84,23 @@ class King extends Piece {
       }
 
       // Determine the castling type (long or short) based on rook's position relative to the king
-      const castleType: string = rook.col < this.col ? CastlingType.LONG : CastlingType.SHORT;
+      const castleType: string =
+        rook.col < this.col ? CastlingType.LONG : CastlingType.SHORT;
 
       // Determine the castling destination square
       const castlingDest: number = castleType === CastlingType.LONG ? -2 : 2;
 
       // Determine the start and end squares for castling
-      const [startSquare, endSquare]: number[] = rook.col < this.col ? [rook.col, this.col] : [this.col, rook.col];
+      const [startSquare, endSquare]: number[] =
+        rook.col < this.col ? [rook.col, this.col] : [this.col, rook.col];
 
       // Check if the path between the king and rook is clear
       if (this.isPathClear(startSquare, endSquare)) {
-        moves.push({ row: this.row, col: this.col + castlingDest, specialMove: castleType });
+        moves.push({
+          row: this.row,
+          col: this.col + castlingDest,
+          specialMove: castleType,
+        });
       }
     });
   }

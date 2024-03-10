@@ -20,8 +20,10 @@ class Pawn extends Piece {
     this.value = PieceValue.PAWN;
 
     // Set the direction based on the color of the pawn
-    this.direction = this.color === Players.WHITE ? PawnDirection.BLACK : PawnDirection.WHITE;
-    this.enPassantRow = this.color === Players.WHITE ? EnPassantRow.WHITE : EnPassantRow.BLACK;
+    this.direction =
+      this.color === Players.WHITE ? PawnDirection.BLACK : PawnDirection.WHITE;
+    this.enPassantRow =
+      this.color === Players.WHITE ? EnPassantRow.WHITE : EnPassantRow.BLACK;
   }
 
   /**
@@ -73,7 +75,10 @@ class Pawn extends Piece {
    * @param moves - The array to store the calculated moves
    */
   private captureMoves(moves: PotentialMove[]): void {
-    for (const [x, y] of [[this.direction, -1], [this.direction, 1]]) {
+    for (const [x, y] of [
+      [this.direction, -1],
+      [this.direction, 1],
+    ]) {
       // Calculate new move position
       const newRow: number = this.row + x;
       const newCol: number = this.col + y;
@@ -115,7 +120,7 @@ class Pawn extends Piece {
     const enPassantMove: PotentialMove = {
       row: opponentLastMove.toRow + this.direction,
       col: opponentLastMove.toCol,
-      specialMove: 'en-passant',
+      specialMove: "en-passant",
     };
 
     // Add the en passant move to the array of moves
@@ -137,9 +142,15 @@ class Pawn extends Piece {
     const isTargetNextToThis = Math.abs(lastMove.toCol - this.col) === 1;
 
     // Check if the target pawn moved two squares forward in its last move
-    const hasTargetMovedTwoSquares = Math.abs(lastMove.toRow - lastMove.fromRow) === 2;
+    const hasTargetMovedTwoSquares =
+      Math.abs(lastMove.toRow - lastMove.fromRow) === 2;
 
-    return isTargetPawn && isTargetOnRow && isTargetNextToThis && hasTargetMovedTwoSquares;
+    return (
+      isTargetPawn &&
+      isTargetOnRow &&
+      isTargetNextToThis &&
+      hasTargetMovedTwoSquares
+    );
   }
 }
 

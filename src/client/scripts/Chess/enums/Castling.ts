@@ -2,13 +2,13 @@
  * Enum for determining the types of castling
  */
 enum CastlingType {
-  SHORT = 'shortCastle',
-  LONG = 'longCastle',
+  SHORT = "shortCastle",
+  LONG = "longCastle",
 }
 
 enum CastleAnnotation {
-  SHORT = 'O-O',
-  LONG = 'O-O-O',
+  SHORT = "O-O",
+  LONG = "O-O-O",
 }
 
 enum CastleColDiff {

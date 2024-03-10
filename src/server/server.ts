@@ -1,21 +1,27 @@
-import express, { Response, NextFunction, Request } from 'express';
+import express, { Response, NextFunction, Request } from "express";
 import http from "http";
 import dotenv from "dotenv";
 import nunjucks from "nunjucks";
-import { Server, Socket } from 'socket.io';
-import cookieParser from 'cookie-parser';
+import { Server, Socket } from "socket.io";
+import cookieParser from "cookie-parser";
 
 import router from "./router/router.js";
 import { Room } from "./misc/interfaces/Room.js";
 import { findAvailableRoom } from "./misc/functions/findAvailableRoom.js";
 import { generateRoom } from "./misc/functions/generateRoom.js";
-import { findAndDeletePlayerInRoom, findRoomFromPlayer } from "./misc/functions/findAndDeletePlayerInRoom.js";
+import {
+  findAndDeletePlayerInRoom,
+  findRoomFromPlayer,
+} from "./misc/functions/findAndDeletePlayerInRoom.js";
 import { getPlayerAmount } from "./misc/functions/getPlayerAmount.js";
 import { RoomData, RoomStatus } from "./misc/enums/RoomData.js";
-import { handleConnection, handleReconnection } from "./misc/functions/handleConnection.js";
-import { CustomRequest } from './misc/interfaces/CustomRequest.js';
-import { connectToDB } from './misc/config/connectToDB.js';
-import { updateMoveToDB, updateTimeToDB } from './misc/functions/updateToDB.js';
+import {
+  handleConnection,
+  handleReconnection,
+} from "./misc/functions/handleConnection.js";
+import { CustomRequest } from "./misc/interfaces/CustomRequest.js";
+import { connectToDB } from "./misc/config/connectToDB.js";
+import { updateMoveToDB, updateTimeToDB } from "./misc/functions/updateToDB.js";
 
 dotenv.config();
 
@@ -30,7 +36,7 @@ class App {
   private disconnectTimeouts: Map<string, NodeJS.Timeout>;
 
   constructor(port: number) {
-    this.port = port
+    this.port = port;
     this.disconnectTimeouts = new Map();
 
     const app = express();
@@ -63,7 +69,11 @@ class App {
     });
   }
 
-  private attachPlayerIDToRequest(req: CustomRequest, res: Response, next: NextFunction): void {
+  private attachPlayerIDToRequest(
+    req: CustomRequest,
+    res: Response,
+    next: NextFunction,
+  ): void {
     // Middleware to attach playerID to the request object
     const playerID: string = req.cookies.playerID;
     req.playerID = playerID;
@@ -111,13 +121,20 @@ class App {
     });
   }
 
-  private handleUserReconnection(socket: Socket, inRoom: Room, playerID: string): void {
+  private handleUserReconnection(
+    socket: Socket,
+    inRoom: Room,
+    playerID: string,
+  ): void {
     handleReconnection(socket, inRoom, playerID);
     this.io.to(inRoom.roomName).emit("unfreeze");
     this.io.to(inRoom.roomName).emit("cleanup");
   }
 
-  private async handleStartQueue(socket: Socket, playerID: string): Promise<void> {
+  private async handleStartQueue(
+    socket: Socket,
+    playerID: string,
+  ): Promise<void> {
     try {
       let room: Room | null = await findAvailableRoom(this.rooms, playerID);
 
@@ -144,7 +161,12 @@ class App {
     }
   }
 
-  private handleMove(socket: Socket, playerID: string, madeMove: any, color: string): void {
+  private handleMove(
+    socket: Socket,
+    playerID: string,
+    madeMove: any,
+    color: string,
+  ): void {
     const room: Room = findRoomFromPlayer(this.rooms, playerID);
 
     // To avoid duplication of made move
@@ -156,7 +178,12 @@ class App {
     }
   }
 
-  private handleUpdateTime(socket: Socket, playerID: string, time: number, color: string): void {
+  private handleUpdateTime(
+    socket: Socket,
+    playerID: string,
+    time: number,
+    color: string,
+  ): void {
     const room: Room = findRoomFromPlayer(this.rooms, playerID);
 
     if (room) {

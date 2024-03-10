@@ -19,10 +19,10 @@ class Bishop extends Piece {
    */
   public getPossibleMoves(): PotentialMove[] {
     const directions: number[][] = [
-      [1, 1],   // down-right
-      [-1, 1],  // up-right
+      [1, 1], // down-right
+      [-1, 1], // up-right
       [-1, -1], // up-left
-      [1, -1],  // down-left
+      [1, -1], // down-left
     ];
 
     return moveInDirection(this.row, this.col, directions, true);

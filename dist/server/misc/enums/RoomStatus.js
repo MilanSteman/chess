@@ -6,9 +6,8 @@ exports.RoomStatus = void 0;
  */
 var RoomStatus;
 (function (RoomStatus) {
-    RoomStatus["WAITING"] = "waiting";
-    RoomStatus["PLAYING"] = "playing";
-    RoomStatus["ENDED"] = "ended";
+  RoomStatus["WAITING"] = "waiting";
+  RoomStatus["PLAYING"] = "playing";
+  RoomStatus["ENDED"] = "ended";
 })(RoomStatus || (exports.RoomStatus = RoomStatus = {}));
-;
 //# sourceMappingURL=RoomStatus.js.map

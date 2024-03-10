@@ -20,7 +20,7 @@ class Game {
         Game.player = (_a = config === null || config === void 0 ? void 0 : config.player) !== null && _a !== void 0 ? _a : Game.DEFAULT_CONFIG.player;
         Game.moves = (_b = config === null || config === void 0 ? void 0 : config.moves) !== null && _b !== void 0 ? _b : Game.DEFAULT_CONFIG.moves;
         this.fen = (_c = config === null || config === void 0 ? void 0 : config.fen) !== null && _c !== void 0 ? _c : Game.DEFAULT_CONFIG.fen;
-        this.gameEl = document.createElement('div');
+        this.gameEl = document.createElement("div");
         // Initialize theme
         Game.pieceTheme = (_d = config === null || config === void 0 ? void 0 : config.pieceTheme) !== null && _d !== void 0 ? _d : Game.DEFAULT_CONFIG.pieceTheme;
         // Initialize advantage
@@ -89,7 +89,11 @@ class Game {
          */
         client.socket.on("disconnectEnd", () => {
             const winner = Game.player === Players.WHITE ? Game.players.white : Game.players.black;
-            Game.state = Object.assign(Object.assign({}, Game.state), { status: GameStatus.GAME_OVER, winner: winner, endType: GameEndTypes.DISCONNECT });
+            Game.state = Object.assign(Object.assign({}, Game.state), {
+                status: GameStatus.GAME_OVER,
+                winner: winner,
+                endType: GameEndTypes.DISCONNECT,
+            });
         });
     }
     /**
@@ -110,7 +114,11 @@ class Game {
             const modal = document.createElement("div");
             modal.classList.add("game-modal");
             const winnerEl = document.createElement("span");
-            winnerEl.textContent = Game.state.winner ? (Game.state.winner.color === Players.WHITE ? `${capitalizeFirstLetter(Players.WHITE)} won` : `${capitalizeFirstLetter(Players.BLACK)} won`) : "Tie";
+            winnerEl.textContent = Game.state.winner
+                ? Game.state.winner.color === Players.WHITE
+                    ? `${capitalizeFirstLetter(Players.WHITE)} won`
+                    : `${capitalizeFirstLetter(Players.BLACK)} won`
+                : "Tie";
             const gameEndTypeEl = document.createElement("span");
             gameEndTypeEl.textContent = `By ${Game.state.endType === GameEndTypes.INSUFFICIENT_MATERIAL ? "Insufficient Material" : Game.state.endType}`;
             const button = document.createElement("button");
@@ -141,17 +149,23 @@ class Game {
      * Setter for the advantage property
      */
     static set advantage(newAdvantage) {
-        // Remove any existing advantage elements 
-        document.querySelectorAll(".captured-pieces > span").forEach((advantageEl) => {
+        // Remove any existing advantage elements
+        document
+            .querySelectorAll(".captured-pieces > span")
+            .forEach((advantageEl) => {
             advantageEl.remove();
         });
         // Determine if there is an advantage and the player with the advantage
-        const hasAdvantage = newAdvantage === 0 ? null : newAdvantage > 0 ? Game.players[Players.WHITE] : Game.players[Players.BLACK];
+        const hasAdvantage = newAdvantage === 0
+            ? null
+            : newAdvantage > 0
+                ? Game.players[Players.WHITE]
+                : Game.players[Players.BLACK];
         if (hasAdvantage) {
             // Get the captured pieces element of the player with the advantage
             const capturedPiecesEl = document.querySelector(`.${hasAdvantage.color}-sidebar .captured-pieces`);
             // Create a new element to display the advantage
-            const advantageEl = document.createElement('span');
+            const advantageEl = document.createElement("span");
             advantageEl.textContent = `+${Math.abs(newAdvantage)}`;
             // Append the advantage element to the captured pieces area
             capturedPiecesEl === null || capturedPiecesEl === void 0 ? void 0 : capturedPiecesEl.appendChild(advantageEl);
@@ -172,7 +186,7 @@ class Game {
         const gameStartAudio = new Audio("/audio/game-start.mp3");
         gameStartAudio.play();
         if (Game.moves && Board.grid) {
-            Game.moves.forEach(move => {
+            Game.moves.forEach((move) => {
                 const { fromRow, fromCol, toRow, toCol } = move;
                 const instance = Board.grid[fromRow][fromCol];
                 instance === null || instance === void 0 ? void 0 : instance.MoveableMixin.makeMove(instance, toRow, toCol);
@@ -197,7 +211,7 @@ class Game {
      */
     createMainWrapper() {
         // Create main wrapper
-        const mainWrapper = document.createElement('div');
+        const mainWrapper = document.createElement("div");
         mainWrapper.classList.add("main");
         Game.player === Players.BLACK && mainWrapper.classList.add("reversed");
         // Append the interface element of the BLACK player
@@ -213,7 +227,7 @@ class Game {
      */
     createSideWrapper() {
         // Create side wrapper
-        const sideWrapper = document.createElement('div');
+        const sideWrapper = document.createElement("div");
         sideWrapper.classList.add("side");
         const moveList = document.createElement("div");
         moveList.classList.add("list");
@@ -227,7 +241,10 @@ class Game {
         if (Game.currentPlayer) {
             Game.currentPlayer.time += Game.timeControl.increment;
             Game.currentPlayer.pauseTimer();
-            Game.currentPlayer = Game.currentPlayer === Game.players[Players.WHITE] ? Game.players[Players.BLACK] : Game.players[Players.WHITE];
+            Game.currentPlayer =
+                Game.currentPlayer === Game.players[Players.WHITE]
+                    ? Game.players[Players.BLACK]
+                    : Game.players[Players.WHITE];
             Game.currentPlayer.startTimer();
             Game.handleGameState();
         }
@@ -238,9 +255,13 @@ class Game {
      */
     static getOpponent(player) {
         if (player) {
-            return player === Game.players[Players.WHITE] ? Game.players[Players.BLACK] : Game.players[Players.WHITE];
+            return player === Game.players[Players.WHITE]
+                ? Game.players[Players.BLACK]
+                : Game.players[Players.WHITE];
         }
-        return Game.currentPlayer === Game.players[Players.WHITE] ? Game.players[Players.BLACK] : Game.players[Players.WHITE];
+        return Game.currentPlayer === Game.players[Players.WHITE]
+            ? Game.players[Players.BLACK]
+            : Game.players[Players.WHITE];
     }
     static handleGameState() {
         var _a;
@@ -248,7 +269,11 @@ class Game {
         const opponentPlayerPieces = findAllPiecesFromPlayer(Board.grid, Game.getOpponent().color);
         const hasMovesLeft = currentPlayerPieces === null || currentPlayerPieces === void 0 ? void 0 : currentPlayerPieces.some((piece) => piece.getLegalMoves().length);
         if (hasInsufficientMaterial(currentPlayerPieces, opponentPlayerPieces)) {
-            Game.state = Object.assign(Object.assign({}, Game.state), { status: GameStatus.GAME_OVER, winner: null, endType: GameEndTypes.INSUFFICIENT_MATERIAL });
+            Game.state = Object.assign(Object.assign({}, Game.state), {
+                status: GameStatus.GAME_OVER,
+                winner: null,
+                endType: GameEndTypes.INSUFFICIENT_MATERIAL,
+            });
             return;
         }
         // If player is not in checkmate
@@ -257,10 +282,18 @@ class Game {
         }
         // Checkmate
         if (isInCheck(Game.currentPlayer)) {
-            Game.state = Object.assign(Object.assign({}, Game.state), { status: GameStatus.GAME_OVER, winner: Game.getOpponent(), endType: GameEndTypes.CHECKMATE });
+            Game.state = Object.assign(Object.assign({}, Game.state), {
+                status: GameStatus.GAME_OVER,
+                winner: Game.getOpponent(),
+                endType: GameEndTypes.CHECKMATE,
+            });
             return;
         }
-        Game.state = Object.assign(Object.assign({}, Game.state), { status: GameStatus.GAME_OVER, winner: null, endType: GameEndTypes.STALEMATE });
+        Game.state = Object.assign(Object.assign({}, Game.state), {
+            status: GameStatus.GAME_OVER,
+            winner: null,
+            endType: GameEndTypes.STALEMATE,
+        });
     }
 }
 // Default configuration for the game

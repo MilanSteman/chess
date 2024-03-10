@@ -13,5 +13,4 @@ function translate(el, row, col) {
         el.style.transform = `translate(${col}%, ${row}%)`;
     }
 }
-;
 export { DEFAULT_TRANSLATE, translate };

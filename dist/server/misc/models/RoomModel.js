@@ -35,7 +35,7 @@ const RoomSchema = new mongoose_1.default.Schema({
         type: String,
         default: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
         required: true,
-    }
+    },
 });
 const RoomModel = mongoose_1.default.model("Room", RoomSchema);
 exports.RoomModel = RoomModel;

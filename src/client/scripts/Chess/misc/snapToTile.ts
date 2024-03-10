@@ -8,8 +8,8 @@ function snapToTile(instance: Piece, row: number, col: number): void {
   let topPercentage: number = col * (100 / Board.ROW_SIZE);
 
   if (Game.player === Players.BLACK) {
-    leftPercentage = (100 - leftPercentage) - (100 / Board.COL_SIZE);
-    topPercentage = (100 - topPercentage) - (100 / Board.ROW_SIZE);
+    leftPercentage = 100 - leftPercentage - 100 / Board.COL_SIZE;
+    topPercentage = 100 - topPercentage - 100 / Board.ROW_SIZE;
   }
 
   instance.pieceDomEl.style.top = `${leftPercentage}%`;

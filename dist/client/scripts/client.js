@@ -105,9 +105,10 @@ class Client {
         let remainingTime = disconnectTime / 1000;
         const updateTimer = () => {
             // Update disconnect modal text with remaining reconnection time
-            disconnectModal.textContent = remainingTime >= 0
-                ? `Opponent disconnected, they have ${remainingTime--} seconds to reconnect.`
-                : `Opponent disconnected from the game.`;
+            disconnectModal.textContent =
+                remainingTime >= 0
+                    ? `Opponent disconnected, they have ${remainingTime--} seconds to reconnect.`
+                    : `Opponent disconnected from the game.`;
             // Clear the interval when the time runs out
             if (remainingTime < 0) {
                 clearInterval(this.timerInterval);
@@ -180,8 +181,8 @@ class Client {
     handleSetCookie(cookieData) {
         var _a, _b, _c;
         // Handle setting a cookie with the provided data
-        const domain = ((_a = cookieData.options) === null || _a === void 0 ? void 0 : _a.domain) || '';
-        const path = ((_b = cookieData.options) === null || _b === void 0 ? void 0 : _b.path) || '/';
+        const domain = ((_a = cookieData.options) === null || _a === void 0 ? void 0 : _a.domain) || "";
+        const path = ((_b = cookieData.options) === null || _b === void 0 ? void 0 : _b.path) || "/";
         const secure = ((_c = cookieData.options) === null || _c === void 0 ? void 0 : _c.secure) || false;
         // Set cookie expiration date to one month from now
         const expirationDate = new Date();
@@ -192,5 +193,4 @@ class Client {
 }
 // Create an instance of the Client class
 const client = new Client();
-// Export the client instance
 export default client;

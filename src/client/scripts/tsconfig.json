@@ -6,10 +6,6 @@
     "moduleResolution": "node",
     "strict": true
   },
-  "include": [
-    "**/*.ts"
-  ],
-  "exclude": [
-    "../../dist/client/"
-  ]
+  "include": ["**/*.ts"],
+  "exclude": ["../../dist/client/"]
 }

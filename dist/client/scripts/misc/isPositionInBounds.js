@@ -3,6 +3,6 @@
  * @returns True if the row and col are within the boundary
  */
 function isPositionInBounds(row, col, boundary = 8) {
-    return row >= 0 && row < boundary && col >= 0 && col < boundary;
+  return row >= 0 && row < boundary && col >= 0 && col < boundary;
 }
 export { isPositionInBounds };

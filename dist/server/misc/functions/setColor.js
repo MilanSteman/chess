@@ -16,7 +16,7 @@ exports.setRandomColor = setRandomColor;
  */
 function setOppositeColor(room) {
     var _a;
-    const existingColor = (_a = (Object.values(room.players)[0])) === null || _a === void 0 ? void 0 : _a.color;
+    const existingColor = (_a = Object.values(room.players)[0]) === null || _a === void 0 ? void 0 : _a.color;
     return existingColor === Colors_js_1.Colors.WHITE ? Colors_js_1.Colors.BLACK : Colors_js_1.Colors.WHITE;
 }
 exports.setOppositeColor = setOppositeColor;

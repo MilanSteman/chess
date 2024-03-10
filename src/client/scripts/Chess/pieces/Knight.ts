@@ -21,14 +21,14 @@ class Knight extends Piece {
    */
   public getPossibleMoves(): PotentialMove[] {
     const directions: number[][] = [
-      [2, -1],  // two up, one left
-      [2, 1],   // two up, one right
+      [2, -1], // two up, one left
+      [2, 1], // two up, one right
       [-2, -1], // two down, one left
-      [-2, 1],  // two down, one right
-      [-1, 2],  // one down, two right
-      [1, 2],   // one up, two right
+      [-2, 1], // two down, one right
+      [-1, 2], // one down, two right
+      [1, 2], // one up, two right
       [-1, -2], // one down, two left
-      [1, -2],  // one up, two left
+      [1, -2], // one up, two left
     ];
 
     return moveInDirection(this.row, this.col, directions, false);

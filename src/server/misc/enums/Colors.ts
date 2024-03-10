@@ -6,4 +6,4 @@ enum Colors {
   WHITE = "white",
 }
 
-export { Colors }
+export { Colors };

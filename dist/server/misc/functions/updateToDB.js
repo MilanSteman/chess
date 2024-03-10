@@ -23,7 +23,7 @@ async function updateTimeToDB(roomName, playerID, color, time) {
         const playerColor = dbRoom.players[playerID].color;
         let updatedID;
         if (playerColor !== color) {
-            const opponentID = Object.keys(dbRoom.players).find(id => id !== playerID);
+            const opponentID = Object.keys(dbRoom.players).find((id) => id !== playerID);
             updatedID = opponentID;
         }
         else {
@@ -31,8 +31,8 @@ async function updateTimeToDB(roomName, playerID, color, time) {
         }
         const updatedRoom = await RoomModel_js_1.RoomModel.findOneAndUpdate({ roomName }, {
             $set: {
-                [`players.${updatedID}.timeLeft`]: time
-            }
+                [`players.${updatedID}.timeLeft`]: time,
+            },
         }, { new: true });
         if (!updatedRoom) {
             console.error("Room not found for update:", roomName);

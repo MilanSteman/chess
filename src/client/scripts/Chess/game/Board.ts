@@ -28,10 +28,12 @@ class Board {
    */
   constructor() {
     // Creates a two-dimensional array representing the chess board
-    Board.grid = new Array(Board.ROW_SIZE).fill(null).map(() => new Array(Board.COL_SIZE).fill(null));
+    Board.grid = new Array(Board.ROW_SIZE)
+      .fill(null)
+      .map(() => new Array(Board.COL_SIZE).fill(null));
 
     // Create the main HTML element for the chessboard
-    Board.boardDomEl = document.createElement('div');
+    Board.boardDomEl = document.createElement("div");
 
     // Initialize the chessboard by creating its tiles
     this.createBoard();
@@ -48,7 +50,7 @@ class Board {
           Board.revertBoardState(Board.currentIndex - 1);
         }
       } else if (e.key === "ArrowRight") {
-        if (Board.currentIndex < (Game.move - 1)) {
+        if (Board.currentIndex < Game.move - 1) {
           Board.revertBoardState(Board.currentIndex + 1);
         }
       }
@@ -92,11 +94,11 @@ class Board {
 
     // Create rows and cols
     Board.grid.forEach((rows, row) => {
-      const rowEl: HTMLDivElement = document.createElement('div');
+      const rowEl: HTMLDivElement = document.createElement("div");
       rowEl.setAttribute("data-row", (Board.ROW_SIZE - row).toString());
 
       rows.forEach((_, col) => {
-        const tile: HTMLDivElement = document.createElement('div');
+        const tile: HTMLDivElement = document.createElement("div");
 
         // Add classes for styling and set tile data attribute
         tile.classList.add("tile");
@@ -111,10 +113,10 @@ class Board {
     });
 
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute('viewBox', '0 0 8 8');
+    svg.setAttribute("viewBox", "0 0 8 8");
     svg.style.position = "absolute";
     svg.style.pointerEvents = "none";
-    svg.classList.add("arrows")
+    svg.classList.add("arrows");
 
     fragment.appendChild(svg);
 
@@ -127,8 +129,8 @@ class Board {
    */
   public setPosition(position: string): void {
     // Extract the relevant part of the FEN string
-    const positionStr: string = position.split(' ')[0];
-    const rows: string[] = positionStr.split('/');
+    const positionStr: string = position.split(" ")[0];
+    const rows: string[] = positionStr.split("/");
 
     // Loop over each row in the FEN string
     rows.forEach((chars, row) => {
@@ -147,10 +149,17 @@ class Board {
 
         if (PieceType && isPositionInBounds(row, col, Board.SIZE)) {
           // Determine the color of the piece based on the notation (uppercase for white, lowercase for black)
-          const color: Players = isUpperCase(char) ? Players.WHITE : Players.BLACK;
+          const color: Players = isUpperCase(char)
+            ? Players.WHITE
+            : Players.BLACK;
 
           // Create a new piece and set it on the grid
-          const piece: Piece = new PieceType(PieceType.name.toLowerCase(), color, row, col);
+          const piece: Piece = new PieceType(
+            PieceType.name.toLowerCase(),
+            color,
+            row,
+            col,
+          );
           Board.grid[row][col] = piece;
 
           col++;
@@ -162,7 +171,7 @@ class Board {
   /**
    * Reverts the board state to a specific move index
    */
-  public static revertBoardState(moveIndex: number = (Game.move - 1)): void {
+  public static revertBoardState(moveIndex: number = Game.move - 1): void {
     RevertableMixin.revertBoardState(moveIndex);
   }
 
@@ -177,13 +186,18 @@ class Board {
 
     // Highlight the "from" and "to" tiles directly
     function highlightTile(row: number, col: number): void {
-      const tile:HTMLElement = document.querySelector(`div.tile[data-tile="${getTileFromPosition(row, col)}"]`) as HTMLElement;
+      const tile: HTMLElement = document.querySelector(
+        `div.tile[data-tile="${getTileFromPosition(row, col)}"]`,
+      ) as HTMLElement;
       tile?.classList.add("highlighted");
     }
 
     highlightTile(move.fromRow, move.fromCol);
 
-    if (typeof move.toRow !== 'undefined' && typeof move.toCol !== 'undefined') {
+    if (
+      typeof move.toRow !== "undefined" &&
+      typeof move.toCol !== "undefined"
+    ) {
       highlightTile(move.toRow, move.toCol);
     }
   }

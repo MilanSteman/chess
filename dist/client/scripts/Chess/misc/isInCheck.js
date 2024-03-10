@@ -1,6 +1,6 @@
 import { Board } from "../game/Board.js";
 import { Game } from "../game/Game.js";
-import { findAllPiecesFromPlayer, findSingleInstanceofPiece } from "./findPieceFromGrid.js";
+import { findAllPiecesFromPlayer, findSingleInstanceofPiece, } from "./findPieceFromGrid.js";
 /**
  * Checks if the current player's king is in check.
  * @returns True if the current player's king is in check, otherwise false.
@@ -13,7 +13,8 @@ function isInCheck(player) {
         return false;
     }
     // Check if any of the opponent's pieces have a possible move to the current player's king's position
-    return opponentPieces.some(opponentPiece => (opponentPiece.getPossibleMoves() || []).some(opponentMove => opponentMove.row === currentPlayerKing.row && opponentMove.col === currentPlayerKing.col));
+    return opponentPieces.some((opponentPiece) => (opponentPiece.getPossibleMoves() || []).some((opponentMove) => opponentMove.row === currentPlayerKing.row &&
+        opponentMove.col === currentPlayerKing.col));
 }
 /**
  * Checks if the move to the new position would put the king in check

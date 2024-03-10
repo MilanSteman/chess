@@ -1,6 +1,6 @@
 /**
  * Gets the abbreviation of a piece based on it's name
- * @returns a string of a single letter 
+ * @returns a string of a single letter
  */
 function getPieceAbbr(name: string, isAnnotation?: boolean): string {
   if (isAnnotation && name === "pawn") {

@@ -8,19 +8,41 @@ class Client {
   constructor() {
     this.socket = io();
     this.socket.on("isInQueue", () => this.handleQueue());
-    this.socket.on("joinMatch", (roomName: string) => this.handleJoinMatch(roomName));
-    this.socket.on("startMatch", (options: { color: string, moves: [], whiteTime: number, blackTime: number }) => this.handleStartMatch(options));
+    this.socket.on("joinMatch", (roomName: string) =>
+      this.handleJoinMatch(roomName),
+    );
+    this.socket.on(
+      "startMatch",
+      (options: {
+        color: string;
+        moves: [];
+        whiteTime: number;
+        blackTime: number;
+      }) => this.handleStartMatch(options),
+    );
     this.socket.on("sendToHome", () => this.handleSendToHome());
-    this.socket.on("disconnectNotification", (disconnectTime: number) => this.handleDisconnectNotification(disconnectTime));
+    this.socket.on("disconnectNotification", (disconnectTime: number) =>
+      this.handleDisconnectNotification(disconnectTime),
+    );
     this.socket.on("cleanup", () => this.handleCleanup());
-    this.socket.on("setCookie", (cookieData: { name: string, value: string, options?: { domain?: string, path?: string, secure?: boolean } }) => this.handleSetCookie(cookieData));
+    this.socket.on(
+      "setCookie",
+      (cookieData: {
+        name: string;
+        value: string;
+        options?: { domain?: string; path?: string; secure?: boolean };
+      }) => this.handleSetCookie(cookieData),
+    );
   }
 
   /**
    * Creates a modal container and returns the text element for the queue modal.
    * @return The created text element for the queue modal.
    */
-  private createModal(containerClass: string, iconSymbol: string): HTMLParagraphElement {
+  private createModal(
+    containerClass: string,
+    iconSymbol: string,
+  ): HTMLParagraphElement {
     // Create a modal container element
     const modal = document.createElement("aside");
     modal.classList.add(containerClass);
@@ -104,7 +126,12 @@ class Client {
   /**
    * Handles starting a match with the given options.
    */
-  private handleStartMatch(options: { color: string, moves: [], whiteTime: number, blackTime: number }): void {
+  private handleStartMatch(options: {
+    color: string;
+    moves: [];
+    whiteTime: number;
+    blackTime: number;
+  }): void {
     // Handle starting a match with the given options
     const config: Config = {
       player: options.color,
@@ -128,9 +155,10 @@ class Client {
 
     const updateTimer = (): void => {
       // Update disconnect modal text with remaining reconnection time
-      disconnectModal.textContent = remainingTime >= 0
-        ? `Opponent disconnected, they have ${remainingTime--} seconds to reconnect.`
-        : `Opponent disconnected from the game.`;
+      disconnectModal.textContent =
+        remainingTime >= 0
+          ? `Opponent disconnected, they have ${remainingTime--} seconds to reconnect.`
+          : `Opponent disconnected from the game.`;
 
       // Clear the interval when the time runs out
       if (remainingTime < 0) {
@@ -148,7 +176,11 @@ class Client {
   /**
    * Updates the disconnect modal to indicate reconnection.
    */
-  private updateModalForReconnection(modal: HTMLElement, iconSymbol: string, textContent: string): void {
+  private updateModalForReconnection(
+    modal: HTMLElement,
+    iconSymbol: string,
+    textContent: string,
+  ): void {
     // Update a modal to indicate reconnection
     modal.classList.add("reconnected");
 
@@ -184,9 +216,15 @@ class Client {
   /**
    * Updates the disconnect modal for reconnection.
    */
-  private updateDisconnectModalForReconnection(disconnectModal: HTMLElement): void {
+  private updateDisconnectModalForReconnection(
+    disconnectModal: HTMLElement,
+  ): void {
     // Update disconnect modal for reconnection
-    this.updateModalForReconnection(disconnectModal, "wifi", "Opponent reconnected to the game.");
+    this.updateModalForReconnection(
+      disconnectModal,
+      "wifi",
+      "Opponent reconnected to the game.",
+    );
   }
 
   /**
@@ -200,7 +238,9 @@ class Client {
     }
 
     // Find the disconnect modal in the document
-    const disconnectModal: HTMLElement | null = document.querySelector("aside.disconnect-modal");
+    const disconnectModal: HTMLElement | null = document.querySelector(
+      "aside.disconnect-modal",
+    );
 
     // If the disconnect modal exists, update and hide/remove it
     if (disconnectModal) {
@@ -215,10 +255,14 @@ class Client {
   /**
    * Sets a cookie with the provided data.
    */
-  private handleSetCookie(cookieData: { name: string, value: string, options?: { domain?: string, path?: string, secure?: boolean } }): void {
+  private handleSetCookie(cookieData: {
+    name: string;
+    value: string;
+    options?: { domain?: string; path?: string; secure?: boolean };
+  }): void {
     // Handle setting a cookie with the provided data
-    const domain: string = cookieData.options?.domain || '';
-    const path: string = cookieData.options?.path || '/';
+    const domain: string = cookieData.options?.domain || "";
+    const path: string = cookieData.options?.path || "/";
     const secure: boolean = cookieData.options?.secure || false;
 
     // Set cookie expiration date to one month from now

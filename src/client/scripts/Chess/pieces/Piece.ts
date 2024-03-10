@@ -11,9 +11,9 @@ import { Game } from "../game/Game.js";
  * Represents a piece
  */
 abstract class Piece {
-  public static readonly Z_INDEX: { DEFAULT: string, DRAGGED: string } = {
+  public static readonly Z_INDEX: { DEFAULT: string; DRAGGED: string } = {
     DEFAULT: "1",
-    DRAGGED: "10"
+    DRAGGED: "10",
   };
   public static readonly OFFSET: number = 0.5;
   public MoveableMixin: Moveable = Object.assign({}, MoveableMixin);
@@ -35,7 +35,9 @@ abstract class Piece {
     this.col = col;
     this.value = 0;
     this.hasMoved = false;
-    this.parentDomEl = document.querySelector(`div.tile[data-tile="${getTileFromPosition(this.row, this.col)}"]`) as HTMLElement;
+    this.parentDomEl = document.querySelector(
+      `div.tile[data-tile="${getTileFromPosition(this.row, this.col)}"]`,
+    ) as HTMLElement;
     this.pieceDomEl = document.createElement("img");
     this.hasMoved = false;
 
@@ -57,7 +59,9 @@ abstract class Piece {
    * Filters out moves that would result in the player's king being in check
    */
   public getLegalMoves(): PotentialMove[] {
-    return this.getPossibleMoves().filter(move => !isInCheckAfterMove(this, move.row, move.col));
+    return this.getPossibleMoves().filter(
+      (move) => !isInCheckAfterMove(this, move.row, move.col),
+    );
   }
 
   /**
@@ -69,7 +73,9 @@ abstract class Piece {
     this.pieceDomEl.draggable = false;
 
     // Add mousedown event listener to start dragging
-    this.pieceDomEl.addEventListener("mousedown", () => DraggableMixin.handleDrag(this));
+    this.pieceDomEl.addEventListener("mousedown", () =>
+      DraggableMixin.handleDrag(this),
+    );
 
     // Append the piece to its parent tile on the chessboard
     this.parentDomEl?.appendChild(this.pieceDomEl);

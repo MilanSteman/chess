@@ -12,7 +12,10 @@ function hasKingAndPiece(pieces: Piece[] | null, pieceName: string): boolean {
   );
 }
 
-function hasInsufficientMaterial(currentPlayerPieces: Piece[] | null, opponentPlayerPieces: Piece[] | null): boolean {
+function hasInsufficientMaterial(
+  currentPlayerPieces: Piece[] | null,
+  opponentPlayerPieces: Piece[] | null,
+): boolean {
   const isCurrentPlayerInsufficient =
     hasOnlyKing(currentPlayerPieces) ||
     hasKingAndPiece(currentPlayerPieces, "bishop") ||

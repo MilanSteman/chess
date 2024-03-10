@@ -14,8 +14,10 @@ class Pawn extends Piece {
         super(name, color, row, col);
         this.value = PieceValue.PAWN;
         // Set the direction based on the color of the pawn
-        this.direction = this.color === Players.WHITE ? PawnDirection.BLACK : PawnDirection.WHITE;
-        this.enPassantRow = this.color === Players.WHITE ? EnPassantRow.WHITE : EnPassantRow.BLACK;
+        this.direction =
+            this.color === Players.WHITE ? PawnDirection.BLACK : PawnDirection.WHITE;
+        this.enPassantRow =
+            this.color === Players.WHITE ? EnPassantRow.WHITE : EnPassantRow.BLACK;
     }
     /**
      * Calculates and returns an array of possible moves for the pawn
@@ -58,7 +60,10 @@ class Pawn extends Piece {
      * @param moves - The array to store the calculated moves
      */
     captureMoves(moves) {
-        for (const [x, y] of [[this.direction, -1], [this.direction, 1]]) {
+        for (const [x, y] of [
+            [this.direction, -1],
+            [this.direction, 1],
+        ]) {
             // Calculate new move position
             const newRow = this.row + x;
             const newCol = this.col + y;
@@ -93,7 +98,7 @@ class Pawn extends Piece {
         const enPassantMove = {
             row: opponentLastMove.toRow + this.direction,
             col: opponentLastMove.toCol,
-            specialMove: 'en-passant',
+            specialMove: "en-passant",
         };
         // Add the en passant move to the array of moves
         moves.push(enPassantMove);
@@ -111,7 +116,10 @@ class Pawn extends Piece {
         const isTargetNextToThis = Math.abs(lastMove.toCol - this.col) === 1;
         // Check if the target pawn moved two squares forward in its last move
         const hasTargetMovedTwoSquares = Math.abs(lastMove.toRow - lastMove.fromRow) === 2;
-        return isTargetPawn && isTargetOnRow && isTargetNextToThis && hasTargetMovedTwoSquares;
+        return (isTargetPawn &&
+            isTargetOnRow &&
+            isTargetNextToThis &&
+            hasTargetMovedTwoSquares);
     }
 }
 export { Pawn };

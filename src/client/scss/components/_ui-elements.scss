@@ -1,4 +1,5 @@
-aside.disconnect-modal, aside.queue-modal {
+aside.disconnect-modal,
+aside.queue-modal {
   height: 3rem;
   position: fixed;
   top: 0;
@@ -18,13 +19,17 @@ aside.disconnect-modal, aside.queue-modal {
   }
 
   & > div {
-    width: Min(calc(100dvw -(var(--content-padding-inline) * 2)), var(--content-max-width));
+    width: Min(
+      calc(100dvw -(var(--content-padding-inline) * 2)),
+      var(--content-max-width)
+    );
     margin-inline: auto;
     display: flex;
     align-items: center;
     gap: 0.5rem;
 
-    & > p, & > span {
+    & > p,
+    & > span {
       color: var(--bg-clr);
     }
 

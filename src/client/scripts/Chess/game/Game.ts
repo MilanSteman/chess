@@ -16,7 +16,14 @@ import { Piece } from "../pieces/Piece.js";
  */
 class Game {
   // Default configuration for the game
-  private static DEFAULT_CONFIG: { player: string, fen: string, pieceTheme: string, moves: [], whiteTime: number, blackTime: number } = {
+  private static DEFAULT_CONFIG: {
+    player: string;
+    fen: string;
+    pieceTheme: string;
+    moves: [];
+    whiteTime: number;
+    blackTime: number;
+  } = {
     player: Players.WHITE,
     fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
     pieceTheme: "classic",
@@ -28,7 +35,11 @@ class Game {
   public static currentPlayer: Player | null;
   public static players: { [key in Players]: Player };
   private static _advantage: number;
-  private static _state: { status: string | null, winner: Player | null, endType: string | null };
+  private static _state: {
+    status: string | null;
+    winner: Player | null;
+    endType: string | null;
+  };
   public static pieceTheme: string;
   public static move: number;
   public static allowMovements: boolean;
@@ -39,7 +50,12 @@ class Game {
   private gameEl: HTMLDivElement;
   public static moveSpeed: number;
   public static moves: [];
-  public static timeControl: { initialTime: number, increment: number, whiteTime: number, blackTime: number };
+  public static timeControl: {
+    initialTime: number;
+    increment: number;
+    whiteTime: number;
+    blackTime: number;
+  };
 
   /**
    * Constructor for the Game class
@@ -50,14 +66,13 @@ class Game {
     Game.moves = config?.moves ?? Game.DEFAULT_CONFIG.moves;
     this.fen = config?.fen ?? Game.DEFAULT_CONFIG.fen;
 
-    this.gameEl = document.createElement('div');
+    this.gameEl = document.createElement("div");
 
     // Initialize theme
     Game.pieceTheme = config?.pieceTheme ?? Game.DEFAULT_CONFIG.pieceTheme;
 
     // Initialize advantage
     Game._advantage = 0;
-
 
     Game.timeControl = {
       initialTime: 1200,
@@ -70,7 +85,7 @@ class Game {
     Game.players = {
       [Players.WHITE]: new Player(Players.WHITE),
       [Players.BLACK]: new Player(Players.BLACK),
-    }
+    };
 
     // Initialize the current player to WHITE and create a new game board
     Game.currentPlayer = Game.players[Players.WHITE];
@@ -134,8 +149,16 @@ class Game {
      * Updates the game on disconnect
      */
     client.socket.on("disconnectEnd", (): void => {
-      const winner: Player = Game.player === Players.WHITE ? Game.players.white : Game.players.black;
-      Game.state = { ...Game.state, ...{ status: GameStatus.GAME_OVER, winner: winner, endType: GameEndTypes.DISCONNECT } };
+      const winner: Player =
+        Game.player === Players.WHITE ? Game.players.white : Game.players.black;
+      Game.state = {
+        ...Game.state,
+        ...{
+          status: GameStatus.GAME_OVER,
+          winner: winner,
+          endType: GameEndTypes.DISCONNECT,
+        },
+      };
     });
   }
 
@@ -143,14 +166,22 @@ class Game {
    * Getter for the game state property
    * @returns The current game state
    */
-  static get state(): { status: string | null, winner: Player | null, endType: string | null } {
+  static get state(): {
+    status: string | null;
+    winner: Player | null;
+    endType: string | null;
+  } {
     return Game._state;
   }
 
   /**
    * Setter for the game state property
    */
-  static set state(newState: { status: string | null, winner: Player | null, endType: string | null }) {
+  static set state(newState: {
+    status: string | null;
+    winner: Player | null;
+    endType: string | null;
+  }) {
     Game._state = newState;
 
     if (newState.status === GameStatus.GAME_OVER) {
@@ -159,7 +190,11 @@ class Game {
       modal.classList.add("game-modal");
 
       const winnerEl: HTMLSpanElement = document.createElement("span");
-      winnerEl.textContent = Game.state.winner ? (Game.state.winner.color === Players.WHITE ? `${capitalizeFirstLetter(Players.WHITE)} won` : `${capitalizeFirstLetter(Players.BLACK)} won`) : "Tie";
+      winnerEl.textContent = Game.state.winner
+        ? Game.state.winner.color === Players.WHITE
+          ? `${capitalizeFirstLetter(Players.WHITE)} won`
+          : `${capitalizeFirstLetter(Players.BLACK)} won`
+        : "Tie";
 
       const gameEndTypeEl: HTMLSpanElement = document.createElement("span");
       gameEndTypeEl.textContent = `By ${Game.state.endType === GameEndTypes.INSUFFICIENT_MATERIAL ? "Insufficient Material" : Game.state.endType}`;
@@ -197,20 +232,29 @@ class Game {
    * Setter for the advantage property
    */
   static set advantage(newAdvantage: number) {
-    // Remove any existing advantage elements 
-    document.querySelectorAll(".captured-pieces > span").forEach((advantageEl) => {
-      advantageEl.remove();
-    });
+    // Remove any existing advantage elements
+    document
+      .querySelectorAll(".captured-pieces > span")
+      .forEach((advantageEl) => {
+        advantageEl.remove();
+      });
 
     // Determine if there is an advantage and the player with the advantage
-    const hasAdvantage = newAdvantage === 0 ? null : newAdvantage > 0 ? Game.players[Players.WHITE] : Game.players[Players.BLACK];
+    const hasAdvantage =
+      newAdvantage === 0
+        ? null
+        : newAdvantage > 0
+          ? Game.players[Players.WHITE]
+          : Game.players[Players.BLACK];
 
     if (hasAdvantage) {
       // Get the captured pieces element of the player with the advantage
-      const capturedPiecesEl: HTMLDivElement | null = document.querySelector(`.${hasAdvantage.color}-sidebar .captured-pieces`);
+      const capturedPiecesEl: HTMLDivElement | null = document.querySelector(
+        `.${hasAdvantage.color}-sidebar .captured-pieces`,
+      );
 
       // Create a new element to display the advantage
-      const advantageEl: HTMLSpanElement = document.createElement('span');
+      const advantageEl: HTMLSpanElement = document.createElement("span");
       advantageEl.textContent = `+${Math.abs(newAdvantage)}`;
 
       // Append the advantage element to the captured pieces area
@@ -219,7 +263,6 @@ class Game {
 
     Game._advantage = newAdvantage;
   }
-
 
   /**
    * Starts the chess game by rendering the board and setting the initial position
@@ -237,7 +280,7 @@ class Game {
     gameStartAudio.play();
 
     if (Game.moves && Board.grid) {
-      Game.moves.forEach(move => {
+      Game.moves.forEach((move) => {
         const { fromRow, fromCol, toRow, toCol } = move;
         const instance: Piece | null = Board.grid[fromRow][fromCol];
         instance?.MoveableMixin.makeMove(instance, toRow, toCol);
@@ -266,7 +309,7 @@ class Game {
    */
   private createMainWrapper(): void {
     // Create main wrapper
-    const mainWrapper: HTMLDivElement = document.createElement('div');
+    const mainWrapper: HTMLDivElement = document.createElement("div");
     mainWrapper.classList.add("main");
     Game.player === Players.BLACK && mainWrapper.classList.add("reversed");
 
@@ -287,7 +330,7 @@ class Game {
    */
   private createSideWrapper(): void {
     // Create side wrapper
-    const sideWrapper: HTMLDivElement = document.createElement('div');
+    const sideWrapper: HTMLDivElement = document.createElement("div");
     sideWrapper.classList.add("side");
 
     const moveList: HTMLDivElement = document.createElement("div");
@@ -305,7 +348,10 @@ class Game {
       Game.currentPlayer.time += Game.timeControl.increment;
       Game.currentPlayer.pauseTimer();
 
-      Game.currentPlayer = Game.currentPlayer === Game.players[Players.WHITE] ? Game.players[Players.BLACK] : Game.players[Players.WHITE];
+      Game.currentPlayer =
+        Game.currentPlayer === Game.players[Players.WHITE]
+          ? Game.players[Players.BLACK]
+          : Game.players[Players.WHITE];
 
       Game.currentPlayer.startTimer();
 
@@ -319,19 +365,38 @@ class Game {
    */
   static getOpponent(player?: Player | null): Player {
     if (player) {
-      return player === Game.players[Players.WHITE] ? Game.players[Players.BLACK] : Game.players[Players.WHITE];
+      return player === Game.players[Players.WHITE]
+        ? Game.players[Players.BLACK]
+        : Game.players[Players.WHITE];
     }
 
-    return Game.currentPlayer === Game.players[Players.WHITE] ? Game.players[Players.BLACK] : Game.players[Players.WHITE];
+    return Game.currentPlayer === Game.players[Players.WHITE]
+      ? Game.players[Players.BLACK]
+      : Game.players[Players.WHITE];
   }
 
   static handleGameState(): void {
-    const currentPlayerPieces = findAllPiecesFromPlayer(Board.grid, Game.currentPlayer?.color);
-    const opponentPlayerPieces = findAllPiecesFromPlayer(Board.grid, Game.getOpponent().color);
-    const hasMovesLeft = currentPlayerPieces?.some((piece) => piece.getLegalMoves().length);
+    const currentPlayerPieces = findAllPiecesFromPlayer(
+      Board.grid,
+      Game.currentPlayer?.color,
+    );
+    const opponentPlayerPieces = findAllPiecesFromPlayer(
+      Board.grid,
+      Game.getOpponent().color,
+    );
+    const hasMovesLeft = currentPlayerPieces?.some(
+      (piece) => piece.getLegalMoves().length,
+    );
 
     if (hasInsufficientMaterial(currentPlayerPieces, opponentPlayerPieces)) {
-      Game.state = { ...Game.state, ...{ status: GameStatus.GAME_OVER, winner: null, endType: GameEndTypes.INSUFFICIENT_MATERIAL } };
+      Game.state = {
+        ...Game.state,
+        ...{
+          status: GameStatus.GAME_OVER,
+          winner: null,
+          endType: GameEndTypes.INSUFFICIENT_MATERIAL,
+        },
+      };
       return;
     }
 
@@ -342,11 +407,25 @@ class Game {
 
     // Checkmate
     if (isInCheck(Game.currentPlayer)) {
-      Game.state = { ...Game.state, ...{ status: GameStatus.GAME_OVER, winner: Game.getOpponent(), endType: GameEndTypes.CHECKMATE } };
+      Game.state = {
+        ...Game.state,
+        ...{
+          status: GameStatus.GAME_OVER,
+          winner: Game.getOpponent(),
+          endType: GameEndTypes.CHECKMATE,
+        },
+      };
       return;
     }
 
-    Game.state = { ...Game.state, ...{ status: GameStatus.GAME_OVER, winner: null, endType: GameEndTypes.STALEMATE } };
+    Game.state = {
+      ...Game.state,
+      ...{
+        status: GameStatus.GAME_OVER,
+        winner: null,
+        endType: GameEndTypes.STALEMATE,
+      },
+    };
   }
 }
 

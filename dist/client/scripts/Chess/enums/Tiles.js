@@ -6,5 +6,4 @@ var Tiles;
     Tiles["LIGHT"] = "light";
     Tiles["DARK"] = "dark";
 })(Tiles || (Tiles = {}));
-;
 export { Tiles };

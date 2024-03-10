@@ -12,8 +12,15 @@ interface Draggable {
   handleDrag: (instance: Piece) => void;
   dragPiece: (instance: Piece, e: MouseEvent) => void;
   stopDragging: (instance: Piece, e: MouseEvent) => void;
-  calculateNewPosition: (instance: Piece, e: MouseEvent) => { x: number, y: number };
-  calculateTile: (instance: Piece, row: number, col: number) => { newRow: number, newCol: number };
+  calculateNewPosition: (
+    instance: Piece,
+    e: MouseEvent,
+  ) => { x: number; y: number };
+  calculateTile: (
+    instance: Piece,
+    row: number,
+    col: number,
+  ) => { newRow: number; newCol: number };
 }
 
 /**
@@ -23,12 +30,12 @@ const DraggableMixin: Draggable = {
   /**
    * Handler for the dragging of a piece. Used to avoid duplication when dragging a single element multiple times
    */
-  dragPieceHandler: (): void => { },
+  dragPieceHandler: (): void => {},
 
   /**
    * Handler for stopping the dragging of a piece. Used to avoid duplication when dragging a single element multiple times
    */
-  stopDraggingHandler: (): void => { },
+  stopDraggingHandler: (): void => {},
 
   /**
    * Handles on drag functionalities of a piece
@@ -42,7 +49,11 @@ const DraggableMixin: Draggable = {
       return Board.revertBoardState();
     }
 
-    if (!Game.currentPlayer || instance.color !== Game.currentPlayer.color || Game.player !== instance.color) {
+    if (
+      !Game.currentPlayer ||
+      instance.color !== Game.currentPlayer.color ||
+      Game.player !== instance.color
+    ) {
       illegalAudio.play();
       return;
     }
@@ -52,10 +63,16 @@ const DraggableMixin: Draggable = {
 
     moves.forEach(({ row, col }) => {
       const targetPiece: Piece | null = Board.grid[row][col];
-      const tileDomEl: HTMLDivElement | null = document.querySelector(`div.tile[data-tile="${getTileFromPosition(row, col)}"]`);
+      const tileDomEl: HTMLDivElement | null = document.querySelector(
+        `div.tile[data-tile="${getTileFromPosition(row, col)}"]`,
+      );
 
       // Set the correct visual based on if there is a piece that can be captured
-      tileDomEl?.classList.add(targetPiece && instance.color !== targetPiece.color ? "attacked-piece" : "attacked-tile");
+      tileDomEl?.classList.add(
+        targetPiece && instance.color !== targetPiece.color
+          ? "attacked-piece"
+          : "attacked-tile",
+      );
     });
 
     // Set properties
@@ -64,7 +81,8 @@ const DraggableMixin: Draggable = {
 
     // Store references to the same functions for adding and removing listeners
     this.dragPieceHandler = (e: MouseEvent) => this.dragPiece(instance, e);
-    this.stopDraggingHandler = (e: MouseEvent) => this.stopDragging(instance, e);
+    this.stopDraggingHandler = (e: MouseEvent) =>
+      this.stopDragging(instance, e);
 
     // Add eventlisteners based on the references above (this will make the removable after to avoid duplication)
     document.addEventListener("mousemove", this.dragPieceHandler);
@@ -84,7 +102,9 @@ const DraggableMixin: Draggable = {
     const { newRow, newCol } = this.calculateTile(instance, x, y);
 
     // Set hovered tile
-    Board.hoveredTile = document.querySelector(`div.tile[data-tile="${getTileFromPosition(newRow, newCol)}"]`) as HTMLElement;
+    Board.hoveredTile = document.querySelector(
+      `div.tile[data-tile="${getTileFromPosition(newRow, newCol)}"]`,
+    ) as HTMLElement;
 
     // Get size of the piece element
     const { width, height } = instance.pieceDomEl.getBoundingClientRect();
@@ -94,8 +114,8 @@ const DraggableMixin: Draggable = {
     let topPercentage: number = (y / height) * (100 / Board.ROW_SIZE);
 
     if (Game.player === Players.BLACK) {
-      leftPercentage = (100 - leftPercentage) - (100 / Board.COL_SIZE);
-      topPercentage = (100 - topPercentage) - (100 / Board.ROW_SIZE);
+      leftPercentage = 100 - leftPercentage - 100 / Board.COL_SIZE;
+      topPercentage = 100 - topPercentage - 100 / Board.ROW_SIZE;
     }
 
     // Set styles
@@ -132,25 +152,30 @@ const DraggableMixin: Draggable = {
    * Calculates the position of a piece relative to the board
    * @returns The x- and y coordinates relative to the board
    */
-  calculateNewPosition(instance: Piece, e: MouseEvent): { x: number, y: number } {
+  calculateNewPosition(
+    instance: Piece,
+    e: MouseEvent,
+  ): { x: number; y: number } {
     const pieceRect: DOMRect = instance.pieceDomEl.getBoundingClientRect();
     const boardRect: DOMRect = Board.boardDomEl.getBoundingClientRect();
 
-    const xValue: number = (e.clientX - pieceRect.width / 2 - boardRect.left + window.scrollX);
-    const yValue: number = (e.clientY - pieceRect.height / 2 - boardRect.top + window.scrollY);
+    const xValue: number =
+      e.clientX - pieceRect.width / 2 - boardRect.left + window.scrollX;
+    const yValue: number =
+      e.clientY - pieceRect.height / 2 - boardRect.top + window.scrollY;
 
-    const xMin: number = (-pieceRect.width / 2);
-    const yMin: number = (-pieceRect.height / 2);
+    const xMin: number = -pieceRect.width / 2;
+    const yMin: number = -pieceRect.height / 2;
 
-    const xMax: number = (boardRect.width - pieceRect.width / 2);
-    const yMax: number = (boardRect.height - pieceRect.height / 2);
+    const xMax: number = boardRect.width - pieceRect.width / 2;
+    const yMax: number = boardRect.height - pieceRect.height / 2;
 
     let x: number = clamp(xValue, xMin, xMax);
     let y: number = clamp(yValue, yMin, yMax);
 
     if (Game.player === Players.BLACK) {
-      x = (xMax - x) + xMin;
-      y = (yMax - y) + yMin;
+      x = xMax - x + xMin;
+      y = yMax - y + yMin;
     }
 
     return { x, y };
@@ -160,13 +185,21 @@ const DraggableMixin: Draggable = {
    * Calculates the tile based on a set of coordinates
    * @returns The new row and -col
    */
-  calculateTile(instance: Piece, x: number, y: number): { newRow: number, newCol: number } {
-    let newRow: number = Math.floor(y / instance.pieceDomEl.getBoundingClientRect().height + Piece.OFFSET);
-    let newCol: number = Math.floor(x / instance.pieceDomEl.getBoundingClientRect().width + Piece.OFFSET);
+  calculateTile(
+    instance: Piece,
+    x: number,
+    y: number,
+  ): { newRow: number; newCol: number } {
+    let newRow: number = Math.floor(
+      y / instance.pieceDomEl.getBoundingClientRect().height + Piece.OFFSET,
+    );
+    let newCol: number = Math.floor(
+      x / instance.pieceDomEl.getBoundingClientRect().width + Piece.OFFSET,
+    );
 
     return {
       newRow,
-      newCol
+      newCol,
     };
   },
 };

@@ -17,9 +17,11 @@ class Board {
      */
     constructor() {
         // Creates a two-dimensional array representing the chess board
-        Board.grid = new Array(Board.ROW_SIZE).fill(null).map(() => new Array(Board.COL_SIZE).fill(null));
+        Board.grid = new Array(Board.ROW_SIZE)
+            .fill(null)
+            .map(() => new Array(Board.COL_SIZE).fill(null));
         // Create the main HTML element for the chessboard
-        Board.boardDomEl = document.createElement('div');
+        Board.boardDomEl = document.createElement("div");
         // Initialize the chessboard by creating its tiles
         this.createBoard();
         Object.assign(this, RevertableMixin);
@@ -33,7 +35,7 @@ class Board {
                 }
             }
             else if (e.key === "ArrowRight") {
-                if (Board.currentIndex < (Game.move - 1)) {
+                if (Board.currentIndex < Game.move - 1) {
                     Board.revertBoardState(Board.currentIndex + 1);
                 }
             }
@@ -70,10 +72,10 @@ class Board {
         const fragment = document.createDocumentFragment();
         // Create rows and cols
         Board.grid.forEach((rows, row) => {
-            const rowEl = document.createElement('div');
+            const rowEl = document.createElement("div");
             rowEl.setAttribute("data-row", (Board.ROW_SIZE - row).toString());
             rows.forEach((_, col) => {
-                const tile = document.createElement('div');
+                const tile = document.createElement("div");
                 // Add classes for styling and set tile data attribute
                 tile.classList.add("tile");
                 tile.classList.toggle(`${Tiles.LIGHT}-tile`, (row + col) % 2 === 0);
@@ -84,7 +86,7 @@ class Board {
             fragment.appendChild(rowEl);
         });
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        svg.setAttribute('viewBox', '0 0 8 8');
+        svg.setAttribute("viewBox", "0 0 8 8");
         svg.style.position = "absolute";
         svg.style.pointerEvents = "none";
         svg.classList.add("arrows");
@@ -97,8 +99,8 @@ class Board {
      */
     setPosition(position) {
         // Extract the relevant part of the FEN string
-        const positionStr = position.split(' ')[0];
-        const rows = positionStr.split('/');
+        const positionStr = position.split(" ")[0];
+        const rows = positionStr.split("/");
         // Loop over each row in the FEN string
         rows.forEach((chars, row) => {
             let col = 0;
@@ -113,7 +115,9 @@ class Board {
                 const PieceType = charMap.get(char.toLowerCase());
                 if (PieceType && isPositionInBounds(row, col, Board.SIZE)) {
                     // Determine the color of the piece based on the notation (uppercase for white, lowercase for black)
-                    const color = isUpperCase(char) ? Players.WHITE : Players.BLACK;
+                    const color = isUpperCase(char)
+                        ? Players.WHITE
+                        : Players.BLACK;
                     // Create a new piece and set it on the grid
                     const piece = new PieceType(PieceType.name.toLowerCase(), color, row, col);
                     Board.grid[row][col] = piece;
@@ -125,7 +129,7 @@ class Board {
     /**
      * Reverts the board state to a specific move index
      */
-    static revertBoardState(moveIndex = (Game.move - 1)) {
+    static revertBoardState(moveIndex = Game.move - 1) {
         RevertableMixin.revertBoardState(moveIndex);
     }
     /**
@@ -142,7 +146,8 @@ class Board {
             tile === null || tile === void 0 ? void 0 : tile.classList.add("highlighted");
         }
         highlightTile(move.fromRow, move.fromCol);
-        if (typeof move.toRow !== 'undefined' && typeof move.toCol !== 'undefined') {
+        if (typeof move.toRow !== "undefined" &&
+            typeof move.toCol !== "undefined") {
             highlightTile(move.toRow, move.toCol);
         }
     }

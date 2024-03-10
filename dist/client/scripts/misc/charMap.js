@@ -8,11 +8,11 @@ import { Rook } from "../Chess/pieces/Rook.js";
  * A map that maps the abbreviation of a piece (commonly used in a FEN string for example) to a Piece subclass.
  */
 const charMap = new Map([
-    ["b", Bishop],
-    ["k", King],
-    ["n", Knight],
-    ["p", Pawn],
-    ["q", Queen],
-    ["r", Rook],
+  ["b", Bishop],
+  ["k", King],
+  ["n", Knight],
+  ["p", Pawn],
+  ["q", Queen],
+  ["r", Rook],
 ]);
 export { charMap };

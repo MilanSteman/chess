@@ -6,7 +6,9 @@ function getMergedMoveArray(): MadeMove[] {
   const mergedArray: MadeMove[] = [];
 
   // Assuming all player.madeMoves arrays have the same length
-  const maxMovesLength: number = Math.max(...Object.values(Game.players).map(player => player.madeMoves.length));
+  const maxMovesLength: number = Math.max(
+    ...Object.values(Game.players).map((player) => player.madeMoves.length),
+  );
 
   for (let i = 0; i < maxMovesLength; i++) {
     Object.values(Game.players).forEach((player) => {

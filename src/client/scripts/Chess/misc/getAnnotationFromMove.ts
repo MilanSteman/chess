@@ -12,7 +12,14 @@ function getAnnotationFromMove(move: MadeMove): string {
   const pieceAbbr = getPieceAbbr(move.piece.name, true).toUpperCase();
 
   // Check if move is castling (only move with special annotation)
-  const castleType = (move.specialMove && (move.specialMove === CastlingType.SHORT || move.specialMove === CastlingType.LONG)) ? (move.specialMove === CastlingType.SHORT ? CastleAnnotation.SHORT : CastleAnnotation.LONG) : null;
+  const castleType =
+    move.specialMove &&
+    (move.specialMove === CastlingType.SHORT ||
+      move.specialMove === CastlingType.LONG)
+      ? move.specialMove === CastlingType.SHORT
+        ? CastleAnnotation.SHORT
+        : CastleAnnotation.LONG
+      : null;
 
   // Set annotation for piece to either the correct letter of castling
   const pieceAnnotation = castleType ? castleType : pieceAbbr;
@@ -21,10 +28,12 @@ function getAnnotationFromMove(move: MadeMove): string {
   const captureAnnotation: string = move.capture ? "x" : "";
 
   // Set position of the move
-  const positionAnnotation: string = castleType ? "" : `${getTileFromPosition(move.toRow, move.toCol)}`;
+  const positionAnnotation: string = castleType
+    ? ""
+    : `${getTileFromPosition(move.toRow, move.toCol)}`;
 
   // Check if move has sets a check(mate)
-  const checkAnnotation: string = move.checkmate ? "#" : (move.check ? "+" : "");
+  const checkAnnotation: string = move.checkmate ? "#" : move.check ? "+" : "";
 
   return `${pieceAnnotation}${captureAnnotation}${positionAnnotation}${checkAnnotation}`;
 }

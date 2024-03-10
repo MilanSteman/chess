@@ -26,7 +26,9 @@ const DraggableMixin = {
             illegalAudio.play();
             return Board.revertBoardState();
         }
-        if (!Game.currentPlayer || instance.color !== Game.currentPlayer.color || Game.player !== instance.color) {
+        if (!Game.currentPlayer ||
+            instance.color !== Game.currentPlayer.color ||
+            Game.player !== instance.color) {
             illegalAudio.play();
             return;
         }
@@ -36,7 +38,9 @@ const DraggableMixin = {
             const targetPiece = Board.grid[row][col];
             const tileDomEl = document.querySelector(`div.tile[data-tile="${getTileFromPosition(row, col)}"]`);
             // Set the correct visual based on if there is a piece that can be captured
-            tileDomEl === null || tileDomEl === void 0 ? void 0 : tileDomEl.classList.add(targetPiece && instance.color !== targetPiece.color ? "attacked-piece" : "attacked-tile");
+            tileDomEl === null || tileDomEl === void 0 ? void 0 : tileDomEl.classList.add(targetPiece && instance.color !== targetPiece.color
+                ? "attacked-piece"
+                : "attacked-tile");
         });
         // Set properties
         instance.isDragging = true;
@@ -66,8 +70,8 @@ const DraggableMixin = {
         let leftPercentage = (x / width) * (100 / Board.COL_SIZE);
         let topPercentage = (y / height) * (100 / Board.ROW_SIZE);
         if (Game.player === Players.BLACK) {
-            leftPercentage = (100 - leftPercentage) - (100 / Board.COL_SIZE);
-            topPercentage = (100 - topPercentage) - (100 / Board.ROW_SIZE);
+            leftPercentage = 100 - leftPercentage - 100 / Board.COL_SIZE;
+            topPercentage = 100 - topPercentage - 100 / Board.ROW_SIZE;
         }
         // Set styles
         instance.pieceDomEl.style.left = `${leftPercentage}%`;
@@ -100,17 +104,17 @@ const DraggableMixin = {
     calculateNewPosition(instance, e) {
         const pieceRect = instance.pieceDomEl.getBoundingClientRect();
         const boardRect = Board.boardDomEl.getBoundingClientRect();
-        const xValue = (e.clientX - pieceRect.width / 2 - boardRect.left + window.scrollX);
-        const yValue = (e.clientY - pieceRect.height / 2 - boardRect.top + window.scrollY);
-        const xMin = (-pieceRect.width / 2);
-        const yMin = (-pieceRect.height / 2);
-        const xMax = (boardRect.width - pieceRect.width / 2);
-        const yMax = (boardRect.height - pieceRect.height / 2);
+        const xValue = e.clientX - pieceRect.width / 2 - boardRect.left + window.scrollX;
+        const yValue = e.clientY - pieceRect.height / 2 - boardRect.top + window.scrollY;
+        const xMin = -pieceRect.width / 2;
+        const yMin = -pieceRect.height / 2;
+        const xMax = boardRect.width - pieceRect.width / 2;
+        const yMax = boardRect.height - pieceRect.height / 2;
         let x = clamp(xValue, xMin, xMax);
         let y = clamp(yValue, yMin, yMax);
         if (Game.player === Players.BLACK) {
-            x = (xMax - x) + xMin;
-            y = (yMax - y) + yMin;
+            x = xMax - x + xMin;
+            y = yMax - y + yMin;
         }
         return { x, y };
     },
@@ -123,7 +127,7 @@ const DraggableMixin = {
         let newCol = Math.floor(x / instance.pieceDomEl.getBoundingClientRect().width + Piece.OFFSET);
         return {
             newRow,
-            newCol
+            newCol,
         };
     },
 };

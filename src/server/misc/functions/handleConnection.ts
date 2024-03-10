@@ -5,7 +5,8 @@ import { RoomModel } from "../models/RoomModel";
 import { Colors } from "../enums/Colors";
 
 function handleConnection(socket: Socket): string {
-  const playerID: string | undefined = socket.handshake.headers.cookie?.split('=')[1];
+  const playerID: string | undefined =
+    socket.handshake.headers.cookie?.split("=")[1];
 
   if (playerID) {
     return playerID;
@@ -13,15 +14,19 @@ function handleConnection(socket: Socket): string {
 
   const generatedPlayerID: string = generateRandomName();
 
-  socket.emit('setCookie', { name: 'playerID', value: generatedPlayerID });
+  socket.emit("setCookie", { name: "playerID", value: generatedPlayerID });
 
   socket.handshake.headers.cookie = `playerId=${generatedPlayerID}`;
-  socket.handshake.headers['Access-Control-Allow-Headers'] = 'playerID';
+  socket.handshake.headers["Access-Control-Allow-Headers"] = "playerID";
 
   return generatedPlayerID;
 }
 
-async function handleReconnection(socket: Socket, room: Room, playerID: string): Promise<void> {
+async function handleReconnection(
+  socket: Socket,
+  room: Room,
+  playerID: string,
+): Promise<void> {
   if (!room) {
     return;
   }
@@ -34,9 +39,17 @@ async function handleReconnection(socket: Socket, room: Room, playerID: string):
     const color: string = dbRoom.players[playerID].color;
     const moves: [] = dbRoom.moves;
 
-    const opponentID: string = Object.keys(room.players).find(id => id !== playerID);
-    const whiteTime: number = color === Colors.WHITE ? dbRoom.players[playerID].timeLeft : dbRoom.players[opponentID].timeLeft;
-    const blackTime: number = color === Colors.BLACK ? dbRoom.players[playerID].timeLeft : dbRoom.players[opponentID].timeLeft;
+    const opponentID: string = Object.keys(room.players).find(
+      (id) => id !== playerID,
+    );
+    const whiteTime: number =
+      color === Colors.WHITE
+        ? dbRoom.players[playerID].timeLeft
+        : dbRoom.players[opponentID].timeLeft;
+    const blackTime: number =
+      color === Colors.BLACK
+        ? dbRoom.players[playerID].timeLeft
+        : dbRoom.players[opponentID].timeLeft;
 
     socket.emit("startMatch", { color, moves, whiteTime, blackTime });
   } catch (error) {

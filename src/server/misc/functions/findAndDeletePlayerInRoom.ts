@@ -1,11 +1,19 @@
 import { Room } from "../interfaces/Room.js";
 import { RoomModel } from "../models/RoomModel.js";
 
-function findRoomFromPlayer(rooms: Map<string, Room>, playerID: string): Room | null {
-  return Array.from(rooms.values()).find(room => room.players[playerID]) || null;
+function findRoomFromPlayer(
+  rooms: Map<string, Room>,
+  playerID: string,
+): Room | null {
+  return (
+    Array.from(rooms.values()).find((room) => room.players[playerID]) || null
+  );
 }
 
-async function findAndDeletePlayerInRoom(rooms: Map<string, Room>, playerID: string): Promise<void> {
+async function findAndDeletePlayerInRoom(
+  rooms: Map<string, Room>,
+  playerID: string,
+): Promise<void> {
   const room: Room = findRoomFromPlayer(rooms, playerID);
 
   if (room) {
@@ -13,7 +21,7 @@ async function findAndDeletePlayerInRoom(rooms: Map<string, Room>, playerID: str
 
     if (Object.keys(room.players).length === 0) {
       rooms.delete(room.roomName);
-      console.log(`Room deleted: ${room.roomName}`)
+      console.log(`Room deleted: ${room.roomName}`);
 
       const { roomName } = room;
 

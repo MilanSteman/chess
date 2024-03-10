@@ -10,7 +10,6 @@ var RoomStatus;
     RoomStatus["PLAYING"] = "playing";
     RoomStatus["ENDED"] = "ended";
 })(RoomStatus || (exports.RoomStatus = RoomStatus = {}));
-;
 /**
  * Enum for the room data
  */

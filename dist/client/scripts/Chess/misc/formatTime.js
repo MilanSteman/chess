@@ -5,5 +5,4 @@ function formatTime(seconds) {
     // Create the formatted time string
     return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
 }
-;
 export { formatTime };

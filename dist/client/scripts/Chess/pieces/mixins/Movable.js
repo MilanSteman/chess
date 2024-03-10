@@ -21,7 +21,9 @@ const MoveableMixin = {
     makeMove(instance, newRow, newCol) {
         var _a;
         // Check if the made move is among the legal moves.
-        const legalMove = instance.getLegalMoves().find((move) => move.row === newRow && move.col === newCol);
+        const legalMove = instance
+            .getLegalMoves()
+            .find((move) => move.row === newRow && move.col === newCol);
         if (!this.isMoveValid(instance, legalMove, newRow, newCol)) {
             const illegalAudio = new Audio("/audio/illegal.mp3");
             illegalAudio.play();
@@ -29,7 +31,8 @@ const MoveableMixin = {
         }
         if (legalMove) {
             // Get castled piece
-            const castledPiece = (legalMove === null || legalMove === void 0 ? void 0 : legalMove.specialMove) === CastlingType.LONG || (legalMove === null || legalMove === void 0 ? void 0 : legalMove.specialMove) === CastlingType.SHORT
+            const castledPiece = (legalMove === null || legalMove === void 0 ? void 0 : legalMove.specialMove) === CastlingType.LONG ||
+                (legalMove === null || legalMove === void 0 ? void 0 : legalMove.specialMove) === CastlingType.SHORT
                 ? this.handleCastling(instance, legalMove)
                 : null;
             // Check if it is an capture and handle accordingly
@@ -50,7 +53,10 @@ const MoveableMixin = {
             madeMove = Object.assign(Object.assign({}, madeMove), { checkmate: Game.state.endType === GameEndTypes.CHECKMATE });
             // Push the made move to the player's moves
             if (Game.currentPlayer) {
-                Game.currentPlayer.madeMoves = [...Game.currentPlayer.madeMoves, madeMove];
+                Game.currentPlayer.madeMoves = [
+                    ...Game.currentPlayer.madeMoves,
+                    madeMove,
+                ];
             }
             // Creates the move element
             this.createMoveElement(madeMove);
@@ -91,7 +97,7 @@ const MoveableMixin = {
         const isMoveInBounds = isPositionInBounds(newRow, newCol, Board.SIZE);
         const isSamePosition = instance.row === newRow && instance.col === newCol;
         const isMoveLegal = move !== undefined;
-        return isCurrentPlayerTurn && isMoveInBounds && !isSamePosition && isMoveLegal;
+        return (isCurrentPlayerTurn && isMoveInBounds && !isSamePosition && isMoveLegal);
     },
     /**
      * Handles castling
@@ -131,7 +137,9 @@ const MoveableMixin = {
      * @returns The captured 'en-passant' pawn
      */
     handleEnPassant(instance, move) {
-        const direction = instance.color === Players.WHITE ? PawnDirection.BLACK : PawnDirection.WHITE;
+        const direction = instance.color === Players.WHITE
+            ? PawnDirection.BLACK
+            : PawnDirection.WHITE;
         const targetRow = move.row - 1 * direction;
         return this.handleTarget(targetRow, move.col);
     },

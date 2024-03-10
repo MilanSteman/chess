@@ -4,7 +4,7 @@
  */
 function getTileFromPosition(row, col, boundary = 8) {
     // Sets the column letter (starting at 'a')
-    const colLetter = String.fromCharCode('a'.charCodeAt(0) + col);
+    const colLetter = String.fromCharCode("a".charCodeAt(0) + col);
     return `${colLetter}${boundary - row}`;
 }
 export { getTileFromPosition };

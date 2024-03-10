@@ -8,9 +8,12 @@
 // }
 
 @mixin container-content() {
-  width: Min(calc(100dvw - (var(--content-padding-inline) * 2)), var(--content-max-width));
+  width: Min(
+    calc(100dvw - (var(--content-padding-inline) * 2)),
+    var(--content-max-width)
+  );
   margin-inline: auto;
-  
+
   @include breakpoint(medium) {
     --content-padding-inline: 2rem;
   }

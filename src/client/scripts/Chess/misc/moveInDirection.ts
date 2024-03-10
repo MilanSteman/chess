@@ -6,7 +6,12 @@ import { isPositionInBounds } from "./isPositionInBounds.js";
  * Returns all moves based on directions a piece can go
  * @returns All theoretical possible moves a piece can make, not taking into account the game state (e.g. in check, x-ray)
  */
-function moveInDirection(row: number, col: number, directions: number[][], isRepeating: boolean): PotentialMove[] {
+function moveInDirection(
+  row: number,
+  col: number,
+  directions: number[][],
+  isRepeating: boolean,
+): PotentialMove[] {
   const possibleMoves: PotentialMove[] = [];
   const selectedPiece = Board.grid[row][col];
 
@@ -40,4 +45,4 @@ function moveInDirection(row: number, col: number, directions: number[][], isRep
   return possibleMoves;
 }
 
-export { moveInDirection }
+export { moveInDirection };

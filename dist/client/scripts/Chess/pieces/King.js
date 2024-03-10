@@ -45,7 +45,9 @@ class King extends Piece {
     castleMoves(moves) {
         var _a;
         // Check conditions for castling: king has not moved, it's the king's turn, and the king is not in check
-        if (this.hasMoved || this.color !== ((_a = Game.currentPlayer) === null || _a === void 0 ? void 0 : _a.color) || isInCheckAfterMove(this, this.row, this.col)) {
+        if (this.hasMoved ||
+            this.color !== ((_a = Game.currentPlayer) === null || _a === void 0 ? void 0 : _a.color) ||
+            isInCheckAfterMove(this, this.row, this.col)) {
             return;
         }
         // Find all Rooks of the same color that have not moved
@@ -67,7 +69,11 @@ class King extends Piece {
             const [startSquare, endSquare] = rook.col < this.col ? [rook.col, this.col] : [this.col, rook.col];
             // Check if the path between the king and rook is clear
             if (this.isPathClear(startSquare, endSquare)) {
-                moves.push({ row: this.row, col: this.col + castlingDest, specialMove: castleType });
+                moves.push({
+                    row: this.row,
+                    col: this.col + castlingDest,
+                    specialMove: castleType,
+                });
             }
         });
     }
