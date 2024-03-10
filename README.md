@@ -1,6 +1,6 @@
 <br>
 <p align="center">
-  <img src="public/images/docs/banner.png" alt="logo" width="400px"/>
+  <img src="dist/client/images/ui/banner.png" alt="logo" width="400px"/>
     <br>
       <i>Een interactief schaakspel, opgebouwd vanaf nul.
         <br>Gemaakt in Javascript in een Object Oriented structuur.</i>
