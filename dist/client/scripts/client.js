@@ -9,7 +9,6 @@ class Client {
         this.socket.on("sendToHome", () => this.handleSendToHome());
         this.socket.on("disconnectNotification", (disconnectTime) => this.handleDisconnectNotification(disconnectTime));
         this.socket.on("cleanup", () => this.handleCleanup());
-        this.socket.on("setCookie", (cookieData) => this.handleSetCookie(cookieData));
     }
     /**
      * Creates a modal container and returns the text element for the queue modal.
@@ -175,22 +174,6 @@ class Client {
             this.hideAndRemoveModal(disconnectModal);
         }
     }
-    /**
-     * Sets a cookie with the provided data.
-     */
-    handleSetCookie(cookieData) {
-        var _a, _b, _c;
-        // Handle setting a cookie with the provided data
-        const domain = ((_a = cookieData.options) === null || _a === void 0 ? void 0 : _a.domain) || "";
-        const path = ((_b = cookieData.options) === null || _b === void 0 ? void 0 : _b.path) || "/";
-        const secure = ((_c = cookieData.options) === null || _c === void 0 ? void 0 : _c.secure) || false;
-        // Set cookie expiration date to one month from now
-        const expirationDate = new Date();
-        expirationDate.setMonth(expirationDate.getMonth() + 1);
-        // Set the cookie with the provided data
-        document.cookie = `${cookieData.name}=${cookieData.value}; domain=${domain}; path=${path}; secure=${secure}; expires=${expirationDate.toUTCString()}`;
-    }
 }
-// Create an instance of the Client class
 const client = new Client();
 export default client;

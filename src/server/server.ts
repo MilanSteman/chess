@@ -65,7 +65,29 @@ class App {
 
     this.io.on("connection", (socket) => {
       console.log(`An user connected: ${socket.id}`);
-      this.handleUserConnection(socket);
+      const playerID: string = handleConnection(socket);
+  
+      this.handleUserConnection(socket, playerID);
+
+      socket.on("startQueue", async () => {
+        this.handleStartQueue(socket, playerID);
+      });
+
+      socket.on("move", (madeMove, color) => {
+        this.handleMove(playerID, madeMove, color);
+      });
+
+      socket.on("updateTime", async (time, color) => {
+        this.handleUpdateTime(playerID, time, color);
+      });
+
+      socket.on("returnToLobby", async () => {
+        this.handleReturnToLobby(socket, playerID);
+      });
+
+      socket.on("disconnect", async () => {
+        this.handleUserDisconnect(socket, playerID);
+      });
     });
   }
 
@@ -80,9 +102,7 @@ class App {
     next();
   }
 
-  private handleUserConnection(socket: Socket): void {
-    console.log(`An user connected: ${socket.id}`);
-    const playerID: string = handleConnection(socket);
+  private handleUserConnection(socket: Socket, playerID: string): void {
     const inRoom: Room = findRoomFromPlayer(this.rooms, playerID);
 
     // Clear the timeout if the player reconnects
@@ -99,26 +119,6 @@ class App {
       this.io.to(inRoom.roomName).emit("unfreeze");
       this.io.to(inRoom.roomName).emit("cleanup");
     }
-
-    socket.on("startQueue", async () => {
-      this.handleStartQueue(socket, playerID);
-    });
-
-    socket.on("move", (madeMove, color) => {
-      this.handleMove(socket, playerID, madeMove, color);
-    });
-
-    socket.on("updateTime", async (time, color) => {
-      this.handleUpdateTime(socket, playerID, time, color);
-    });
-
-    socket.on("returnToLobby", async () => {
-      this.handleReturnToLobby(socket, playerID);
-    });
-
-    socket.on("disconnect", async () => {
-      this.handleUserDisconnect(socket, playerID);
-    });
   }
 
   private handleUserReconnection(
@@ -131,6 +131,9 @@ class App {
     this.io.to(inRoom.roomName).emit("cleanup");
   }
 
+  /**
+   * Handles queueing of players
+   */
   private async handleStartQueue(
     socket: Socket,
     playerID: string,
@@ -143,26 +146,24 @@ class App {
       }
 
       socket.join(room.roomName);
-      this.rooms.set(room.roomName, room);
+      this.rooms.set(room.roomName, room); // Set room on server
 
+      // If less than max players, stay in queue, else go to lobby
       if (getPlayerAmount(room) < RoomData.MAX_PLAYERS) {
         socket.emit("isInQueue", room.roomName, room.roomStatus);
       } else {
         this.io.to(room.roomName).emit("joinMatch", room.roomName);
         room.roomStatus = RoomStatus.PLAYING;
       }
-
-      // Log players for each room
-      this.rooms.forEach((room, roomKey) => {
-        console.log(`Players in room ${roomKey}:`, room.players);
-      });
     } catch (error) {
       console.error("Error starting queue:", error);
     }
   }
 
+  /**
+   * Handles updating time to the database
+   */
   private handleMove(
-    socket: Socket,
     playerID: string,
     madeMove: any,
     color: string,
@@ -178,8 +179,10 @@ class App {
     }
   }
 
+  /**
+   * Handles updating time to the database
+   */
   private handleUpdateTime(
-    socket: Socket,
     playerID: string,
     time: number,
     color: string,
@@ -191,24 +194,33 @@ class App {
     }
   }
 
+  /**
+   * Handles the return to lobby
+   */
   private handleReturnToLobby(socket: Socket, playerID: string): void {
     findAndDeletePlayerInRoom(this.rooms, playerID);
     socket.emit("sendToHome");
   }
 
+  /**
+   * Handles the user disconnect
+   */
   private handleUserDisconnect(socket: Socket, playerID: string): void {
     const room: Room = findRoomFromPlayer(this.rooms, playerID);
 
+    // Remove player from room if not matched yet
     if (room && room.roomStatus === RoomStatus.WAITING) {
       findAndDeletePlayerInRoom(this.rooms, playerID);
     }
 
+    // Freeze room and set timeout in match
     if (room && room.roomStatus === RoomStatus.PLAYING) {
       this.io.to(room.roomName).emit("freeze");
       const disconnectTime: number = SIXTY_SECONDS;
 
       this.io.to(room.roomName).emit("disconnectNotification", disconnectTime);
 
+      // If timeout is reached, end the game
       const disconnectTimeout = setTimeout(async () => {
         this.io.to(room.roomName).emit("disconnectEnd");
         console.log(`Game ended due to player disconnect: ${socket.id}`);

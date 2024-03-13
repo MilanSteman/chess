@@ -25,14 +25,6 @@ class Client {
       this.handleDisconnectNotification(disconnectTime),
     );
     this.socket.on("cleanup", () => this.handleCleanup());
-    this.socket.on(
-      "setCookie",
-      (cookieData: {
-        name: string;
-        value: string;
-        options?: { domain?: string; path?: string; secure?: boolean };
-      }) => this.handleSetCookie(cookieData),
-    );
   }
 
   /**
@@ -251,30 +243,8 @@ class Client {
       this.hideAndRemoveModal(disconnectModal);
     }
   }
-
-  /**
-   * Sets a cookie with the provided data.
-   */
-  private handleSetCookie(cookieData: {
-    name: string;
-    value: string;
-    options?: { domain?: string; path?: string; secure?: boolean };
-  }): void {
-    // Handle setting a cookie with the provided data
-    const domain: string = cookieData.options?.domain || "";
-    const path: string = cookieData.options?.path || "/";
-    const secure: boolean = cookieData.options?.secure || false;
-
-    // Set cookie expiration date to one month from now
-    const expirationDate: Date = new Date();
-    expirationDate.setMonth(expirationDate.getMonth() + 1);
-
-    // Set the cookie with the provided data
-    document.cookie = `${cookieData.name}=${cookieData.value}; domain=${domain}; path=${path}; secure=${secure}; expires=${expirationDate.toUTCString()}`;
-  }
 }
 
-// Create an instance of the Client class
 const client = new Client();
 
 export default client;

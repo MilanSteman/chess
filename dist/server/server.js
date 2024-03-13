@@ -47,7 +47,23 @@ class App {
         });
         this.io.on("connection", (socket) => {
             console.log(`An user connected: ${socket.id}`);
-            this.handleUserConnection(socket);
+            const playerID = (0, handleConnection_js_1.handleConnection)(socket);
+            this.handleUserConnection(socket, playerID);
+            socket.on("startQueue", async () => {
+                this.handleStartQueue(socket, playerID);
+            });
+            socket.on("move", (madeMove, color) => {
+                this.handleMove(playerID, madeMove, color);
+            });
+            socket.on("updateTime", async (time, color) => {
+                this.handleUpdateTime(playerID, time, color);
+            });
+            socket.on("returnToLobby", async () => {
+                this.handleReturnToLobby(socket, playerID);
+            });
+            socket.on("disconnect", async () => {
+                this.handleUserDisconnect(socket, playerID);
+            });
         });
     }
     attachPlayerIDToRequest(req, res, next) {
@@ -56,9 +72,7 @@ class App {
         req.playerID = playerID;
         next();
     }
-    handleUserConnection(socket) {
-        console.log(`An user connected: ${socket.id}`);
-        const playerID = (0, handleConnection_js_1.handleConnection)(socket);
+    handleUserConnection(socket, playerID) {
         const inRoom = (0, findAndDeletePlayerInRoom_js_1.findRoomFromPlayer)(this.rooms, playerID);
         // Clear the timeout if the player reconnects
         const disconnectTimeout = this.disconnectTimeouts.get(playerID);
@@ -72,27 +86,15 @@ class App {
             this.io.to(inRoom.roomName).emit("unfreeze");
             this.io.to(inRoom.roomName).emit("cleanup");
         }
-        socket.on("startQueue", async () => {
-            this.handleStartQueue(socket, playerID);
-        });
-        socket.on("move", (madeMove, color) => {
-            this.handleMove(socket, playerID, madeMove, color);
-        });
-        socket.on("updateTime", async (time, color) => {
-            this.handleUpdateTime(socket, playerID, time, color);
-        });
-        socket.on("returnToLobby", async () => {
-            this.handleReturnToLobby(socket, playerID);
-        });
-        socket.on("disconnect", async () => {
-            this.handleUserDisconnect(socket, playerID);
-        });
     }
     handleUserReconnection(socket, inRoom, playerID) {
         (0, handleConnection_js_1.handleReconnection)(socket, inRoom, playerID);
         this.io.to(inRoom.roomName).emit("unfreeze");
         this.io.to(inRoom.roomName).emit("cleanup");
     }
+    /**
+     * Handles queueing of players
+     */
     async handleStartQueue(socket, playerID) {
         try {
             let room = await (0, findAvailableRoom_js_1.findAvailableRoom)(this.rooms, playerID);
@@ -100,7 +102,8 @@ class App {
                 room = await (0, generateRoom_js_1.generateRoom)(playerID);
             }
             socket.join(room.roomName);
-            this.rooms.set(room.roomName, room);
+            this.rooms.set(room.roomName, room); // Set room on server
+            // If less than max players, stay in queue, else go to lobby
             if ((0, getPlayerAmount_js_1.getPlayerAmount)(room) < RoomData_js_1.RoomData.MAX_PLAYERS) {
                 socket.emit("isInQueue", room.roomName, room.roomStatus);
             }
@@ -108,16 +111,15 @@ class App {
                 this.io.to(room.roomName).emit("joinMatch", room.roomName);
                 room.roomStatus = RoomData_js_1.RoomStatus.PLAYING;
             }
-            // Log players for each room
-            this.rooms.forEach((room, roomKey) => {
-                console.log(`Players in room ${roomKey}:`, room.players);
-            });
         }
         catch (error) {
             console.error("Error starting queue:", error);
         }
     }
-    handleMove(socket, playerID, madeMove, color) {
+    /**
+     * Handles updating time to the database
+     */
+    handleMove(playerID, madeMove, color) {
         const room = (0, findAndDeletePlayerInRoom_js_1.findRoomFromPlayer)(this.rooms, playerID);
         // To avoid duplication of made move
         const playerColor = room.players[playerID].color;
@@ -126,25 +128,37 @@ class App {
             this.io.to(room.roomName).emit("movePiece", madeMove);
         }
     }
-    handleUpdateTime(socket, playerID, time, color) {
+    /**
+     * Handles updating time to the database
+     */
+    handleUpdateTime(playerID, time, color) {
         const room = (0, findAndDeletePlayerInRoom_js_1.findRoomFromPlayer)(this.rooms, playerID);
         if (room) {
             (0, updateToDB_js_1.updateTimeToDB)(room.roomName, playerID, color, time);
         }
     }
+    /**
+     * Handles the return to lobby
+     */
     handleReturnToLobby(socket, playerID) {
         (0, findAndDeletePlayerInRoom_js_1.findAndDeletePlayerInRoom)(this.rooms, playerID);
         socket.emit("sendToHome");
     }
+    /**
+     * Handles the user disconnect
+     */
     handleUserDisconnect(socket, playerID) {
         const room = (0, findAndDeletePlayerInRoom_js_1.findRoomFromPlayer)(this.rooms, playerID);
+        // Remove player from room if not matched yet
         if (room && room.roomStatus === RoomData_js_1.RoomStatus.WAITING) {
             (0, findAndDeletePlayerInRoom_js_1.findAndDeletePlayerInRoom)(this.rooms, playerID);
         }
+        // Freeze room and set timeout in match
         if (room && room.roomStatus === RoomData_js_1.RoomStatus.PLAYING) {
             this.io.to(room.roomName).emit("freeze");
             const disconnectTime = SIXTY_SECONDS;
             this.io.to(room.roomName).emit("disconnectNotification", disconnectTime);
+            // If timeout is reached, end the game
             const disconnectTimeout = setTimeout(async () => {
                 this.io.to(room.roomName).emit("disconnectEnd");
                 console.log(`Game ended due to player disconnect: ${socket.id}`);
