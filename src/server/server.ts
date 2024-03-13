@@ -66,7 +66,7 @@ class App {
     this.io.on("connection", (socket) => {
       console.log(`An user connected: ${socket.id}`);
       const playerID: string = handleConnection(socket);
-  
+
       this.handleUserConnection(socket, playerID);
 
       socket.on("startQueue", async () => {
@@ -91,6 +91,9 @@ class App {
     });
   }
 
+  /**
+   * Sets a playerID based on existing cookies
+   */
   private attachPlayerIDToRequest(
     req: CustomRequest,
     res: Response,
@@ -102,6 +105,9 @@ class App {
     next();
   }
 
+  /**
+   * Handles user connection
+   */
   private handleUserConnection(socket: Socket, playerID: string): void {
     const inRoom: Room = findRoomFromPlayer(this.rooms, playerID);
 
@@ -121,6 +127,9 @@ class App {
     }
   }
 
+  /**
+   * Handles user reconnection if in room
+   */
   private handleUserReconnection(
     socket: Socket,
     inRoom: Room,
