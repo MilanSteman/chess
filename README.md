@@ -9,6 +9,7 @@
 
 <p align="center">
   <a href="https://milansteman.github.io/chess"><strong>https://milansteman.github.io/chess</strong></a>
+  <br>
   <a href="https://github.com/MilanSteman/chess/tree/old"><small><i>Oude versie (JavaScript)</i></small></a>
   <br>
 </p>
