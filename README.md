@@ -3,12 +3,13 @@
   <img src="dist/client/images/ui/banner.png" alt="logo" width="400px"/>
     <br>
       <i>Een interactief schaakspel, opgebouwd vanaf nul.
-        <br>Gemaakt in Javascript in een Object Oriented structuur.</i>
+        <br>Gemaakt in TypeScript in een Object Oriented structuur.</i>
   <br>
 </p>
 
 <p align="center">
   <a href="https://milansteman.github.io/chess"><strong>https://milansteman.github.io/chess</strong></a>
+  <a href="https://github.com/MilanSteman/chess/tree/old"><small><i>Oude versie (JavaScript)</i></small></a>
   <br>
 </p>
 
@@ -22,6 +23,8 @@
 - [x] Opslaan van geslagen stukken en materiaal 'telling';
 - [x] Opslaan van gemaakte zetten (in beurten) en omzetten naar de juiste <a href="https://www.chess.com/terms/chess-notation">annotatie</a>;
 - [x] Van kant wisselen en nieuwe wedstrijd starten.
+- [x] Multiplayer en matchmaking systeem
+- [x] Eerdere bord 'versies' bekijken
 
 <br>
 
@@ -31,7 +34,9 @@
 - [x] Werken met getters en setters;
 - [x] Slimmer gebruiken maken van Objects, Properties in Objects en Higher Order Functions/ES6 Syntax;
 - [x] JSDoc toepassen op classes en methods;
-- [x] Basis Unit testing.
+- [x] Basis Unit testing;
+- [x] TypeScript toepassen op een project;
+- [x] Werken met Socket.IO, Express en MongoDB.
 
 Notities zijn te vinden in <a href="https://github.com/MilanSteman/chess/wiki">de wiki van de repo</a>
 
@@ -41,15 +46,14 @@ Notities zijn te vinden in <a href="https://github.com/MilanSteman/chess/wiki">d
 
 | Type taak                                            | Week | Tijd    |
 | :--------------------------------------------------- | :--- | :------ |
-| Object Oriented course volgen en aantekeningen maken | 1    | 4.5 uur |
-| Unit Testing course volgen en aantekeningen maken    | 1    | 6 uur   |
-| Structuur uitdenken applicatie                       | 1    | 1 uur   |
-| Schaakapplicatie minimal viable product              | 1    | 8.5 uur |
-| Unit testing minimal viable product                  | 1    | 2.5 uur |
-| Schaakapplicatie doorontwikkeling features           | 2    | 6 uur   |
-| Refactor & documentatie                              | 2    | 4.5 uur |
+| Typescript course volgen en aantekeningen maken      | 1    | 8 uur   |
+| Socket.IO course                                     | 1    | 6 uur   |
+| Schaakapplicatie refactor naar TypeScript            | 1    | 5 uur   |
+| Structuur uitdenken applicatie                       | 1    | 1.5 uur |
+| Server en Socket.IO toepassen                        | 2    | 7.5 uur |
+| Puntjes op de i en laatste documentatie              | 2    | 3 uur   |
 | &nbsp;                                               |      |         |
-| Totaal                                               |      | 33 uur  |
+| Totaal                                               |      | 31 uur  |
 
 <br>
 
@@ -57,4 +61,4 @@ Notities zijn te vinden in <a href="https://github.com/MilanSteman/chess/wiki">d
 
 | Naam         | Studentnr. | Vak | Datum      |
 | :----------- | :--------- | :-- | :--------- |
-| Milan Steman | 500800819  | SRP | 09/01/2023 |
+| Milan Steman | 500800819  | SRP | 15/03/2024 |
