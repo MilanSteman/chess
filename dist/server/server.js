@@ -66,12 +66,18 @@ class App {
             });
         });
     }
+    /**
+     * Sets a playerID based on existing cookies
+     */
     attachPlayerIDToRequest(req, res, next) {
         // Middleware to attach playerID to the request object
         const playerID = req.cookies.playerID;
         req.playerID = playerID;
         next();
     }
+    /**
+     * Handles user connection
+     */
     handleUserConnection(socket, playerID) {
         const inRoom = (0, findAndDeletePlayerInRoom_js_1.findRoomFromPlayer)(this.rooms, playerID);
         // Clear the timeout if the player reconnects
@@ -87,6 +93,9 @@ class App {
             this.io.to(inRoom.roomName).emit("cleanup");
         }
     }
+    /**
+     * Handles user reconnection if in room
+     */
     handleUserReconnection(socket, inRoom, playerID) {
         (0, handleConnection_js_1.handleReconnection)(socket, inRoom, playerID);
         this.io.to(inRoom.roomName).emit("unfreeze");
@@ -111,6 +120,9 @@ class App {
                 this.io.to(room.roomName).emit("joinMatch", room.roomName);
                 room.roomStatus = RoomData_js_1.RoomStatus.PLAYING;
             }
+            this.rooms.forEach((room) => {
+                console.log(room);
+            });
         }
         catch (error) {
             console.error("Error starting queue:", error);

@@ -1,5 +1,6 @@
 import { Game } from "./Chess/game/Game.js";
 import { Config } from "./Chess/interfaces/Config.js";
+import { CookieData } from "./Chess/interfaces/CookieData.js";
 
 class Client {
   public socket: SocketIOClient.Socket;
@@ -25,6 +26,7 @@ class Client {
       this.handleDisconnectNotification(disconnectTime),
     );
     this.socket.on("cleanup", () => this.handleCleanup());
+    this.socket.on('setCookie', (cookieData: CookieData) => this.handleSetCookie(cookieData));
   }
 
   /**
@@ -242,6 +244,20 @@ class Client {
       // Hide and remove the disconnect modal from the document
       this.hideAndRemoveModal(disconnectModal);
     }
+  }
+
+  /**
+   * Sets a cookie with the provided data.
+   */
+  private handleSetCookie(cookieData: CookieData): void {
+    const domain: string = cookieData.options?.domain || '';
+    const path: string = cookieData.options?.path || '/';
+    const secure: boolean = cookieData.options?.secure || false;
+
+    const expirationDate: Date = new Date();
+    expirationDate.setMonth(expirationDate.getMonth() + 1);
+
+    document.cookie = `${cookieData.name}=${cookieData.value}; domain=${domain}; path=${path}; secure=${secure}; expires=${expirationDate.toUTCString()}`;
   }
 }
 

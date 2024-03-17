@@ -164,6 +164,10 @@ class App {
         this.io.to(room.roomName).emit("joinMatch", room.roomName);
         room.roomStatus = RoomStatus.PLAYING;
       }
+
+      this.rooms.forEach((room) => {
+        console.log(room)
+      })
     } catch (error) {
       console.error("Error starting queue:", error);
     }
